@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SkyCast Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <!-- Logo -->
+    <div class="nav-left">
+        <img src="/static/images/cloud.png" class="logo">
+        <span class="brand">SkyCast</span>
+    </div>
+
+    <!-- Search -->
+    <div class="nav-search">
+
+        <span class="search-icon">🔍</span>
+
+        <input
+        type="text"
+        placeholder="Search for a city... e.g., Tokyo,">
+
+        <div class="search-dropdown"></div>
+
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-links">
+        <a id="dashboard" href="#">Dashboard</a>
+        </div>
+    <div class="nav-links">
+        <a id="maps" href="#">Maps</a>
+    </div>
+    <div class="nav-links">
+        <a id="pollutants" href="#">Pollutants</a>
+    </div>    
+
+    <!-- Favorites -->
+    <div class="nav-favorite">
+        <a id="favorites" href="#">⭐ Favorites</a>
+    </div>
+
+    <!-- Divider -->
+    <div class="divider"></div>
+
+    <!-- Sign in -->
+    <button class="google-btn">
+        ↪ Sign in with Google
+    </button>
+
+</nav>
+
+<!-- Quick Access -->
+<div class="quick-access">
+
+    <button class="city-btn" data-city="Hanoi">Hanoi</button>
+    <button class="city-btn" data-city="New York">New York</button>
+    <button class="city-btn" data-city="Paris">Paris</button>
+    <button class="city-btn" data-city="London">London</button>
+    <button class="city-btn" data-city="Tokyo">Tokyo</button>
+
+</div>
+
+<div class="weather-section">
+
+    <div class="left-column">
+
+        <div class="weather-card">
+
+    <!-- Location -->
+    <div class="weather-header">
+        <div class="location">
+            📍 <span>Hanoi, Vietnam</span>
+        </div>
+        <div class="date-time">
+            <span class="date"></span>
+            <span class="time"></span>
+        </div>
+    </div>
+
+    <!-- Main weather -->
+    <div class="weather-main">
+
+        <div class="temperature">
+            28°C
+        </div>
+
+        <div class="weather-info">
+            <div class="condition">Sunny</div>
+            <div class="feels-like">Feels like 30°C</div>
+        </div>
+
+        <div class="weather-icon">
+            ☀️
+        </div>
+
+    </div>
+
+    <hr>
+
+    <!-- Weather details -->
+    <div class="weather-details">
+
+        <div class="detail">
+            <p>HUMIDITY</p>
+            <span>65%</span>
+        </div>
+
+        <div class="detail">
+            <p>WIND SPEED</p>
+            <span>10 km/h</span>
+        </div>
+
+        <div class="detail">
+            <p>VISIBILITY</p>
+            <span>8 km</span>
+        </div>
+
+        <div class="detail">
+            <p>PRESSURE</p>
+            <span>1012 hPa</span>
+        </div>
+
+    </div>
+
+</div>
+
+        <div class="hourly-card">
+
+    <h3>🕒 Hourly Forecast</h3>
+
+    <div class="hourly-container">
+
+        <div class="hour-item">
+            <p class="time">2 PM</p>
+            <div class="icon">☀️</div>
+            <p class="temp">21°C</p>
+            <span class="rain">10%</span>
+        </div>
+
+        <div class="hour-item active">
+            <p class="time">3 PM</p>
+            <div class="icon">⛅</div>
+            <p class="temp">21°C</p>
+            <span class="rain">12%</span>
+        </div>
+
+        <div class="hour-item">
+            <p class="time">4 PM</p>
+            <div class="icon">☁️</div>
+            <p class="temp">22°C</p>
+            <span class="rain">15%</span>
+        </div>
+
+        <div class="hour-item">
+            <p class="time">5 PM</p>
+            <div class="icon">☁️</div>
+            <p class="temp">22°C</p>
+            <span class="rain">15%</span>
+        </div>
+
+        <div class="hour-item">
+            <p class="time">6 PM</p>
+            <div class="icon">🌙</div>
+            <p class="temp">19°C</p>
+            <span class="rain">5%</span>
+        </div>
+
+        <div class="hour-item">
+            <p class="time">7 PM</p>
+            <div class="icon">🌙</div>
+            <p class="temp">18°C</p>
+            <span class="rain">0%</span>
+        </div>
+
+        <div class="hour-item">
+            <p class="time">8 PM</p>
+            <div class="icon">🌙</div>
+            <p class="temp">17°C</p>
+            <span class="rain">0%</span>
+        </div>
+
+        <div class="hour-item">
+            <p class="time">9 PM</p>
+            <div class="icon">🌙</div>
+            <p class="temp">17°C</p>
+            <span class="rain">0%</span>
+        </div>
+
+    </div>
+
+</div>
+
+    </div>
+
+    <div class="forecast-card">
+
+    <h3>📅 7-Day Forecast</h3>
+
+    <div class="forecast-item">
+        <span class="day">Monday</span>
+        <span class="icon">☀️</span>
+        <span class="condition">Sunny</span>
+        <span class="temp">29° / 23°</span>
+    </div>
+
+    <div class="forecast-item">
+        <span class="day">Tuesday</span>
+        <span class="icon">⛅</span>
+        <span class="condition">Cloudy</span>
+        <span class="temp">26° / 22°</span>
+    </div>
+
+    <div class="forecast-item">
+        <span class="day">Wed</span>
+        <span class="icon">🌧</span>
+        <span class="condition">Rain</span>
+        <span class="temp">24° / 20°</span>
+    </div>
+
+    <div class="forecast-item">
+        <span class="day">Thu</span>
+        <span class="icon">☀️</span>
+        <span class="condition">Sunny</span>
+        <span class="temp">30° / 25°</span>
+    </div>
+
+    <div class="forecast-item">
+        <span class="day">Fri</span>
+        <span class="icon">☀️</span>
+        <span class="condition">Sunny</span>
+        <span class="temp">31° / 26°</span>
+    </div>
+
+    <div class="forecast-item">
+        <span class="day">Sat</span>
+        <span class="icon">☁️</span>
+        <span class="condition">Cloudy</span>
+        <span class="temp">27° / 22°</span>
+    </div>
+
+    <div class="forecast-item">
+        <span class="day">Sun</span>
+        <span class="icon">🌧</span>
+        <span class="condition">Rain</span>
+        <span class="temp">23° / 20°</span>
+    </div>
+
+    <button class="map-btn">View Detailed Map</button>
+
+</div>
+
+</div>
+
+<section class="info-section">
+
+    <!-- LEFT SIDE -->
+    <div class="left-info">
+
+        <!-- AQI -->
+        <div class="aqi-card">
+
+            <h3>🌬 Air Quality Index (AQI)</h3>
+
+            <div class="aqi-content">
+
+                <div class="aqi-score">
+                    <div class="circle">
+                        <span>75</span>
+                        <p>AQI</p>
+                    </div>
+                </div>
+
+                <div class="aqi-info">
+                    <span class="aqi-badge">MODERATE</span>
+                    <p>Sensitive groups should reduce outdoor activities. High PM2.5 levels detected.</p>
+                </div>
+
+                <div class="pollutants-box">
+
+    <h4>Detailed Pollutants</h4>
+
+    <div class="pollutants-grid">
+
+        <div class="pollutant">
+            <span class="label">PM2.5</span>
+            <span class="value">35 <small>µg/m³</small></span>
+        </div>
+
+        <div class="pollutant">
+            <span class="label">PM10</span>
+            <span class="value">40 <small>µg/m³</small></span>
+        </div>
+
+        <div class="pollutant">
+            <span class="label">CO</span>
+            <span class="value">0.8 <small>mg/m³</small></span>
+        </div>
+
+        <div class="pollutant">
+            <span class="label">NO2</span>
+            <span class="value">15 <small>µg/m³</small></span>
+        </div>
+
+        <div class="pollutant">
+            <span class="label">O3</span>
+            <span class="value">45 <small>µg/m³</small></span>
+        </div>
+
+    </div>
+
+</div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SUN / MOON -->
+        <div class="astro-cards">
+
+            <div class="astro-card">
+                <p class="title">SUNRISE</p>
+                <div class="astro-value">☀ 6:15 AM</div>
+            </div>
+
+            <div class="astro-card">
+                <p class="title">SUNSET</p>
+                <div class="astro-value">🌇 6:45 PM</div>
+            </div>
+
+            <div class="astro-card">
+                <p class="title">MOON PHASE</p>
+                <div class="astro-value">🌙 Waxing Gibbous</div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- RIGHT SIDE -->
+    <div class="right-sidebar">
+
+        <!-- FAVORITES -->
+        <div class="sidebar-card">
+            <h4>FAVORITE LOCATIONS</h4>
+
+            <div class="location-item">
+                <span>⭐ Hanoi</span>
+                <span>28°C</span>
+            </div>
+
+            <div class="location-item">
+                <span>⭐ Tokyo</span>
+                <span>18°C</span>
+            </div>
+
+            <div class="location-item">
+                <span>⭐ London</span>
+                <span>14°C</span>
+            </div>
+        </div>
+
+
+        <!-- RECENT SEARCH -->
+        <div class="sidebar-card">
+            <h4>RECENT SEARCHES</h4>
+
+            <p>Paris, France</p>
+            <p>New York, USA</p>
+            <p>London, UK</p>
+
+        </div>
+
+
+        <!-- MAP -->
+        <div class="sidebar-card map-card">
+            <img src="map.png" alt="map">
+        </div>
+
+    </div>
+
+</section>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>

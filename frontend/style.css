@@ -1,0 +1,587 @@
+body{
+font-family: Arial, sans-serif;
+margin:0;
+background:#f5f7fb;
+}
+
+.container{
+    display:flex;
+    gap:20px;
+    padding:20px;
+}
+
+.navbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:12px 30px;
+
+    background:white;
+    border-bottom:1px solid #e5e7eb;
+}
+
+
+/* NAVBAR */
+
+.navbar{
+display:flex;
+align-items:center;
+gap:20px;
+
+padding:12px 30px;
+background:white;
+border-bottom:1px solid #e5e7eb;
+}
+
+/* LOGO */
+
+.nav-left{
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.logo{
+width:28px;
+}
+
+.brand{
+font-weight:600;
+font-size:18px;
+}
+
+
+/* SEARCH */
+
+.nav-search{
+position:relative;
+display:flex;
+align-items:center;
+flex:1;
+max-width:450px;
+}
+
+.nav-search input{
+width:100%;
+padding:10px 40px 10px 35px;
+
+border-radius:8px;
+border:1px solid #d1d5db;
+font-size:14px;
+}
+
+.search-dropdown{
+position:absolute;
+top:48px;
+left:0;
+width:100%;
+background:#ffffff;
+border-radius:12px;
+overflow:hidden;
+z-index:100;
+display:none;
+box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
+
+.search-item{
+display:flex;
+justify-content:space-between;
+padding:10px 14px;
+cursor:pointer;
+color:rgb(0, 0, 0);
+font-size:14px;
+}
+
+.search-item:hover,
+.search-item.active{
+background:#aaa6a6;
+}
+
+.search-city{
+font-weight:500;
+}
+
+.search-country{
+opacity:0.6;
+font-size:12px;
+margin-left:6px;
+}
+
+.favorite-btn{
+cursor:pointer;
+opacity:0.7;
+}
+
+.favorite-btn:hover{
+opacity:1;
+}
+
+/* left search icon */
+
+.search-icon{
+position:absolute;
+left:10px;
+font-size:14px;
+color:#6b7280;
+}
+
+
+/* NAV LINKS */
+
+.nav-links{
+display:flex;
+gap:22px;
+}
+
+.nav-links a{
+text-decoration:none;
+color:#374151;
+font-weight:500;
+padding-bottom:4px;
+}
+
+/* HOVER underline */
+
+.nav-links a:hover{
+border-bottom:2px solid #3b82f6;
+}
+
+
+/* FAVORITES */
+
+.nav-favorite{
+gap: 22px;
+display: flex;
+}
+
+.nav-favorite a{
+text-decoration:none;
+color:#374151;
+font-weight:500;
+padding-bottom:4px;
+}
+
+.nav-favorite a:hover{
+    border-bottom:2px solid #3b82f6;
+}
+
+
+/* DIVIDER */
+
+.divider{
+width:1px;
+height:24px;
+background:#e5e7eb;
+}
+
+
+/* GOOGLE BUTTON */
+
+.google-btn{
+background:#3b82f6;
+color:white;
+
+border:none;
+
+padding:10px 16px;
+
+border-radius:8px;
+
+cursor:pointer;
+font-weight:500;
+
+transition:0.2s;
+}
+
+/* hover */
+
+.google-btn:hover{
+background:#2563eb;
+}
+
+/* Quick Access Container */
+.quick-access{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 30px;
+}
+
+/* Label */
+.quick-label{
+    font-size: 16px;
+    font-weight: bold;    
+    color: #666;
+}
+
+/* City Buttons */
+.city-btn{
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    background: #f5f7fa;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Hover effect */
+.city-btn:hover{
+    background: #e6f0ff;
+    border-color: #4a90e2;
+    color: #2c6cd6;
+}
+
+.weather-section{
+    display: grid;
+    grid-template-columns: 7fr 3fr;
+    gap: 20px;
+
+    margin: 20px 30px;
+}
+
+.weather-card{
+    background: linear-gradient(135deg,#3b82f6,#2563eb);
+    color: white;
+    padding: 25px;
+    border-radius: 12px;
+}
+
+/* header */
+.weather-header{
+    margin-bottom: 20px;
+}
+
+.location{
+    font-size:20px;
+    font-weight:600;
+}
+
+.date{
+    font-size:14px;
+    opacity:0.9;
+}
+
+/* main weather */
+.weather-main{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:20px;
+}
+
+.temperature{
+    font-size:70px;
+    font-weight:bold;
+}
+
+.weather-info{
+    margin-left:20px;
+}
+
+.condition{
+    font-size:20px;
+}
+
+.feels-like{
+    font-size:14px;
+    opacity:0.8;
+}
+
+.weather-icon{
+    font-size:60px;
+}
+
+/* divider */
+.weather-card hr{
+    border:0;
+    border-top:1px solid rgba(255,255,255,0.3);
+    margin:20px 0;
+}
+
+/* details */
+.weather-details{
+    display:flex;
+    justify-content:space-between;
+}
+
+.detail p{
+    font-size:12px;
+    opacity:0.8;
+    margin-bottom:5px;
+}
+
+.detail span{
+    font-size:16px;
+    font-weight:600;
+}
+
+.forecast-card{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.05);
+}
+
+/* title */
+.forecast-card h3{
+    font-size:18px;
+    margin-bottom:15px;
+}
+
+/* forecast rows */
+.forecast-item{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:8px 0;
+}
+
+.forecast-item img{
+width:32px;
+height:32px;
+}
+
+/* last item remove border */
+.forecast-item:last-of-type{
+    border-bottom:none;
+}
+
+.day{
+    font-weight:500;
+}
+
+.icon{
+    text-align:center;
+}
+
+.condition{
+    color:#666;
+}
+
+.temp{
+    font-weight:600;
+}
+
+/* button */
+.map-btn{
+    width:100%;
+    margin-top:15px;
+    padding:10px;
+    border:none;
+    border-radius:8px;
+    background:#f3f6fb;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.map-btn:hover{
+    background:#e5ecf7;
+}
+
+.hourly-card{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    margin-top:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.05);
+}
+
+.hourly-card h3{
+    font-size:18px;
+    margin-bottom:15px;
+}
+
+/* container */
+.hourly-container{
+    display:flex;
+    justify-content:space-between;
+}
+
+/* each hour */
+.hour-item{
+    text-align:center;
+    padding:10px;
+    border-radius:10px;
+    width:70px;
+    transition:0.2s;
+}
+
+.hour-item:hover{
+    background:#f3f6fb;
+}
+
+/* highlight current hour */
+.hour-item.active{
+    background:#eef4ff;
+    border:1px solid #dbe6ff;
+}
+
+/* text styles */
+.time{
+    font-size:13px;
+    color:#666;
+}
+
+.icon{
+    font-size:20px;
+    margin:6px 0;
+}
+
+.temp{
+    font-weight:600;
+}
+
+.rain{
+    font-size:12px;
+    color:#3b82f6;
+}
+
+.info-section{
+    display:grid;
+    grid-template-columns: 7fr 3fr;
+    gap:20px;
+    margin:20px 30px;
+}
+
+.aqi-card{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.05);
+}
+
+.aqi-content{
+    display:grid;
+    grid-template-columns:120px 1fr 400px;
+    align-items:center;
+    gap:20px;
+}
+
+.aqi-badge{
+    display:inline-block;
+    padding:4px 10px;
+
+    background:#FEF3C7;
+    color:#B45309;
+
+    font-size:12px;
+    font-weight:600;
+
+    border-radius:6px;
+}
+
+/* circle */
+.circle{
+    width:60px;
+    height:110px;
+
+    border:6px solid #eab308;
+
+    border-radius:40px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    background:white;
+}
+
+.circle span{
+    font-size:22px;
+    font-weight:bold;
+}
+
+.circle p{
+    font-size:12px;
+}
+
+.pollutants-box{
+    background:#f4f7fb;
+    padding:18px;
+    border-radius:12px;
+    width:350px;
+}
+
+.pollutants-box h4{
+    font-size:14px;
+    color:#6b7a90;
+    margin-bottom:12px;
+}
+
+.pollutants-grid{
+    display:grid;
+    grid-template-columns: repeat(3,1fr);
+    gap:14px 18px;
+}
+
+.pollutant{
+    display:flex;
+    flex-direction:column;
+}
+
+.label{
+    font-size:12px;
+    color:#8b9bb0;
+}
+
+.value{
+    font-size:18px;
+    font-weight:600;
+    color:#1f2937;
+}
+
+.value small{
+    font-size:12px;
+    color:#8b9bb0;
+}
+
+.astro-cards{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-top:15px;
+}
+
+.astro-card{
+    background:white;
+    padding:15px;
+    border-radius:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.05);
+}
+
+.title{
+    font-size:12px;
+    color:#777;
+}
+
+.astro-value{
+    font-weight:600;
+    margin-top:5px;
+}
+
+.right-sidebar{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.sidebar-card{
+    background:white;
+    padding:15px;
+    border-radius:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.05);
+}
+
+.location-item{
+    display:flex;
+    justify-content:space-between;
+    padding:6px 0;
+}
+
+.map-card img{
+    width:100%;
+    border-radius:8px;
+}
