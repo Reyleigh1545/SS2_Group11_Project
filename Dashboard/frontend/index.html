@@ -3,8 +3,12 @@
 <head>
     <title>SkyCast Dashboard</title>
     <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        />
 </head>
-
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <body>
 
 <nav class="navbar">
@@ -41,7 +45,9 @@
 
     <!-- Favorites -->
     <div class="nav-favorite">
-        <a id="favorites" href="#">⭐ Favorites</a>
+        <a id="favorites" href="#">
+        <span class="icon-star">★</span> Favorites
+        </a>
     </div>
 
     <!-- Divider -->
@@ -70,6 +76,8 @@
     <div class="left-column">
 
         <div class="weather-card">
+            
+            <button id="favoriteStar" class="favorite-star">★</button>
 
     <!-- Location -->
     <div class="weather-header">
@@ -368,17 +376,17 @@
 
             <div class="astro-card">
                 <p class="title">SUNRISE</p>
-                <div class="astro-value">☀ 6:15 AM</div>
+                <div class="astro-value sunrise">☀ --</div>
             </div>
 
             <div class="astro-card">
                 <p class="title">SUNSET</p>
-                <div class="astro-value">🌇 6:45 PM</div>
+                <div class="astro-value sunset">🌇 --</div>
             </div>
 
             <div class="astro-card">
                 <p class="title">MOON PHASE</p>
-                <div class="astro-value">🌙 Waxing Gibbous</div>
+                <div class="astro-value moon-phase">🌙 --</div>
             </div>
 
         </div>
@@ -394,36 +402,25 @@
             <h4>FAVORITE LOCATIONS</h4>
 
             <div class="location-item">
-                <span>⭐ Hanoi</span>
-                <span>28°C</span>
+            <span><span class="icon-star">★</span>Hanoi</span>
+            <span>28°C</span>
             </div>
 
             <div class="location-item">
-                <span>⭐ Tokyo</span>
-                <span>18°C</span>
+            <span><span class="icon-star">★</span>Tokyo</span>
+            <span>18°C</span>
             </div>
 
             <div class="location-item">
-                <span>⭐ London</span>
-                <span>14°C</span>
+            <span><span class="icon-star">★</span>London</span>
+            <span>14°C</span>
             </div>
-        </div>
-
-
-        <!-- RECENT SEARCH -->
-        <div class="sidebar-card">
-            <h4>RECENT SEARCHES</h4>
-
-            <p>Paris, France</p>
-            <p>New York, USA</p>
-            <p>London, UK</p>
-
         </div>
 
 
         <!-- MAP -->
         <div class="sidebar-card map-card">
-            <img src="map.png" alt="map">
+            <div id="map"></div>
         </div>
 
     </div>

@@ -4,6 +4,12 @@ const buttons = document.querySelectorAll(".city-btn");
 const searchInput = document.querySelector(".nav-search input");
 const favoriteContainer = document.querySelector(".sidebar-card");
 
+let currentCity = "";
+let currentTemp = "";
+
+let map;
+let marker;
+
 // Quick Access
 buttons.forEach(button => {
 
@@ -138,6 +144,8 @@ updateWeather(data);
 const lat = data.coord.lat;
 const lon = data.coord.lon;
 
+initMap(lat,lon);
+
 getHourlyForecast(lat,lon);
 getDailyForecast(lat,lon);
 getAQI(lat,lon);
@@ -179,6 +187,92 @@ function updateWeather(data){
     updateDateTime(data);
 
     setWeatherBackground(data.weather[0].main);
+
+    currentCity = data.name;
+    currentTemp = Math.round(data.main.temp);
+
+    updateStar();
+    updateSunMoon(data);
+}
+
+function updateStar(){
+
+const star = document.getElementById("favoriteStar");
+
+let favorites =
+JSON.parse(localStorage.getItem("favorites")) || [];
+
+const exists =
+favorites.some(city => city.name === currentCity);
+
+star.classList.toggle("active", exists);
+
+}
+
+document
+.getElementById("favoriteStar")
+.addEventListener("click", toggleFavorite);
+
+function toggleFavorite(){
+
+let favorites =
+JSON.parse(localStorage.getItem("favorites")) || [];
+
+const index =
+favorites.findIndex(c => c.name === currentCity);
+
+if(index !== -1){
+
+favorites.splice(index,1);
+
+}else{
+
+if(favorites.length >= 3){
+alert("You can only save 3 favorite cities");
+return;
+}
+
+favorites.push({
+name: currentCity,
+temp: currentTemp
+});
+
+}
+
+localStorage.setItem("favorites", JSON.stringify(favorites));
+
+renderFavorites();
+updateStar();
+
+}
+
+function renderFavorites(){
+
+const box =
+document.querySelector(".sidebar-card");
+
+let favorites =
+JSON.parse(localStorage.getItem("favorites")) || [];
+
+box.innerHTML = `<h4>FAVORITE LOCATIONS</h4>`;
+
+favorites.forEach(city => {
+
+const div = document.createElement("div");
+
+div.className = "location-item";
+
+div.innerHTML = `
+<span><span class="icon-star">★</span> ${city.name}</span>
+<span>${city.temp}°C</span>
+`;
+
+div.onclick = () => loadCity(city.name);
+
+box.appendChild(div);
+
+});
+
 }
 
 let clockInterval;
@@ -756,6 +850,81 @@ body.style.background="linear-gradient(#56ccf2,#2f80ed)";
 
 }
 
+function updateSunMoon(data){
+
+const timezone = data.timezone;
+
+function convertTime(unix){
+
+const date = new Date(unix * 1000);
+
+const utc = date.getTime() + (date.getTimezoneOffset()*60000);
+
+const cityTime = new Date(utc + timezone*1000);
+
+return cityTime.toLocaleTimeString("en-US",{
+hour:"2-digit",
+minute:"2-digit"
+});
+
+}
+
+const sunriseTime = convertTime(data.sys.sunrise);
+const sunsetTime = convertTime(data.sys.sunset);
+
+document.querySelector(".sunrise").innerText =
+"☀ " + sunriseTime;
+
+document.querySelector(".sunset").innerText =
+"🌇 " + sunsetTime;
+
+updateMoonPhase();
+
+}
+
+function updateMoonPhase(){
+
+const phases = [
+"New Moon",
+"Waxing Crescent",
+"First Quarter",
+"Waxing Gibbous",
+"Full Moon",
+"Waning Gibbous",
+"Last Quarter",
+"Waning Crescent"
+];
+
+const day = new Date().getDate();
+const phase = phases[day % phases.length];
+
+document.querySelector(".moon-phase").innerText =
+"🌙 " + phase;
+
+}
+
+function initMap(lat,lon){
+
+if(!map){
+
+map = L.map('map').setView([lat,lon],10);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+maxZoom:19
+}).addTo(map);
+
+marker = L.marker([lat,lon]).addTo(map);
+
+}else{
+
+map.setView([lat,lon],10);
+marker.setLatLng([lat,lon]);
+
+}
+
+}
+
 detectLocation();
 loadCity("Hanoi");
 loadFavorites();
+renderFavorites();
