@@ -263,6 +263,18 @@ background:#2563eb;
     opacity:0.9;
 }
 
+.date-time span{
+color: #fff !important;
+}
+
+.condition-1{
+color: #fff !important;
+}
+
+.feels-like{
+color: #fff !important;
+}
+
 /* main weather */
 .weather-main{
     display:flex;
@@ -281,7 +293,9 @@ background:#2563eb;
 }
 
 .condition{
-    font-size:20px;
+font-size:14px;
+color:#666;
+min-width:110px;
 }
 
 .feels-like{
@@ -438,6 +452,55 @@ height:32px;
     color:#3b82f6;
 }
 
+.forecast-item{
+display:grid;
+grid-template-columns:100px 40px 120px 1fr;
+align-items:center;
+padding:12px 0;
+}
+
+.forecast-item .icon{
+width:40px;
+text-align:center;
+}
+
+.forecast-item .icon img{
+width:28px;
+height:28px;
+}
+
+.forecast-item .condition{
+color:#555;
+font-size:14px;
+}
+
+.temp-bar{
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.bar{
+flex:1;
+height:6px;
+background:#ddd;
+border-radius:5px;
+position:relative;
+}
+
+.fill{
+height:100%;
+background:linear-gradient(90deg,#4facfe,#00f2fe);
+border-radius:5px;
+}
+
+.min,
+.max{
+width:16px;
+font-size:13px;
+text-align:center;
+}
+
 .info-section{
     display:grid;
     grid-template-columns: 7fr 3fr;
@@ -497,6 +560,13 @@ height:32px;
 .circle p{
     font-size:12px;
 }
+
+.good{background:#00e400;}
+.moderate{background:#ffff00;}
+.usg{background:#ff7e00;}
+.unhealthy{background:#ff0000;}
+.very-unhealthy{background:#8f3f97;}
+.hazardous{background:#7e0023;}
 
 .pollutants-box{
     background:#f4f7fb;
@@ -585,3 +655,4 @@ height:32px;
     width:100%;
     border-radius:8px;
 }
+

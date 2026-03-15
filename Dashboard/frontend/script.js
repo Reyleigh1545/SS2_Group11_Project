@@ -81,6 +81,7 @@ function showRecent(){
 
 function loadCity(city){
 
+    showLoading();
     getWeather(city);
 
 }
@@ -106,35 +107,48 @@ searchInput.addEventListener("input", async ()=>{
 
 });
 
+function showLoading(){
 
+document.querySelector(".temperature").innerText="--";
+document.querySelector(".condition").innerText="Loading...";
+document.querySelector(".weather-icon").innerHTML="⏳";
+
+}
 
 // Current weather
 async function getWeather(city){
 
-    const url =
-    `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`;
+try{
 
-    const res = await fetch(url);
-    const data = await res.json();
+const url =
+`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`;
 
-    if(data.cod != 200){
+const res = await fetch(url);
+const data = await res.json();
 
-    alert(data.message);
-    return;
+if(data.cod != 200){
 
-    }
-
-    updateWeather(data);
-
-    const lat = data.coord.lat;
-    const lon = data.coord.lon;
-
-    getHourlyForecast(lat,lon);  // hourly
-    getDailyForecast(lat,lon);   // 7 day
-    getAQI(lat,lon);
+alert("City not found");
+return;
 
 }
 
+updateWeather(data);
+
+const lat = data.coord.lat;
+const lon = data.coord.lon;
+
+getHourlyForecast(lat,lon);
+getDailyForecast(lat,lon);
+getAQI(lat,lon);
+
+}catch(e){
+
+alert("Weather API error");
+
+}
+
+}
 
 function updateWeather(data){
 
@@ -144,7 +158,7 @@ function updateWeather(data){
     document.querySelector(".temperature").innerText =
         Math.round(data.main.temp) + "°C";
 
-    document.querySelector(".condition").innerText =
+    document.querySelector(".condition-1").innerText =
         data.weather[0].main;
 
     document.querySelector(".feels-like").innerText =
@@ -163,6 +177,8 @@ function updateWeather(data){
     details[3].innerText = data.main.pressure + " hPa";
 
     updateDateTime(data);
+
+    setWeatherBackground(data.weather[0].main);
 }
 
 let clockInterval;
@@ -186,7 +202,7 @@ const local = getLocalTime();
 
 document.querySelector(".date").innerText =
 local.toLocaleDateString("en-US",{
-weekday:"long",
+weekday:"short",
 day:"numeric",
 month:"long"
 });
@@ -251,9 +267,11 @@ function updateHourly(data){
 
     if(!item) break;
 
-    const time =
-    new Date((item.dt + data.city.timezone)*1000)
-    .toLocaleTimeString("en-US",{hour:"2-digit"});
+    const time = new Date(item.dt * 1000)
+    .toLocaleTimeString("en-US",{
+    hour:"2-digit",
+    minute:"2-digit"
+    });
 
     const temp =
     Math.round(item.main.temp);
@@ -281,39 +299,63 @@ function updateHourly(data){
 // 7 day forecast
 function updateDaily(data){
 
-    const items = document.querySelectorAll(".forecast-item");
+const items = document.querySelectorAll(".forecast-item");
 
-    for(let i = 0; i < items.length; i++){
+const maxTemps = data.daily.temperature_2m_max;
+const minTemps = data.daily.temperature_2m_min;
 
-    const date = new Date(data.daily.time[i]);
+const globalMax = Math.max(...maxTemps);
+const globalMin = Math.min(...minTemps);
 
-    const day =
-    date.toLocaleDateString("en-US",{weekday:"long"});
+const range = globalMax - globalMin || 1;
 
-    const max =
-    Math.round(data.daily.temperature_2m_max[i]);
+items.forEach((item,i)=>{
 
-    const min =
-    Math.round(data.daily.temperature_2m_min[i]);
+if(!maxTemps[i]) return;
 
-    const code =
-    data.daily.weathercode[i];
+const date = new Date(data.daily.time[i]);
 
-    const condition = getWeatherCondition(code);
-    const icon = getWeatherIcon(code);
+const day =
+date.toLocaleDateString("en-US",{weekday:"short"});
 
-    items[i].querySelector(".day").innerText = day;
+const max = Math.round(maxTemps[i]);
+const min = Math.round(minTemps[i]);
 
-    items[i].querySelector(".temp").innerText =
-    `${max}° / ${min}°`;
+const code = data.daily.weathercode[i];
 
-    items[i].querySelector(".condition").innerText =
-    condition;
+const condition = getWeatherCondition(code);
+const icon = getWeatherIcon(code);
 
-    items[i].querySelector(".icon").innerHTML =
-    `<img src="${icon}">`;
+item.querySelector(".day").innerText = day;
 
-    }
+// ICON
+const iconBox = item.querySelector(".icon");
+iconBox.innerHTML = `<img src="${icon}" width="28">`;
+
+// CONDITION TEXT (đây là phần hay bị mất)
+const conditionBox = item.querySelector(".condition");
+if(conditionBox){
+conditionBox.innerText = condition;
+}
+
+// TEMPERATURE
+item.querySelector(".min").innerText = min + "°";
+item.querySelector(".max").innerText = max + "°";
+
+// TEMP BAR
+const fill = item.querySelector(".fill");
+
+if(fill){
+
+const left = ((min - globalMin) / range) * 100;
+const width = ((max - min) / range) * 100;
+
+fill.style.marginLeft = left + "%";
+fill.style.width = width + "%";
+
+}
+
+});
 
 }
 
@@ -339,16 +381,14 @@ function updateAQI(data){
     const components =
     data.list[0].components;
 
-    const score =aqi*20;
+    const score =
+    calculateAQI(components.pm2_5);
 
     document.querySelector(".circle span").innerText =
     score;
 
-    const levels =
-    ["Good","Fair","Moderate","Poor","Very Poor"];
-
     document.querySelector(".aqi-badge").innerText =
-    levels[aqi-1].toUpperCase();
+    getAQILevel(score);
 
     const pollutants =
     document.querySelectorAll(".pollutant .value");
@@ -367,6 +407,14 @@ function updateAQI(data){
 
     pollutants[4].innerHTML =
     components.o3 + " <small>µg/m³</small>";
+
+    const mainPollutant = getMainPollutant(components);
+
+    const message =
+    getAQIMessage(aqi, mainPollutant);
+
+    document.querySelector(".aqi-message").innerText =
+    message;
 
 }
 
@@ -567,23 +615,147 @@ return map[code] || "Cloudy";
 function getWeatherIcon(code){
 
 if(code === 0)
-return "https://cdn-icons-png.flaticon.com/512/869/869869.png";
+return "https://openweathermap.org/img/wn/01d.png";
 
 if(code <= 3)
-return "https://cdn-icons-png.flaticon.com/512/1163/1163624.png";
+return "https://openweathermap.org/img/wn/02d.png";
+
+if(code >= 45 && code <= 48)
+return "https://openweathermap.org/img/wn/50d.png";
+
+if(code >= 51 && code <= 55)
+return "https://openweathermap.org/img/wn/09d.png";
 
 if(code >= 61 && code <= 65)
-return "https://cdn-icons-png.flaticon.com/512/414/414974.png";
+return "https://openweathermap.org/img/wn/10d.png";
 
 if(code >= 71 && code <= 75)
-return "https://cdn-icons-png.flaticon.com/512/642/642102.png";
+return "https://openweathermap.org/img/wn/13d.png";
+
+if(code >= 80 && code <= 82)
+return "https://openweathermap.org/img/wn/09d.png";
 
 if(code >= 95)
-return "https://cdn-icons-png.flaticon.com/512/1146/1146860.png";
+return "https://openweathermap.org/img/wn/11d.png";
 
-return "https://cdn-icons-png.flaticon.com/512/414/414825.png";
+return "https://openweathermap.org/img/wn/02d.png";
 
 }
 
+function calculateAQI(pm25){
+
+if(pm25 <= 12) return Math.round((pm25/12)*50);
+
+if(pm25 <= 35.4)
+return Math.round(((pm25-12.1)/(35.4-12.1))*50 + 51);
+
+if(pm25 <= 55.4)
+return Math.round(((pm25-35.5)/(55.4-35.5))*50 + 101);
+
+if(pm25 <= 150.4)
+return Math.round(((pm25-55.5)/(150.4-55.5))*50 + 151);
+
+if(pm25 <= 250.4)
+return Math.round(((pm25-150.5)/(250.4-150.5))*100 + 201);
+
+return 300;
+
+}
+
+function getAQILevel(aqi){
+
+if(aqi <= 50) return "GOOD";
+
+if(aqi <= 100) return "MODERATE";
+
+if(aqi <= 150)
+return "UNHEALTHY FOR SENSITIVE GROUPS";
+
+if(aqi <= 200) return "UNHEALTHY";
+
+if(aqi <= 300) return "VERY UNHEALTHY";
+
+return "HAZARDOUS";
+
+}
+
+function getMainPollutant(components){
+
+const pollutants = [
+{ name:"PM2.5", value:components.pm2_5 },
+{ name:"PM10", value:components.pm10 },
+{ name:"CO", value:components.co },
+{ name:"NO₂", value:components.no2 },
+{ name:"O₃", value:components.o3 }
+];
+
+pollutants.sort((a,b)=>b.value-a.value);
+
+return pollutants[0].name;
+
+}
+
+function getAQIMessage(aqi, pollutant){
+
+if(aqi === 1)
+return `Air quality is excellent. ${pollutant} levels are low.`;
+
+if(aqi === 2)
+return `Air quality is acceptable. Slightly elevated ${pollutant} detected.`;
+
+if(aqi === 3)
+return `Sensitive groups should reduce outdoor activities. High ${pollutant} levels detected.`;
+
+if(aqi === 4)
+return `Air pollution is high due to elevated ${pollutant}. Limit outdoor activities.`;
+
+if(aqi === 5)
+return `Hazardous air quality. Very high ${pollutant} levels detected. Avoid outdoor exposure.`;
+
+return "";
+
+}
+
+function detectLocation(){
+
+if(!navigator.geolocation) return;
+
+navigator.geolocation.getCurrentPosition(async pos=>{
+
+const lat = pos.coords.latitude;
+const lon = pos.coords.longitude;
+
+const url =
+`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`;
+
+const res = await fetch(url);
+const data = await res.json();
+
+updateWeather(data);
+
+getHourlyForecast(lat,lon);
+getDailyForecast(lat,lon);
+getAQI(lat,lon);
+
+});
+
+}
+
+function setWeatherBackground(condition){
+
+const body = document.body;
+
+if(condition.includes("Rain"))
+body.style.background="linear-gradient(#4b6cb7,#182848)";
+
+else if(condition.includes("Cloud"))
+body.style.background="linear-gradient(#bdc3c7,#2c3e50)";
+
+else
+body.style.background="linear-gradient(#56ccf2,#2f80ed)";
+
+}
+
+detectLocation();
 loadCity("Hanoi");
 loadFavorites();
