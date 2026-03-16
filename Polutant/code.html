@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hanoi Air Quality Index (AQI) - WeatherAir</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#3398db",
+                "background-light": "#f6f7f8",
+                "background-dark": "#121a20",
+              },
+              fontFamily: {
+                "display": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style>
+        .aqi-gradient {
+            background: conic-gradient(from 180deg at 50% 50%, #00e400 0deg, #ffff00 60deg, #ff7e00 120deg, #ff0000 180deg, #8f3f97 240deg, #7e0023 300deg, #00e400 360deg);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Navigation Bar -->
+<header class="sticky top-0 z-50 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 md:px-10 py-3">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 xl:justify-start">
+<!-- App Logo & Name -->
+<div class="flex items-center gap-3">
+<div class="bg-primary p-2 rounded-lg text-white">
+<span class="material-symbols-outlined block">cloud_queue</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight">SkyCast</h1>
+</div>
+<!-- Search Bar Area -->
+<div class="flex-1 max-w-md w-full">
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-primary">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2 border-none bg-slate-100 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-primary text-sm transition-all" placeholder="Search for a city... e.g., Tokyo, London" type="text"/>
+</div>
+</div><nav class="hidden xl:flex items-center gap-6 mx-4">
+<a class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary transition-colors pb-1" href="#">Dashboard</a>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary transition-colors pb-1" href="#">Maps</a>
+<a class="text-sm font-bold text-primary border-b-2 border-primary pb-1" href="#">Pollutants</a>
+</nav>
+<!-- User Actions -->
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-2 px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined text-yellow-500 fill-1">star</span>
+<span class="hidden lg:inline text-sm font-medium">Favorites</span>
+</button>
+<div class="h-8 w-[1px] bg-slate-200 dark:bg-slate-800 mx-2"></div>
+<button class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 hover:bg-primary/90 shadow-sm transition-all">
+<span class="material-symbols-outlined text-sm">login</span>
+                    Sign in with Google
+                </button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 max-w-[1200px] mx-auto w-full px-6 py-8">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 mb-6 text-sm">
+<a class="text-slate-500 hover:text-primary" href="#">Global</a>
+<span class="text-slate-400">/</span>
+<a class="text-slate-500 hover:text-primary" href="#">Vietnam</a>
+<span class="text-slate-400">/</span>
+<span class="text-slate-900 dark:text-white font-semibold">Hanoi</span>
+</nav>
+<!-- Hero Section: AQI Overview -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+<!-- Gauge Card -->
+<div class="lg:col-span-2 bg-white dark:bg-slate-900 rounded-xl p-8 shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col md:flex-row items-center gap-12 rounded-2xl shadow-sm border-slate-100">
+<div class="relative size-64 flex items-center justify-center">
+<!-- Circular Gauge Placeholder -->
+<div class="absolute inset-0 rounded-full border-[16px] border-slate-100 dark:border-slate-800"></div>
+<div class="absolute inset-0 rounded-full border-[16px] border-orange-500" style="clip-path: polygon(50% 50%, -10% -10%, 110% -10%, 110% 50%)"></div>
+<div class="flex flex-col items-center">
+<span class="text-6xl font-black text-slate-900 dark:text-white">156</span>
+<span class="text-slate-500 font-medium uppercase tracking-widest text-xs mt-2">US AQI</span>
+</div>
+</div>
+<div class="flex-1 space-y-4 text-center md:text-left">
+<div>
+<h1 class="text-4xl font-black text-slate-900 dark:text-white mb-2">Hanoi Air Quality</h1>
+<div class="inline-flex items-center px-4 py-1.5 rounded-full bg-orange-50 text-orange-600 font-bold text-sm mb-4">Unhealthy</div>
+<p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                                    The current air quality in Hanoi is considered unhealthy for sensitive groups. PM2.5 concentration is currently 12.4 times the WHO annual air quality guideline value.
+                                </p>
+</div>
+<div class="flex flex-wrap gap-4 justify-center md:justify-start">
+<div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg min-w-[120px]">
+<p class="text-xs text-slate-500 uppercase font-bold">Humidity</p>
+<p class="text-xl font-bold">78%</p>
+</div>
+<div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg min-w-[120px]">
+<p class="text-xs text-slate-500 uppercase font-bold">Wind</p>
+<p class="text-xl font-bold">12 km/h</p>
+</div>
+<div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg min-w-[120px]">
+<p class="text-xs text-slate-500 uppercase font-bold">Temp</p>
+<p class="text-xl font-bold">28°C</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Health Recommendations -->
+<div class="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm border-slate-100">
+<h3 class="text-lg font-bold mb-6 flex items-center gap-2 text-slate-900"><span class="material-symbols-outlined text-primary text-xl">health_and_safety</span> Health Advice</h3>
+<div class="space-y-6">
+<div class="flex gap-4">
+<div class="bg-blue-50 text-primary p-2 rounded-xl h-fit">
+<span class="material-symbols-outlined">masks</span>
+</div>
+<div>
+<p class="font-bold text-sm">Wear a mask outdoors</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">N95 or higher protection recommended.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="bg-blue-50 text-primary p-2 rounded-xl h-fit">
+<span class="material-symbols-outlined">air_purifier_gen</span>
+</div>
+<div>
+<p class="font-bold text-sm">Run an air purifier</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Keep indoor air clean of particulates.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="bg-red-100 text-red-500 p-2 rounded-lg h-fit">
+<span class="material-symbols-outlined">event_busy</span>
+</div>
+<div>
+<p class="font-bold text-sm">Avoid outdoor exercise</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Limit prolonged physical exertion.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="bg-blue-50 text-primary p-2 rounded-xl h-fit">
+<span class="material-symbols-outlined">door_front</span>
+</div>
+<div>
+<p class="font-bold text-sm">Close windows</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Prevent polluted air from entering homes.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Pollutant Details Grid -->
+<div class="mb-8">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-2xl font-bold">Major Pollutants</h3>
+<button class="text-primary font-semibold text-sm flex items-center gap-1 hover:underline">
+                            View Historical Data <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<!-- PM2.5 -->
+<div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm rounded-2xl shadow-sm border-slate-100">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white">PM2.5</h4>
+<p class="text-xs text-slate-500">Fine Particulate Matter</p>
+</div>
+<span class="bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400 px-2 py-0.5 rounded text-[10px] font-black uppercase">Unhealthy</span>
+</div>
+<div class="flex items-baseline gap-1 mb-3">
+<span class="text-3xl font-black">65.2</span>
+<span class="text-sm text-slate-500">µg/m³</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+<div class="bg-orange-500 h-full w-[75%]"></div>
+</div>
+</div>
+<!-- PM10 -->
+<div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm rounded-2xl shadow-sm border-slate-100">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white">PM10</h4>
+<p class="text-xs text-slate-500">Coarse Particulate Matter</p>
+</div>
+<span class="bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400 px-2 py-0.5 rounded text-[10px] font-black uppercase">Moderate</span>
+</div>
+<div class="flex items-baseline gap-1 mb-3">
+<span class="text-3xl font-black">98.4</span>
+<span class="text-sm text-slate-500">µg/m³</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+<div class="bg-yellow-400 h-full w-[45%]"></div>
+</div>
+</div>
+<!-- O3 -->
+<div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm rounded-2xl shadow-sm border-slate-100">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white">O₃</h4>
+<p class="text-xs text-slate-500">Ground-level Ozone</p>
+</div>
+<span class="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 px-2 py-0.5 rounded text-[10px] font-black uppercase">Good</span>
+</div>
+<div class="flex items-baseline gap-1 mb-3">
+<span class="text-3xl font-black">42.1</span>
+<span class="text-sm text-slate-500">µg/m³</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+<div class="bg-green-500 h-full w-[20%]"></div>
+</div>
+</div>
+<!-- NO2 -->
+<div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm rounded-2xl shadow-sm border-slate-100">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white">NO₂</h4>
+<p class="text-xs text-slate-500">Nitrogen Dioxide</p>
+</div>
+<span class="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 px-2 py-0.5 rounded text-[10px] font-black uppercase">Good</span>
+</div>
+<div class="flex items-baseline gap-1 mb-3">
+<span class="text-3xl font-black">15.8</span>
+<span class="text-sm text-slate-500">µg/m³</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+<div class="bg-green-500 h-full w-[15%]"></div>
+</div>
+</div>
+<!-- SO2 -->
+<div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm rounded-2xl shadow-sm border-slate-100">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white">SO₂</h4>
+<p class="text-xs text-slate-500">Sulfur Dioxide</p>
+</div>
+<span class="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 px-2 py-0.5 rounded text-[10px] font-black uppercase">Good</span>
+</div>
+<div class="flex items-baseline gap-1 mb-3">
+<span class="text-3xl font-black">2.4</span>
+<span class="text-sm text-slate-500">µg/m³</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+<div class="bg-green-500 h-full w-[5%]"></div>
+</div>
+</div>
+<!-- CO -->
+<div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm rounded-2xl shadow-sm border-slate-100">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white">CO</h4>
+<p class="text-xs text-slate-500">Carbon Monoxide</p>
+</div>
+<span class="bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400 px-2 py-0.5 rounded text-[10px] font-black uppercase">Moderate</span>
+</div>
+<div class="flex items-baseline gap-1 mb-3">
+<span class="text-3xl font-black">450</span>
+<span class="text-sm text-slate-500">µg/m³</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+<div class="bg-yellow-400 h-full w-[40%]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Forecast Table Section -->
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden rounded-2xl shadow-sm border-slate-100">
+<div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800">
+<h3 class="text-xl font-bold">7-Day Air Quality Forecast</h3>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-slate-50/50">
+<tr>
+<th class="px-6 py-4 text-xs font-bold uppercase text-slate-500">Day</th>
+<th class="px-6 py-4 text-xs font-bold uppercase text-slate-500">Condition</th>
+<th class="px-6 py-4 text-xs font-bold uppercase text-slate-500">AQI Range</th>
+<th class="px-6 py-4 text-xs font-bold uppercase text-slate-500">Dominant</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-50">
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30">
+<td class="px-6 py-4 font-semibold">Today</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="size-3 rounded-full bg-orange-500"></span>
+<span class="text-orange-600 font-bold">Unhealthy</span>
+</div>
+</td>
+<td class="px-6 py-4">150 - 165</td>
+<td class="px-6 py-4 text-slate-500">PM2.5</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30">
+<td class="px-6 py-4 font-semibold">Tomorrow</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="size-3 rounded-full bg-red-500"></span>
+<span class="text-red-600 font-bold">Very Unhealthy</span>
+</div>
+</td>
+<td class="px-6 py-4">205 - 220</td>
+<td class="px-6 py-4 text-slate-500">PM2.5</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30">
+<td class="px-6 py-4 font-semibold">Wednesday</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="size-3 rounded-full bg-orange-500"></span>
+<span class="text-orange-600 font-bold">Unhealthy</span>
+</div>
+</td>
+<td class="px-6 py-4">155 - 170</td>
+<td class="px-6 py-4 text-slate-500">PM2.5</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30">
+<td class="px-6 py-4 font-semibold">Thursday</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="size-3 rounded-full bg-yellow-400"></span>
+<span class="text-yellow-600 font-bold">Moderate</span>
+</div>
+</td>
+<td class="px-6 py-4">80 - 100</td>
+<td class="px-6 py-4 text-slate-500">O₃</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30">
+<td class="px-6 py-4 font-semibold">Friday</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="size-3 rounded-full bg-green-500"></span>
+<span class="text-green-600 font-bold">Good</span>
+</div>
+</td>
+<td class="px-6 py-4">35 - 50</td>
+<td class="px-6 py-4 text-slate-500">SO₂</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Regional Map Section -->
+<div class="mt-8">
+<h3 class="text-2xl font-bold mb-6">Nearby Stations</h3>
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+<div class="lg:col-span-3 rounded-xl overflow-hidden shadow-sm border border-slate-200 dark:border-slate-800 h-[400px] relative bg-slate-200 dark:bg-slate-800 rounded-2xl shadow-sm border-slate-100">
+<!-- Placeholder for actual map -->
+<img alt="Map showing air quality stations around Hanoi" class="w-full h-full object-cover" data-alt="Map showing air quality stations around Hanoi" data-location="Hanoi" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAIMnLud9OOfQZxw9DYEDQm8zVFbregjSBl2F5IyPwLSo8T5o2gx8lUjsUR7JoDGHmokaZtV6pSwoio9RlT6nBt6MyIWhoDqlbWt1MLnXIVO5wLhPUc-QhSJ3U1G3Eruyg_sSogRvUFlgDaQ-bBvhO1xbZTwl6UGSXKya_iS_bFVjX4WKG3Js_vYuQj5D49evVQA5RNCq1TYBfhc2T0-ze_QIqKS5ABDDoNTOr1pYaoneLp2jfFLt7ZXFbbtBDt8XbCPVaHlCWyR_P"/>
+<div class="absolute bottom-4 left-4 right-4 flex flex-wrap gap-2">
+<div class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 shadow flex items-center gap-2">
+<span class="size-3 rounded-full bg-orange-500"></span>
+<span class="text-xs font-bold">Hoan Kiem: 156</span>
+</div>
+<div class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 shadow flex items-center gap-2">
+<span class="size-3 rounded-full bg-red-500"></span>
+<span class="text-xs font-bold">Tay Ho: 210</span>
+</div>
+<div class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 shadow flex items-center gap-2">
+<span class="size-3 rounded-full bg-orange-500"></span>
+<span class="text-xs font-bold">Cau Giay: 178</span>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-center rounded-2xl shadow-sm border-slate-100">
+<h4 class="font-bold mb-4">Legend</h4>
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<span class="size-4 rounded bg-green-500"></span>
+<span class="text-xs">Good (0-50)</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="size-4 rounded bg-yellow-400"></span>
+<span class="text-xs">Moderate (51-100)</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="size-4 rounded bg-orange-500"></span>
+<span class="text-xs">Unhealthy (101-150)</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="size-4 rounded bg-red-500"></span>
+<span class="text-xs">Very Unhealthy (151-200)</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="size-4 rounded bg-purple-700"></span>
+<span class="text-xs">Purple Alert (201-300)</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="size-4 rounded bg-red-950"></span>
+<span class="text-xs">Hazardous (300+)</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-12 px-4">
+<div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex items-center gap-4 text-primary">
+<span class="material-symbols-outlined text-3xl">cloud</span>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold">SkyCast</h2>
+</div>
+<div class="flex flex-wrap gap-8 text-sm text-slate-500 dark:text-slate-400 font-medium">
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-primary transition-colors" href="#">API Reference</a>
+<a class="hover:text-primary transition-colors" href="#">Support</a>
+</div>
+<p class="text-sm text-slate-400 dark:text-slate-600">© 2024 SkyCast Data Services.</p>
+</div>
+</footer>
+</div>
+</div>
+</body></html>
