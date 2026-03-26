@@ -109,7 +109,7 @@ searchInput.addEventListener("input", async ()=>{
     const res = await fetch(url);
     suggestions = await res.json();
 
-    renderSuggestions(keyword);
+    renderSuggestions(keyword); 
 
 });
 
