@@ -33,23 +33,26 @@
     </div>
 
     <!-- Navigation -->
-    <div class="nav-links">
-        <a id="dashboard" href="#">Dashboard</a>
+    <div class ="nav-right">
+        <div class="nav-links">
+            <a id="dashboard" href="#" class="active">Dashboard</a>
+            </div>
+        <div class="nav-links">
+            <a id="maps" href="#" >Maps</a>
         </div>
-    <div class="nav-links">
-        <a id="maps" href="#">Maps</a>
+        <div class="nav-links">
+            <a id="pollutants" href="../../Polutant/pollutants.html" >Pollutants</a>
+        </div> 
     </div>
-    <div class="nav-links">
-        <a id="pollutants" href="../../Polutant/pollutants.html" class="nav-btn">Pollutants</a>
-    </div>    
+       
 
     <!-- Divider -->
     <div class="divider"></div>
 
     <!-- Sign in -->
-    <button class="google-btn">
-        ↪ Sign in with Google
-    </button>
+    <div class="user-avatar">
+        <img id="avatar" src="default-avatar.png" />
+    </div>
 
 </nav>
 
@@ -421,7 +424,7 @@
 </section>
 
 
-<script src="script.js"></script>
+<script type="module" src="script.js"></script>
 
 </body>
 </html>

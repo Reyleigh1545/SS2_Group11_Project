@@ -45,7 +45,7 @@
           </div>
 
           <div class="auth-methods">
-            <button class="btn-google">
+            <button class="btn-google" onclick="loginWithGoogle()">
               <svg width="20" height="20" viewBox="0 0 24 24">
                 <path
                   d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -74,13 +74,11 @@
             <div class="email-login">
               <label>Email Address</label>
               <input placeholder="name@example.com" type="email" />
-              <button class="btn-email">Continue with Email</button>
+              <button class="btn-email" onclick="loginWithEmail()">Continue with Email</button>
             </div>
           </div>
 
-          <div class="signup-prompt">
-            Don't have an account? <a href="#">Create an account</a>
-          </div>
+        
         </div>
 
         <footer class="card-footer">
@@ -98,5 +96,90 @@
         <span class="material-symbols-outlined">thermostat</span>
       </div>
     </footer>
+    
+    <script type="module">
+  // ===== IMPORT =====
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } 
+  from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+
+  // ===== CONFIG =====
+  const firebaseConfig = {
+    apiKey: "AIzaSyDwsrMQn_mbMIL_ZoNpiJcWu7SccSVSfk0",
+    authDomain: "skycast-5b2c7.firebaseapp.com",
+    projectId: "skycast-5b2c7",
+    storageBucket: "skycast-5b2c7.firebasestorage.app",
+    messagingSenderId: "226194876823",
+    appId: "1:226194876823:web:ce019b2611283d9b727cd2",
+    measurementId: "G-XE2XP41DMM"
+  };
+
+  // ===== INIT =====
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+
+
+  // ===== LOGIN GOOGLE =====
+  window.loginWithGoogle = function () {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const user = result.user;
+
+        localStorage.setItem("user", JSON.stringify({
+          name: user.displayName,
+          email: user.email,
+          avatar: user.photoURL
+        }));
+
+        // Move to dashboard
+        window.location.href = "../Dashboard/frontend/dashboard.html";
+      })
+      .catch((error) => {
+        alert("Login failed: " + error.message);
+      });
+  };
+
+
+  // ===== LOGIN EMAIL (fake) =====
+  window.loginWithEmail = function () {
+    const emailInput = document.querySelector('input[type="email"]');
+    const email = emailInput.value;
+
+    if (!email) {
+      alert("Nhập email đi bro");
+      return;
+    }
+
+    localStorage.setItem("user", JSON.stringify({
+      name: email.split("@")[0],
+      email: email
+    }));
+
+    window.location.href = "dashboard.html";
+  };
+
+
+  // ===== CHECK LOGIN =====
+  window.checkLogin = function () {
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "login.html";
+      }
+    });
+  };
+
+
+  // ===== LOGOUT =====
+  window.logout = function () {
+    signOut(auth).then(() => {
+      localStorage.removeItem("user");
+      window.location.href = "login.html";
+    });
+  };
+
+</script>
+
   </body>
+
 </html>

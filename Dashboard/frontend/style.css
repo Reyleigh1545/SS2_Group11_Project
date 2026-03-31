@@ -14,30 +14,28 @@ background:#f5f7fb;
     display:flex;
     align-items:center;
     justify-content:space-between;
+    gap:20px;
 
     padding:12px 30px;
-
     background:white;
     border-bottom:1px solid #e5e7eb;
-}
 
+    position:sticky;
+    top:0;
+    z-index:50;
+}
 
 /* NAVBAR */
 
-.logo {
-    height: 100%;
-    width: 100%;
+.logo{
+    width:28px;
+    height:28px;
+    object-fit:contain;
 }
 
-.navbar{
-display:flex;
-align-items:center;
-gap:20px;
 
-padding:12px 30px;
-background:white;
-border-bottom:1px solid #e5e7eb;
-}
+
+
 
 /* LOGO */
 
@@ -45,6 +43,18 @@ border-bottom:1px solid #e5e7eb;
 display:flex;
 align-items:center;
 gap: 8px;
+}
+
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:50px;
+}
+
+.nav-links a.active{
+    color:#3b82f6; /* xanh dương */
+    font-weight:600;
+    border-bottom:2px solid #3b82f6; /* gạch dưới cho đẹp */
 }
 
 .logo{
@@ -177,6 +187,20 @@ padding-bottom:4px;
 
 .nav-favorite a:hover{
     border-bottom:2px solid #3b82f6;
+}
+
+.user-avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    object-fit: cover;
+    border: 2px solid #ccc;
+    transition: 0.3s;
+}
+
+.user-avatar img:hover {
+    border-color: #4285F4;
 }
 
 

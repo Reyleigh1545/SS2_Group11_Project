@@ -924,6 +924,47 @@ marker.setLatLng([lat,lon]);
 
 }
 
+// ================= FIREBASE AUTH =================
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDwsrMQn_mbMIL_ZoNpiJcWu7SccSVSfk0",
+    authDomain: "skycast-5b2c7.firebaseapp.com",
+    projectId: "skycast-5b2c7",
+    storageBucket: "skycast-5b2c7.firebasestorage.app",
+    messagingSenderId: "226194876823",
+    appId: "1:226194876823:web:ce019b2611283d9b727cd2",
+    measurementId: "G-XE2XP41DMM"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+onAuthStateChanged(auth, (user) => {
+  const avatar = document.getElementById("avatar");
+
+  if (!user) {
+    window.location.href = "login.html";
+  } else {
+    if (avatar) {
+      avatar.src = user.photoURL;
+
+      avatar.onclick = () => {
+        if (confirm("Logout?")) {
+          signOut(auth).then(() => {
+            window.location.href = "login.html";
+          });
+        }
+      };
+    }
+  }
+});
+
 detectLocation();
 loadCity("Hanoi");
 loadFavorites();
