@@ -1,383 +1,198 @@
 <!doctype html>
-<html lang="vi">
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>SkyCast - Hanoi Air Quality Index</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SkyCast - Hanoi Air Quality Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap"
       rel="stylesheet"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
       rel="stylesheet"
     />
-
-    <link rel="stylesheet" href="style.css" />
-
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: { primary: "#3398db" },
-            fontFamily: { sans: ["Inter", "sans-serif"] },
-          },
-        },
-      };
-    </script>
   </head>
-  <body class="bg-slate-50 font-sans text-slate-900">
-    <header
-      class="bg-white border-b border-slate-200 px-10 py-3 sticky top-0 z-50"
-    >
-      <div class="max-w-7xl mx-auto flex items-center gap-6">
-        <div class="flex items-center gap-2">
-          <div class="bg-primary p-1.5 rounded-lg text-white">
-            <span class="material-symbols-outlined block text-2xl fill-1"
-              >cloud</span
-            >
+  <body>
+    <header>
+      <div class="container header-content">
+        <div class="logo">
+          <div class="logo-icon">
+            <span class="material-symbols-outlined">cloud</span>
           </div>
-          <h1 class="text-xl font-bold">SkyCast</h1>
+          SkyCast
         </div>
-        <div class="flex-1 max-w-md relative">
-          <span
-            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
-            >search</span
-          >
-          <input
-            class="w-full pl-10 pr-4 py-2 bg-slate-100 border-none rounded-lg text-sm"
-            placeholder="Search for a city..."
-            type="text"
-          />
+        <div class="search-bar">
+          <span class="material-symbols-outlined search-icon">search</span>
+          <input type="text" placeholder="Search for a city..." />
         </div>
-        <nav class="flex items-center gap-6 text-sm font-medium text-slate-600">
-          <a href="#">Home</a> <a href="#">Maps</a>
-          <a href="#" class="text-primary font-bold border-b-2 border-primary"
-            >Pollutants</a
-          >
-          <a href="#" class="flex items-center gap-1"
-            ><span class="material-symbols-outlined text-yellow-500 fill-1"
-              >star</span
-            >
-            Favorites</a
-          >
+        <nav>
+          <a href="#">Dashboard</a>
+          <a href="#">Maps</a>
+          <a href="#" class="active">Pollutants</a>
         </nav>
-        <button
-          class="bg-primary text-white px-5 py-2 rounded-lg text-sm font-bold flex items-center gap-2 ml-auto"
-        >
-          <span class="material-symbols-outlined text-sm">login</span> Sign in
-          with Google
+        <button class="btn-signin">
+          <span class="material-symbols-outlined">login</span> Sign In
         </button>
       </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-10 py-8">
-      <nav class="text-xs font-medium text-slate-400 mb-6">
-        Global / Vietnam / <span class="text-slate-900">Hanoi</span>
-      </nav>
+    <main class="container">
+      <div class="breadcrumbs">Global / Vietnam / <strong>Hanoi</strong></div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        <div class="lg:col-span-2 card-custom p-10 flex items-center gap-16">
-          <div class="relative w-64 h-64 flex items-center justify-center">
-            <div
-              class="absolute inset-0 rounded-full border-[16px] border-slate-50"
-            ></div>
-            <div
-              class="gauge-arc absolute inset-0 rounded-full border-[16px] border-[#ff7e00]"
-            ></div>
-            <div class="text-center">
-              <span class="text-7xl font-black block">156</span>
-              <span
-                class="text-slate-400 text-xs font-bold tracking-widest uppercase"
-                >US AQI</span
-              >
+      <div class="top-grid">
+        <div class="card aqi-main-card">
+          <div class="gauge-container">
+            <div class="gauge-visual"></div>
+            <div class="gauge-progress"></div>
+            <div class="gauge-text">
+              <span class="gauge-value">156</span>
+              <span class="gauge-label">US AQI</span>
             </div>
           </div>
-          <div class="flex-1">
-            <h2 class="text-5xl font-black mb-2">Hanoi Air Quality</h2>
-            <span
-              class="inline-block bg-orange-50 text-orange-600 px-4 py-1.5 rounded-full text-xs font-bold mb-4"
-              >Unhealthy</span
-            >
-            <p class="text-slate-500 text-sm leading-relaxed mb-6">
+          <div class="aqi-info-side">
+            <h2>Hanoi Air Quality</h2>
+            <div class="status-badge">Unhealthy</div>
+            <p class="aqi-description">
               The current air quality in Hanoi is considered unhealthy for
-              sensitive groups. PM2.5 concentration is 12.4x WHO guideline.
+              sensitive groups.
             </p>
-            <div class="flex gap-4">
-              <div class="bg-slate-50 p-3 rounded-xl flex-1 text-center">
-                <p class="text-[10px] text-slate-400 font-bold uppercase">
-                  Humidity
-                </p>
-                <p class="text-xl font-bold">78%</p>
+            <div class="weather-info">
+              <div class="weather-item">
+                <div class="weather-label">Humidity</div>
+                <strong>78%</strong>
               </div>
-              <div class="bg-slate-50 p-3 rounded-xl flex-1 text-center">
-                <p class="text-[10px] text-slate-400 font-bold uppercase">
-                  Wind
-                </p>
-                <p class="text-xl font-bold">12 km/h</p>
+              <div class="weather-item">
+                <div class="weather-label">Wind</div>
+                <strong>12 km/h</strong>
               </div>
-              <div class="bg-slate-50 p-3 rounded-xl flex-1 text-center">
-                <p class="text-[10px] text-slate-400 font-bold uppercase">
-                  Temp
-                </p>
-                <p class="text-xl font-bold">28°C</p>
+              <div class="weather-item">
+                <div class="weather-label">Temp</div>
+                <strong>28°C</strong>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="card-custom p-6">
-          <h3 class="font-bold flex items-center gap-2 mb-6 text-slate-800">
-            <span class="material-symbols-outlined text-primary"
-              >health_and_safety</span
-            >
-            Health Advice
-          </h3>
-          <div class="space-y-5">
-            <div class="flex gap-4 items-start">
-              <div class="bg-blue-50 text-primary p-2 rounded-lg">
-                <span class="material-symbols-outlined">masks</span>
-              </div>
+        <div class="card health-card">
+          <h3>Health Advice</h3>
+          <div class="advice-list">
+            <div class="advice-item">
+              <span class="material-symbols-outlined icon-blue">masks</span>
               <div>
-                <p class="text-sm font-bold">Wear a mask outdoors</p>
-                <p class="text-xs text-slate-400">N95 recommended.</p>
+                <div class="advice-title">Wear a mask</div>
+                <div class="advice-desc">N95 or higher recommended</div>
               </div>
             </div>
-            <div class="flex gap-4 items-start">
-              <div class="bg-red-50 text-red-500 p-2 rounded-lg">
-                <span class="material-symbols-outlined">event_busy</span>
-              </div>
+            <div class="advice-item">
+              <span class="material-symbols-outlined icon-red">event_busy</span>
               <div>
-                <p class="text-sm font-bold">Avoid exercise</p>
-                <p class="text-xs text-slate-400">Limit physical exertion.</p>
+                <div class="advice-title">Avoid exercise</div>
+                <div class="advice-desc">Limit outdoor activities</div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="mb-10">
-        <h3 class="text-2xl font-bold mb-6">Major Pollutants</h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div class="card-custom p-5">
-            <div class="flex justify-between mb-4">
-              <div>
-                <h4 class="font-bold text-sm">PM2.5</h4>
-                <p class="text-[10px] text-slate-400 uppercase">Fine Matter</p>
-              </div>
-              <span
-                class="bg-orange-50 text-orange-600 px-2 py-0.5 rounded text-[10px] font-black uppercase"
-                >Unhealthy</span
-              >
+      <h3 class="pollutants-title">Major Pollutants</h3>
+      <div class="pollutants-grid">
+        <div class="card pollutant-card">
+          <div class="pollutant-header">
+            <div>
+              <div class="p-name">PM2.5</div>
+              <div class="unit">Fine Matter</div>
             </div>
-            <p class="text-3xl font-black mb-3">
-              65.2 <span class="text-xs font-normal text-slate-400">µg/m³</span>
-            </p>
-            <div class="pollutant-bar">
-              <div class="progress-fill bg-orange-500 w-3/4"></div>
-            </div>
+            <span class="p-status text-unhealthy">UNHEALTHY</span>
           </div>
-          <div class="card-custom p-5">
-            <div class="flex justify-between mb-4">
-              <div>
-                <h4 class="font-bold text-sm">PM10</h4>
-                <p class="text-[10px] text-slate-400 uppercase">
-                  Coarse Matter
-                </p>
-              </div>
-              <span
-                class="bg-yellow-50 text-yellow-600 px-2 py-0.5 rounded text-[10px] font-black uppercase"
-                >Moderate</span
-              >
+          <div class="p-value">65.2 <span class="unit">µg/m³</span></div>
+          <div class="bar-container"><div class="bar-fill fill-75"></div></div>
+        </div>
+
+        <div class="card pollutant-card">
+          <div class="pollutant-header">
+            <div>
+              <div class="p-name">PM10</div>
+              <div class="unit">Coarse Matter</div>
             </div>
-            <p class="text-3xl font-black mb-3">
-              98.4 <span class="text-xs font-normal text-slate-400">µg/m³</span>
-            </p>
-            <div class="pollutant-bar">
-              <div class="progress-fill bg-yellow-400 w-1/2"></div>
-            </div>
+            <span class="p-status text-moderate">MODERATE</span>
           </div>
-          <div class="card-custom p-5">
-            <div class="flex justify-between mb-4">
-              <div>
-                <h4 class="font-bold text-sm">O₃</h4>
-                <p class="text-[10px] text-slate-400 uppercase">Ozone</p>
-              </div>
-              <span
-                class="bg-green-50 text-green-600 px-2 py-0.5 rounded text-[10px] font-black uppercase"
-                >Good</span
-              >
+          <div class="p-value">98.4 <span class="unit">µg/m³</span></div>
+          <div class="bar-container"><div class="bar-fill fill-50"></div></div>
+        </div>
+
+        <div class="card pollutant-card">
+          <div class="pollutant-header">
+            <div>
+              <div class="p-name">O₃</div>
+              <div class="unit">Ozone</div>
             </div>
-            <p class="text-3xl font-black mb-3">
-              42.1 <span class="text-xs font-normal text-slate-400">µg/m³</span>
-            </p>
-            <div class="pollutant-bar">
-              <div class="progress-fill bg-green-500 w-1/4"></div>
-            </div>
+            <span class="p-status text-good">GOOD</span>
           </div>
-          <div class="card-custom p-5">
-            <div class="flex justify-between mb-4">
-              <div>
-                <h4 class="font-bold text-sm">NO₂</h4>
-                <p class="text-[10px] text-slate-400 uppercase">
-                  Nitrogen Dioxide
-                </p>
-              </div>
-              <span
-                class="bg-green-50 text-green-600 px-2 py-0.5 rounded text-[10px] font-black uppercase"
-                >Good</span
-              >
+          <div class="p-value">42.1 <span class="unit">µg/m³</span></div>
+          <div class="bar-container"><div class="bar-fill fill-25"></div></div>
+        </div>
+
+        <div class="card pollutant-card">
+          <div class="pollutant-header">
+            <div>
+              <div class="p-name">NO₂</div>
+              <div class="unit">Nitrogen Dioxide</div>
             </div>
-            <p class="text-3xl font-black mb-3">
-              15.8 <span class="text-xs font-normal text-slate-400">µg/m³</span>
-            </p>
-            <div class="pollutant-bar">
-              <div class="progress-fill bg-green-500 w-[15%]"></div>
-            </div>
+            <span class="p-status text-good">GOOD</span>
           </div>
-          <div class="card-custom p-5">
-            <div class="flex justify-between mb-4">
-              <div>
-                <h4 class="font-bold text-sm">SO₂</h4>
-                <p class="text-[10px] text-slate-400 uppercase">
-                  Sulfur Dioxide
-                </p>
-              </div>
-              <span
-                class="bg-green-50 text-green-600 px-2 py-0.5 rounded text-[10px] font-black uppercase"
-                >Good</span
-              >
+          <div class="p-value">15.8 <span class="unit">µg/m³</span></div>
+          <div class="bar-container"><div class="bar-fill fill-15"></div></div>
+        </div>
+
+        <div class="card pollutant-card">
+          <div class="pollutant-header">
+            <div>
+              <div class="p-name">SO₂</div>
+              <div class="unit">Sulfur Dioxide</div>
             </div>
-            <p class="text-3xl font-black mb-3">
-              2.4 <span class="text-xs font-normal text-slate-400">µg/m³</span>
-            </p>
-            <div class="pollutant-bar">
-              <div class="progress-fill bg-green-500 w-[5%]"></div>
-            </div>
+            <span class="p-status text-good">GOOD</span>
           </div>
-          <div class="card-custom p-5">
-            <div class="flex justify-between mb-4">
-              <div>
-                <h4 class="font-bold text-sm">CO</h4>
-                <p class="text-[10px] text-slate-400 uppercase">
-                  Carbon Monoxide
-                </p>
-              </div>
-              <span
-                class="bg-yellow-50 text-yellow-600 px-2 py-0.5 rounded text-[10px] font-black uppercase"
-                >Moderate</span
-              >
+          <div class="p-value">2.4 <span class="unit">µg/m³</span></div>
+          <div class="bar-container"><div class="bar-fill fill-5"></div></div>
+        </div>
+
+        <div class="card pollutant-card">
+          <div class="pollutant-header">
+            <div>
+              <div class="p-name">CO</div>
+              <div class="unit">Carbon Monoxide</div>
             </div>
-            <p class="text-3xl font-black mb-3">
-              450 <span class="text-xs font-normal text-slate-400">µg/m³</span>
-            </p>
-            <div class="pollutant-bar">
-              <div class="progress-fill bg-yellow-400 w-[40%]"></div>
-            </div>
+            <span class="p-status text-moderate">MODERATE</span>
           </div>
+          <div class="p-value">450 <span class="unit">µg/m³</span></div>
+          <div class="bar-container"><div class="bar-fill fill-40"></div></div>
         </div>
       </div>
 
-      <div class="card-custom overflow-hidden mb-10">
-        <div class="p-6 border-b border-slate-50">
-          <h3 class="text-xl font-bold">7-Day Air Quality Forecast</h3>
-        </div>
-        <table class="w-full text-left text-sm">
-          <thead
-            class="bg-slate-50 text-slate-400 font-bold uppercase text-[10px]"
-          >
-            <tr>
-              <th class="px-6 py-4">Day</th>
-              <th class="px-6 py-4">Condition</th>
-              <th class="px-6 py-4">AQI Range</th>
-              <th class="px-6 py-4">Dominant</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-50 text-slate-600">
-            <tr>
-              <td class="px-6 py-4 font-bold text-slate-900">Today</td>
-              <td class="px-6 py-4 font-bold text-orange-500">● Unhealthy</td>
-              <td class="px-6 py-4">150 - 165</td>
-              <td class="px-6 py-4">PM2.5</td>
-            </tr>
-            <tr>
-              <td class="px-6 py-4 font-bold text-slate-900">Tomorrow</td>
-              <td class="px-6 py-4 font-bold text-red-600">● Very Unhealthy</td>
-              <td class="px-6 py-4">205 - 220</td>
-              <td class="px-6 py-4">PM2.5</td>
-            </tr>
-            <tr>
-              <td class="px-6 py-4 font-bold text-slate-900">Friday</td>
-              <td class="px-6 py-4 font-bold text-green-600">● Good</td>
-              <td class="px-6 py-4">35 - 50</td>
-              <td class="px-6 py-4">SO₂</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="mb-10">
-        <h3 class="text-2xl font-bold mb-6">Nearby Stations</h3>
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <div
-            class="lg:col-span-3 h-96 card-custom map-container relative overflow-hidden"
-          >
-            <div class="absolute bottom-4 left-4 flex gap-2">
-              <div
-                class="bg-white px-3 py-1 rounded shadow-sm text-[10px] font-bold flex items-center gap-1.5"
-              >
-                <span class="w-2 h-2 rounded-full bg-orange-500"></span> Hoan
-                Kiem: 156
-              </div>
-              <div
-                class="bg-white px-3 py-1 rounded shadow-sm text-[10px] font-bold flex items-center gap-1.5"
-              >
-                <span class="w-2 h-2 rounded-full bg-red-600"></span> Tay Ho:
-                210
-              </div>
-            </div>
+      <div class="bottom-layout">
+        <div class="card map-box">[ Nearby Stations Map ]</div>
+        <div class="card legend-card">
+          <h4>LEGEND</h4>
+          <div class="legend-item">
+            <div class="dot bg-good"></div>
+            Good (0-50)
           </div>
-          <div class="card-custom p-6">
-            <h4
-              class="font-bold text-xs mb-4 uppercase text-slate-400 tracking-wider"
-            >
-              Legend
-            </h4>
-            <div class="space-y-3 text-[11px] font-bold text-slate-600">
-              <div class="flex items-center gap-2">
-                <span class="w-3 h-3 rounded bg-green-500"></span> Good (0-50)
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="w-3 h-3 rounded bg-yellow-400"></span> Moderate
-                (51-100)
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="w-3 h-3 rounded bg-orange-500"></span> Unhealthy
-                (101-150)
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="w-3 h-3 rounded bg-red-600"></span> Very Unhealthy
-                (151+)
-              </div>
-            </div>
+          <div class="legend-item">
+            <div class="dot bg-moderate"></div>
+            Moderate (51-100)
+          </div>
+          <div class="legend-item">
+            <div class="dot bg-unhealthy"></div>
+            Unhealthy (101-150)
+          </div>
+          <div class="legend-item">
+            <div class="dot bg-very-unhealthy"></div>
+            Very Unhealthy (151+)
           </div>
         </div>
       </div>
     </main>
-
-    <footer class="py-10 px-10 border-t border-slate-100 bg-white">
-      <div
-        class="max-w-7xl mx-auto flex justify-between items-center text-sm text-slate-400"
-      >
-        <div class="flex items-center gap-2 text-slate-900 font-bold">
-          <span class="material-symbols-outlined text-primary fill-1"
-            >cloud</span
-          >
-          SkyCast
-        </div>
-        <p>© 2024 SkyCast Data Services.</p>
-      </div>
-    </footer>
   </body>
 </html>

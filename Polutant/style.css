@@ -1,60 +1,380 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer base {
-  :root {
-    --primary: #3398db;
-    --bg-main: #f8fafc;
-  }
-  body {
-    font-family: "Inter", sans-serif;
-    background-color: var(--bg-main);
-    -webkit-font-smoothing: antialiased;
-  }
+/* --- RESET & BASE STYLES --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* 2. Hiệu ứng đồ họa AQI Gauge */
-.gauge-arc {
-  clip-path: polygon(50% 50%, -10% -10%, 110% -10%, 110% 50%);
-  transform: rotate(5deg);
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #f8fafc;
+  color: #0f172a;
+  line-height: 1.5;
 }
 
-/* 3. Cấu hình Icon Material Symbols */
-.material-symbols-outlined {
-  font-variation-settings:
-    "FILL" 0,
-    "wght" 400,
-    "GRAD" 0,
-    "opsz" 24;
-  vertical-align: middle;
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 40px;
 }
 
-.fill-1 {
-  font-variation-settings: "FILL" 1;
+/* --- HEADER --- */
+header {
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 12px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-.card-custom {
-  background-color: white;
-  border-radius: 1rem;
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  font-size: 20px;
+}
+
+.logo-icon {
+  background: #3398db;
+  color: white;
+  padding: 6px;
+  border-radius: 8px;
+  display: flex;
+}
+
+.search-bar {
+  flex: 1;
+  max-width: 400px;
+  position: relative;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 8px 12px 8px 40px;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  font-size: 20px;
+}
+
+nav {
+  display: flex;
+  gap: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+}
+
+nav a {
+  text-decoration: none;
+  color: inherit;
+}
+nav a.active {
+  color: #3398db;
+  border-bottom: 2px solid #3398db;
+}
+
+.btn-signin {
+  margin-left: auto;
+  background: #3398db;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* --- LAYOUT & BREADCRUMBS --- */
+.breadcrumbs {
+  font-size: 12px;
+  color: #94a3b8;
+  margin: 32px 0 24px;
+}
+
+.card {
+  background: white;
   border: 1px solid #e2e8f0;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  border-radius: 16px;
+  padding: 24px;
 }
 
-.pollutant-bar {
+.top-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+/* --- AQI GAUGE SECTION --- */
+.aqi-main-card {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  padding: 40px;
+}
+
+.gauge-container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gauge-visual {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 15px solid #f1f5f9;
+}
+
+.gauge-progress {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 15px solid #ff7e00;
+  clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+  transform: rotate(-15deg);
+}
+
+.gauge-text {
+  text-align: center;
+}
+.gauge-value {
+  font-size: 64px;
+  font-weight: 900;
+  display: block;
+  line-height: 1;
+}
+.gauge-label {
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.aqi-info-side h2 {
+  font-size: 36px;
+  font-weight: 900;
+}
+.aqi-description {
+  color: #64748b;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.status-badge {
+  background: #fff7ed;
+  color: #ea580c;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 800;
+  display: inline-block;
+  margin: 12px 0;
+}
+
+.weather-info {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.weather-item {
+  background: #f8fafc;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.weather-label {
+  font-size: 10px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+/* --- HEALTH ADVICE --- */
+.health-card h3 {
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+.advice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.advice-item {
+  display: flex;
+  gap: 12px;
+}
+.icon-blue {
+  color: #3398db;
+}
+.icon-red {
+  color: #ef4444;
+}
+.advice-title {
+  font-weight: 700;
+  font-size: 13px;
+}
+.advice-desc {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+/* --- POLLUTANTS SECTION --- */
+.pollutants-title {
+  font-size: 24px;
+  font-weight: 800;
+  margin: 40px 0 24px;
+}
+.pollutants-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.pollutant-card {
+  padding: 20px;
+}
+.pollutant-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.p-name {
+  font-weight: 800;
+  font-size: 14px;
+}
+.p-status {
+  font-size: 10px;
+  font-weight: 900;
+}
+.p-value {
+  font-size: 28px;
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+.unit {
+  font-size: 12px;
+  font-weight: 400;
+  color: #94a3b8;
+}
+
+/* Trạng thái màu sắc chữ */
+.text-unhealthy {
+  color: #ea580c;
+}
+.text-moderate {
+  color: #ca8a04;
+}
+.text-good {
+  color: #16a34a;
+}
+
+/* Thanh Progress Bar */
+.bar-container {
   height: 6px;
-  border-radius: 9999px;
-  background-color: #f1f5f9;
+  background: #f1f5f9;
+  border-radius: 10px;
+  overflow: hidden;
 }
-
-.progress-fill {
+.bar-fill {
   height: 100%;
-  border-radius: 9999px;
+  border-radius: 10px;
+}
+.fill-75 {
+  width: 75%;
+  background: #f97316;
+}
+.fill-50 {
+  width: 50%;
+  background: #facc15;
+}
+.fill-25 {
+  width: 25%;
+  background: #22c55e;
+}
+.fill-15 {
+  width: 15%;
+  background: #22c55e;
+}
+.fill-5 {
+  width: 5%;
+  background: #22c55e;
+}
+.fill-40 {
+  width: 40%;
+  background: #facc15;
 }
 
-/* Map Placeholder */
-.map-container {
-  background-image: url("https://api.dicebear.com/7.x/initials/svg?seed=Map&backgroundColor=e2e8f0");
-  background-size: cover;
-  background-position: center;
+/* --- BOTTOM SECTION --- */
+.bottom-layout {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 24px;
+  margin-top: 40px;
+}
+.map-box {
+  height: 300px;
+  background: #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+}
+.legend-card h4 {
+  font-size: 10px;
+  color: #94a3b8;
+  margin-bottom: 20px;
+  font-weight: 800;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+.bg-good {
+  background: #22c55e;
+}
+.bg-moderate {
+  background: #facc15;
+}
+.bg-unhealthy {
+  background: #f97316;
+}
+.bg-very-unhealthy {
+  background: #ef4444;
 }
