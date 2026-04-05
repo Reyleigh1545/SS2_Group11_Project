@@ -949,7 +949,7 @@ onAuthStateChanged(auth, (user) => {
   const avatar = document.getElementById("avatar");
 
   if (!user) {
-    window.location.href = "login.html";
+    window.location.href = "../../Sign-in/index.html";
   } else {
     if (avatar) {
       avatar.src = user.photoURL;
@@ -957,7 +957,7 @@ onAuthStateChanged(auth, (user) => {
       avatar.onclick = () => {
         if (confirm("Logout?")) {
           signOut(auth).then(() => {
-            window.location.href = "login.html";
+            window.location.href = "../../Sign-in/index.html";
           });
         }
       };

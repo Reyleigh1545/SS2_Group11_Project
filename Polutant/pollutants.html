@@ -1,178 +1,415 @@
-<!DOCTYPE html>
-<html>
-<head>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>SkyCast - Pollutants</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-<body>
+  </head>
+  
+  <body>
 
-<!-- NAVBAR (reuse dashboard) -->
 <nav class="navbar">
 
+    <!-- Logo -->
     <div class="nav-left">
-        <img src="../logo.jpg" class="logo">
+        <img src="logo.jpg" class="logo">
         <span class="brand">SkyCast</span>
     </div>
 
+    <!-- Search -->
     <div class="nav-search">
+
         <span class="search-icon">🔍</span>
-        <input type="text" placeholder="Search for a city...">
+
+        <input
+        type="text"
+        placeholder="Search for a city... e.g., Tokyo,">
+
         <div class="search-dropdown"></div>
+
     </div>
 
-    <div class="nav-right">
-        <div class="nav-links"><a href="../dashboard.html">Dashboard</a></div>
-        <div class="nav-links"><a href="#">Maps</a></div>
-        <div class="nav-links"><a class="active">Pollutants</a></div>
+    <!-- Navigation -->
+    <div class ="nav-right">
+        <div class="nav-links">
+            <a id="dashboard" href="../Dashboard/frontend/dashboard.html" >Dashboard</a>
+            </div>
+        <div class="nav-links">
+            <a id="maps" href="#" >Maps</a>
+        </div>
+        <div class="nav-links">
+            <a id="pollutants" href="../../Polutant/pollutants.html" class="active">Pollutants</a>
+        </div> 
     </div>
+       
 
+    <!-- Divider -->
     <div class="divider"></div>
 
+    <!-- Sign in -->
     <div class="user-avatar">
-        <img src="../default-avatar.png">
+        <img id="avatar" src="default-avatar.png" />
     </div>
 
 </nav>
 
-<!-- QUICK ACCESS -->
 <div class="quick-access">
-    <p>Quick Access:</p>
-    <button class="city-btn">Hanoi</button>
-    <button class="city-btn">Tokyo</button>
-    <button class="city-btn">London</button>
+    <p> Quick Access: </p>
+    <button class="city-btn" data-city="Hanoi">Hanoi</button>
+    <button class="city-btn" data-city="New York">New York</button>
+    <button class="city-btn" data-city="Paris">Paris</button>
+    <button class="city-btn" data-city="London">London</button>
+    <button class="city-btn" data-city="Tokyo">Tokyo</button>
+
 </div>
 
-<!-- MAIN -->
-<section class="info-section">
-
-    <!-- LEFT -->
-    <div class="left-info">
-
-        <!-- AQI CARD -->
-        <div class="aqi-card">
-
-            <h3>🌬 Air Quality Index (AQI)</h3>
-
-            <div class="aqi-content">
-
-                <!-- SCORE -->
-                <div class="aqi-score">
-                    <div class="circle">
-                        <span>156</span>
-                        <p>AQI</p>
-                    </div>
-                </div>
-
-                <!-- INFO -->
-                <div class="aqi-info">
-                    <span class="aqi-badge">UNHEALTHY</span>
-                    <p class="aqi-message">
-                        PM2.5 is 12.4x higher than WHO guideline.
-                    </p>
-                </div>
-
-                <!-- WEATHER -->
-                <div class="pollutants-box">
-
-                    <h4>Conditions</h4>
-
-                    <div class="pollutants-grid">
-
-                        <div class="pollutant">
-                            <span class="label">Humidity</span>
-                            <span class="value">78%</span>
-                        </div>
-
-                        <div class="pollutant">
-                            <span class="label">Wind</span>
-                            <span class="value">12 km/h</span>
-                        </div>
-
-                        <div class="pollutant">
-                            <span class="label">Temp</span>
-                            <span class="value">28°C</span>
-                        </div>
-
-                    </div>
-
-                </div>
-
+      <div class="air-section">
+        <div class="air-card">
+          
+          <!-- AQI Circle -->
+          <div class="aqi-circle">
+            <div class="circle-bg"></div>
+            <div class="circle-progress"></div>
+            <div class="circle-content">
+              <span class="aqi-value">156</span>
+              <span class="aqi-label">US AQI</span>
             </div>
+          </div>
+
+          <!-- Content -->
+          <div class="air-info">
+            <h2>Hanoi Air Quality</h2>
+            <span class="status-badge">Unhealthy</span>
+
+            <p class="description">
+              The current air quality in Hanoi is considered unhealthy for
+              sensitive groups. PM2.5 concentration is currently 12.4 times
+              the WHO annual air quality guideline value.
+            </p>
+
+            <div class="stats">
+              <div class="stat-box">
+                <p>Humidity</p>
+                <h4>78%</h4>
+              </div>
+              <div class="stat-box">
+                <p>Wind</p>
+                <h4>12 km/h</h4>
+              </div>
+              <div class="stat-box">
+                <p>Temp</p>
+                <h4>28°C</h4>
+              </div>
+            </div>
+          </div>
 
         </div>
 
-        <!-- MAJOR POLLUTANTS -->
-        <div class="forecast-card">
+        <div class="health-card">
+  
+        <h3 class="health-title">
+          <span class="material-symbols-outlined icon-main">health_and_safety</span>
+          Health Advice
+        </h3>
 
-            <h3>Major Pollutants</h3>
+        <div class="health-list">
 
-            <div class="pollutants-grid">
-
-                <div class="pollutant">
-                    <span class="label">PM2.5</span>
-                    <span class="value">65.2 µg/m³</span>
-                </div>
-
-                <div class="pollutant">
-                    <span class="label">PM10</span>
-                    <span class="value">98.4 µg/m³</span>
-                </div>
-
-                <div class="pollutant">
-                    <span class="label">O3</span>
-                    <span class="value">42.1 µg/m³</span>
-                </div>
-
-                <div class="pollutant">
-                    <span class="label">NO2</span>
-                    <span class="value">15.8 µg/m³</span>
-                </div>
-
-                <div class="pollutant">
-                    <span class="label">SO2</span>
-                    <span class="value">2.4 µg/m³</span>
-                </div>
-
-                <div class="pollutant">
-                    <span class="label">CO</span>
-                    <span class="value">450 µg/m³</span>
-                </div>
-
+          <div class="health-item">
+            <div class="icon-box blue">
+              <span class="material-symbols-outlined">masks</span>
             </div>
+            <div>
+              <p class="item-title">Wear a mask outdoors</p>
+              <p class="item-desc">N95 or higher protection recommended.</p>
+            </div>
+          </div>
+
+          <div class="health-item">
+            <div class="icon-box blue">
+              <span class="material-symbols-outlined">air_purifier_gen</span>
+            </div>
+            <div>
+              <p class="item-title">Run an air purifier</p>
+              <p class="item-desc">Keep indoor air clean of particulates.</p>
+            </div>
+          </div>
+
+          <div class="health-item">
+            <div class="icon-box red">
+              <span class="material-symbols-outlined">event_busy</span>
+            </div>
+            <div>
+              <p class="item-title">Avoid outdoor exercise</p>
+              <p class="item-desc">Limit prolonged physical exertion.</p>
+            </div>
+          </div>
+
+          <div class="health-item">
+            <div class="icon-box blue">
+              <span class="material-symbols-outlined">door_front</span>
+            </div>
+            <div>
+              <p class="item-title">Close windows</p>
+              <p class="item-desc">Prevent polluted air from entering homes.</p>
+            </div>
+          </div>
 
         </div>
 
-    </div>
+</div>
+      </div>
 
-    <!-- RIGHT -->
-    <div class="right-sidebar">
+      <div class="pollutants-section">
 
-        <!-- HEALTH -->
-        <div class="sidebar-card">
-            <h4>HEALTH ADVICE</h4>
-
-            <div class="location-item">
-                <span>Wear mask</span>
-            </div>
-
-            <div class="location-item">
-                <span>Use air purifier</span>
-            </div>
-
-            <div class="location-item">
-                <span>Avoid outdoor</span>
-            </div>
+  <!-- Header -->
+        <div class="section-header">
+          <h3>Major Pollutants</h3>
+          <!-- <a href="#" class="view-link">
+            View Historical Data
+            <span class="material-symbols-outlined">arrow_forward</span>
+          </a> -->
         </div>
 
-        <!-- MAP -->
-        <div class="sidebar-card map-card">
-            <div id="map"></div>
+        <!-- Grid -->
+        <div class="pollutants-grid">
+
+          <!-- Item -->
+          <div class="pollutant-card" data-type="pm2_5">
+            <div class="card-top">
+              <div>
+                <h4>PM2.5</h4>
+                <p>Fine Particulate Matter</p>
+              </div>
+              <span class="badge orange">Unhealthy</span>
+            </div>
+
+            <div class="value">
+              65.2 <span>µg/m³</span>
+            </div>
+
+            <div class="bar">
+              <div class="progress orange" style="width:75%"></div>
+            </div>
+          </div>
+
+          <div class="pollutant-card" data-type="pm10">
+            <div class="card-top">
+              <div>
+                <h4>PM10</h4>
+                <p>Coarse Particulate Matter</p>
+              </div>
+              <span class="badge yellow">Moderate</span>
+            </div>
+
+            <div class="value">
+              98.4 <span>µg/m³</span>
+            </div>
+
+            <div class="bar">
+              <div class="progress yellow" style="width:50%"></div>
+            </div>
+          </div>
+
+          <div class="pollutant-card" data-type="o3">
+            <div class="card-top">
+              <div>
+                <h4>O₃</h4>
+                <p>Ground-level Ozone</p>
+              </div>
+              <span class="badge green">Good</span>
+            </div>
+
+            <div class="value">
+              42.1 <span>µg/m³</span>
+            </div>
+
+            <div class="bar">
+              <div class="progress green" style="width:25%"></div>
+            </div>
+          </div>
+
+          <div class="pollutant-card" data-type="no2">
+            <div class="card-top">
+              <div>
+                <h4>NO₂</h4>
+                <p>Nitrogen Dioxide</p>
+              </div>
+              <span class="badge red">Very Unhealthy</span>
+            </div>
+
+            <div class="value">
+              15.8 <span>µg/m³</span>
+            </div>
+
+            <div class="bar">
+              <div class="progress red" style="width:15%"></div>
+            </div>
+          </div>
+
+          <div class="pollutant-card" data-type="so2">
+            <div class="card-top">
+              <div>
+                <h4>SO₂</h4>
+                <p>Sulfur Dioxide</p>
+              </div>
+              <span class="badge green">Good</span>
+            </div>
+
+            <div class="value">
+              2.4 <span>µg/m³</span>
+            </div>
+
+            <div class="bar">
+              <div class="progress green" style="width:5%"></div>
+            </div>
+          </div>
+
+          <div class="pollutant-card" data-type="co">
+            <div class="card-top">
+              <div>
+                <h4>CO</h4>
+                <p>Carbon Monoxide</p>
+              </div>
+              <span class="badge yellow">Moderate</span>
+            </div>
+
+            <div class="value">
+              450 <span>µg/m³</span>
+            </div>
+
+            <div class="bar">
+              <div class="progress yellow" style="width:40%"></div>
+            </div>
+          </div>
+
+  </div>
+</div>
+    
+      <div class="forecast-card">
+
+        <div class="forecast-header">
+          <h3>7-Day Air Quality Forecast</h3>
         </div>
 
-    </div>
+        <table class="forecast-table">
+          <thead>
+            <tr>
+              <th>Day</th>
+              <th>Condition</th>
+              <th>AQI Range</th>
+              <th>Dominant</th>
+            </tr>
+          </thead>
 
-</section>
+          <tbody>
+            <tr>
+              <td class="day">Today</td>
+              <td class="condition orange">● Unhealthy</td>
+              <td class="range">150 - 165</td>
+              <td class="dominant">PM2.5</td>
+            </tr>
 
-</body>
+            <tr>
+              <td class="day">Tomorrow</td>
+              <td class="condition red">● Very Unhealthy</td>
+              <td class="range">205 - 220</td>
+              <td class="dominant">PM2.5</td>
+            </tr>
+
+            <tr>
+              <td class="day">Wednesday</td>
+              <td class="condition orange">● Unhealthy</td>
+              <td class="range">155 - 170</td>
+              <td class="dominant">PM2.5</td>
+            </tr>
+
+            <tr>
+              <td class="day">Thursday</td>
+              <td class="condition yellow">● Moderate</td>
+              <td class="range">80 - 100</td>
+              <td class="dominant">O₃</td>
+            </tr>
+
+            <tr>
+              <td class="day">Friday</td>
+              <td class="condition green">● Good</td>
+              <td class="range">35 - 50</td>
+              <td class="dominant">SO₂</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+      <div class="nearby-section">
+
+        <h3 class="section-title">Nearby Stations</h3>
+
+        <div class="nearby-grid">
+
+          <!-- MAP -->
+          <div class="map-box">
+
+            <div id ="map">
+            </div>
+          </div>
+
+          <!-- LEGEND -->
+          <div class="legend-card">
+            <h4>Legend</h4>
+
+            <div class="legend-list">
+              <div><span class="dot green"></span> Good (0-50)</div>
+              <div><span class="dot yellow"></span> Moderate (51-100)</div>
+              <div><span class="dot orange"></span> Unhealthy (101-150)</div>
+              <div><span class="dot red"></span> Very Unhealthy (151-200)</div>
+              <div><span class="dot purple"></span> Purple Alert (201-300)</div>
+              <div><span class="dot darkred"></span> Hazardous (300+)</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+  <div class="footer-container">
+
+    <!-- Logo -->
+    <div class="footer-logo">
+      <span class="material-symbols-outlined">cloud</span>
+          SkyCast
+        </div>
+
+        <!-- Links -->
+        <div class="footer-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">API Reference</a>
+          <a href="#">Support</a>
+        </div>
+
+        <!-- Copyright -->
+        <p class="footer-copy">© 2026 SkyCast Data Services.</p>
+
+      </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+    <script type= "module" src="map.js"></script>
+    <script type="module" src="script.js" ></script>
+  </body>
 </html>
