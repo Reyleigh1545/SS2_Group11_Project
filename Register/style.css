@@ -1,0 +1,315 @@
+/* Reset & Cơ bản */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  background:
+    radial-gradient(circle at 0% 0%, #c9e6ff 0%, transparent 40%),
+    radial-gradient(circle at 100% 100%, #d0e1fb 0%, transparent 40%), #f7f9fb;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  color: #191c1e;
+}
+
+/* Header */
+.navbar {
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 2rem;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+/* Container bao quanh icon và input */
+.input-wrapper {
+  position: relative; /* Để icon căn lề theo container này */
+  display: flex;
+  align-items: center;
+}
+
+/* Định dạng cho icon bên trong ô input */
+.field-icon {
+  position: absolute;
+  left: 16px; /* Khoảng cách từ lề trái */
+  width: 20px; /* Kích thước icon */
+  height: 20px;
+  pointer-events: none; /* Để khi click vào icon vẫn ăn vào ô input */
+  opacity: 0.6; /* Làm mờ icon một chút cho tinh tế */
+}
+
+/* Đẩy chữ trong input sang phải để không đè lên icon */
+.input-wrapper input {
+  width: 100%;
+  padding: 16px 16px 16px 48px;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+}
+.main-logo {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  /* Cấu hình bo góc */
+  border-radius: 12px;
+
+  box-shadow: 0 4px 12px rgba(0, 101, 145, 0.05);
+
+  /* Đảm bảo ảnh sắc nét */
+  image-rendering: -webkit-optimize-contrast;
+}
+
+.logo-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: #006591;
+}
+.field-icon {
+  position: absolute;
+  left: 16px;
+  width: 20px;
+  height: 20px;
+  /* Màu xám nhạt trung tính giống thiết kế */
+  color: #6e7881;
+  pointer-events: none;
+  /* Đảm bảo icon luôn sắc nét */
+  shape-rendering: geometricPrecision;
+}
+
+/* Hiệu ứng khi người dùng click vào ô input thì icon đổi màu xanh */
+.input-wrapper input:focus + .field-icon {
+  color: #0ea5e9;
+  transition: color 0.3s ease;
+}
+/* Main Content */
+.registration-canvas {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+  width: 100%;
+  max-width: 440px;
+  padding: 48px 40px;
+  border-radius: 40px;
+  box-shadow: 0 32px 64px -16px rgba(0, 101, 145, 0.1);
+  text-align: center;
+}
+
+.card-header h1 {
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+
+.card-header p {
+  color: #3e4850;
+  font-size: 15px;
+  margin-bottom: 40px;
+}
+
+/* Form Styles */
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.input-group {
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #3e4850;
+  margin-bottom: 8px;
+  margin-left: 4px;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.field-icon {
+  position: absolute;
+  left: 16px;
+  width: 20px;
+  height: 20px;
+  opacity: 0.5;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 16px 16px 16px 48px;
+  background: #eceef0;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 12px 12px 0 0;
+  font-size: 15px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.input-wrapper input:focus {
+  background: #e0e3e5;
+  border-bottom-color: #0ea5e9;
+}
+
+/* Buttons */
+.btn-primary {
+  background: #0ea5e9;
+  color: white;
+  border: none;
+  padding: 18px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  box-shadow: 0 10px 20px rgba(14, 165, 233, 0.2);
+  transition:
+    transform 0.2s,
+    opacity 0.2s;
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.divider {
+  position: relative;
+  margin: 32px 0;
+  display: flex;
+  align-items: center;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.divider span {
+  padding: 0 16px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #6e7881;
+  letter-spacing: 1px;
+}
+
+.btn-google {
+  width: 100%;
+  padding: 14px;
+  background: #f2f4f6;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-google:hover {
+  background: #eceef0;
+}
+
+.btn-google img {
+  width: 20px;
+}
+
+.card-footer {
+  margin-top: 32px;
+  font-size: 15px;
+  color: #3e4850;
+}
+
+.card-footer a {
+  color: #006591;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.card-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Footer */
+.footer {
+  padding: 40px 2rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-logo {
+  color: #006591;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.footer-brand p {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: rgba(0, 0, 0, 0.5);
+  margin-top: 4px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 30px;
+}
+
+.footer-links a {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: rgba(0, 0, 0, 0.5);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: #006591;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .footer-content {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+}
