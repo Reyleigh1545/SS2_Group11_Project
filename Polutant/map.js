@@ -82,17 +82,45 @@ map.on("moveend", () => {
 
 let selectedMarker = null;
 
-export function focusCityByCoords(lat, lon) {
+export function focusCityByCoords(lat, lon, aqi) {
+
   map.flyTo([lat, lon], 10);
 
+  // ❌ xoá marker cũ
   if (selectedMarker) {
-    markerLayer.removeLayer(selectedMarker);
+    map.removeLayer(selectedMarker);
   }
 
-  selectedMarker = L.marker([lat, lon]).addTo(markerLayer);
+  // ✅ tạo marker mới với AQI thật
+  selectedMarker = L.marker([lat, lon], {
+      icon: L.divIcon({
+        className: "aqi-marker",
+        html: `<div style="
+          background:${getAQIColor(aqi)};
+          color:#000;
+          padding:3px 6px;
+          border-radius:6px;
+          font-size:12px;
+          font-weight:bold;
+          text-align:center;
+          min-width:32px;
+        ">
+          ${aqi}
+        </div>`,
+        iconSize: [34, 22],
+        iconAnchor: [18, 11]
+      })
+    });
+
+  selectedMarker.bindPopup(`
+    <b>Selected City</b><br>
+    AQI: ${aqi}
+  `);
+
+  selectedMarker.addTo(map);
 }
 
-export async function focusCity(cityName) {
+async function focusCity(cityName) {
   try {
     // gọi API search city của WAQI
     const res = await fetch(
@@ -113,7 +141,7 @@ export async function focusCity(cityName) {
 
     // xoá marker cũ nếu có
     if (selectedMarker) {
-      markerLayer.removeLayer(selectedMarker);
+      map.removeLayer(selectedMarker);
     }
 
     // tạo marker nổi bật
@@ -121,17 +149,19 @@ export async function focusCity(cityName) {
       icon: L.divIcon({
         className: "aqi-marker",
         html: `<div style="
-          background:${getAQIColor(aqi)};
-          color:#000;
-          padding:6px 10px;
-          border-radius:8px;
-          font-size:14px;
-          font-weight:bold;
-          border:2px solid #000;
-        ">
+        background:${getAQIColor(aqi)};
+        color:#000;
+        padding:2px 4px;
+        border-radius:4px;
+        font-size:11px;
+        font-weight:bold;
+        text-align:center;
+        min-width:28px;
+          ">
           ${aqi}
-        </div>`,
-        iconSize: [40, 25]
+          `,
+        iconSize: [30, 20],
+        iconAnchor: [15, 10]
       })
     });
 
@@ -140,7 +170,7 @@ export async function focusCity(cityName) {
       AQI: ${aqi}
     `);
 
-    markerLayer.addLayer(selectedMarker);
+    selectedMarker.addTo(map);
 
   } catch (err) {
     console.error(err);

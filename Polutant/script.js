@@ -67,7 +67,7 @@ function showRecent(){
     <span class="favorite-btn">⭐</span>
     `;
 
-    div.onclick = ("click", (e) => {
+    div.onclick = (e) => {
 
     e.stopPropagation();
 
@@ -77,7 +77,7 @@ function showRecent(){
     hideDropdown();
     searchInput.blur();
 
-    });
+    };
 
     dropdown.appendChild(div);
 
@@ -132,7 +132,7 @@ function renderSuggestions(keyword){
     <span class="favorite-btn">⭐</span>
     `;
 
-    div.onclick = ("click", (e)=>{
+    div.onclick = (e) => {
     
       e.stopPropagation();
       
@@ -144,7 +144,7 @@ function renderSuggestions(keyword){
     hideDropdown();
     searchInput.blur();
 
-    });
+    };
 
     dropdown.appendChild(div);
 
@@ -222,7 +222,10 @@ async function loadCityAQI(city) {
     updateAirUI(name, weatherData, aqiData);
 
     await loadAQIForecast(lat, lon);
-    focusCityByCoords(lat, lon);
+    const pm25 = aqiData.list[0].components.pm2_5;
+    const score = calculateAQI(pm25);
+
+    focusCityByCoords(lat, lon, score);
     
   } catch (err) {
     console.error(err);
@@ -355,17 +358,42 @@ function getColorClass(level) {
   return "red";
 }
 
-function getPollutantLevel(value) {
-  if (value <= 50) {
-    return { level: "Good", percent: 20, color: "green" };
+function getPollutantLevel(type, value) {
+
+  // PM2.5 (chuẩn AQI)
+  if (type === "pm2_5") {
+    if (value <= 12) return { level: "Good", percent: 20, color: "green" };
+    if (value <= 35.4) return { level: "Moderate", percent: 40, color: "yellow" };
+    if (value <= 55.4) return { level: "Unhealthy", percent: 70, color: "orange" };
+    return { level: "Very Unhealthy", percent: 100, color: "red" };
   }
-  if (value <= 100) {
-    return { level: "Moderate", percent: 40, color: "yellow" };
+
+  // CO (µg/m³)
+  if (type === "co") {
+    if (value <= 5000) return { level: "Good", percent: 20, color: "green" };
+    if (value <= 10000) return { level: "Moderate", percent: 40, color: "yellow" };
+    if (value <= 17000) return { level: "Unhealthy", percent: 70, color: "orange" };
+    return { level: "Very Unhealthy", percent: 100, color: "red" };
   }
-  if (value <= 150) {
-    return { level: "Unhealthy", percent: 70, color: "orange" };
+
+  // NO2
+  if (type === "no2") {
+    if (value <= 40) return { level: "Good", percent: 20, color: "green" };
+    if (value <= 100) return { level: "Moderate", percent: 40, color: "yellow" };
+    if (value <= 200) return { level: "Unhealthy", percent: 70, color: "orange" };
+    return { level: "Very Unhealthy", percent: 100, color: "red" };
   }
-  return { level: "Very Unhealthy", percent: 100, color: "red" };
+
+  // O3
+  if (type === "o3") {
+    if (value <= 100) return { level: "Good", percent: 20, color: "green" };
+    if (value <= 160) return { level: "Moderate", percent: 40, color: "yellow" };
+    if (value <= 240) return { level: "Unhealthy", percent: 70, color: "orange" };
+    return { level: "Very Unhealthy", percent: 100, color: "red" };
+  }
+
+  // default
+  return { level: "Good", percent: 20, color: "green" };
 }
 
 function updatePollutants(components) {
@@ -385,7 +413,7 @@ function updatePollutants(components) {
 
     valueEl.innerHTML = `${value.toFixed(1)} <span>µg/m³</span>`;
 
-    const { level, percent, color } = getPollutantLevel(value);
+    const { level, percent, color } = getPollutantLevel(type, value);
 
     badge.innerText = level;
     badge.className = "badge " + color;
