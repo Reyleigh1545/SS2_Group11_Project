@@ -23,15 +23,16 @@ background:#f5f7fb;
     position:sticky;
     top:0;
     z-index:50;
+    height: 40px;
 }
 
 /* NAVBAR */
 
 .logo{
-    width:40px;
-    height:40px;
+    width:30px;
+    height:30px;
     object-fit:cover;
-    border-radius: 12px;
+    border-radius: 10px;
     flex-shrink: 0;
     max-width: none;
 }
@@ -123,15 +124,6 @@ font-size:12px;
 margin-left:6px;
 }
 
-.favorite-btn{
-cursor:pointer;
-opacity:0.7;
-}
-
-.favorite-btn:hover{
-opacity:1;
-}
-
 /* left search icon */
 
 .search-icon{
@@ -162,6 +154,25 @@ z-index: 10;
 
 .nav-links a:hover{
 border-bottom:2px solid #3b82f6;
+}
+
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: #007bff;
+    transition: 0.3s;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.nav-links a.active::after {
+    width: 100%;
 }
 
 .nav-btn {
@@ -713,6 +724,7 @@ border-radius:10px;
   background: #fff;
   border-top: 1px solid #f1f5f9;
   padding: 20px 0;
+  height: 40px;
 }
 
 /* Container (giữ giống layout toàn site) */

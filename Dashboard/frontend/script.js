@@ -965,6 +965,8 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
+
+
 detectLocation();
 loadCity("Hanoi");
 loadFavorites();

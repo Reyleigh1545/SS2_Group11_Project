@@ -1,125 +1,161 @@
-/* Reset nhẹ */
-* {
+body{
+    font-family: Arial, sans-serif;
+    background:#cac9c9;
+}
+
+body {
+    background-color: #3b535d; 
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    font-family: "Segoe UI", sans-serif;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.navbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    height: 40px;
+    flex-shrink: 0;
+
+    padding:12px 30px;
+    background:white;
+    border-bottom:1px solid #e5e7eb;
+
+    position:sticky;
+    top:0;
+    z-index:50;
 }
 
 /* NAVBAR */
-.navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
 
-    padding: 10px 20px;
-    background: #ffffff;
-    border-bottom: 1px solid #eee;
-
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+.logo{
+    width:30px;
+    height:30px;
+    object-fit:cover;
+    border-radius: 10px;
+    flex-shrink: 0;
+    max-width: none;
 }
 
-/* LEFT: Logo */
-.nav-left {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+.nav {
+    height: 30px;
 }
 
-.logo {
-    width: 28px;
-    height: 28px;
-    object-fit: cover;
+.nav-left{
+display:flex;
+align-items:center;
+gap: 8px;
 }
 
-.brand {
-    font-weight: 600;
-    font-size: 18px;
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:50px;
 }
+
+.nav-links a.active{
+    color:#3b82f6; /* xanh dương */
+    font-weight:600;
+    border-bottom:2px solid #3b82f6; /* gạch dưới cho đẹp */
+}
+
+.brand{
+font-weight:600;
+font-size:18px;
+}
+
 
 /* SEARCH */
-.nav-search {
-    display: flex;
-    align-items: center;
-    /* Màu nền xanh nhạt đặc trưng của UI SkyCast */
-    background-color: #f0f4f8; 
-    border-radius: 12px;
-    padding: 10px 18px;
-    width: 320px;
-    transition: all 0.3s ease;
-    border: 1px solid transparent; /* Tránh bị nhảy khung khi focus */
+
+.nav-search{
+position:relative;
+display:flex;
+align-items:center;
+flex:1;
+max-width:450px;
 }
 
-/* Hiệu ứng khi click vào thanh search */
-.nav-search:focus-within {
-    background-color: #ffffff;
-    border: 1px solid #cbd5e1;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+.nav-search input{
+width:100%;
+padding:10px 40px 10px 35px;
+
+border-radius:8px;
+border:1px solid #d1d5db;
+font-size:14px;
 }
 
-.search-icon {
-    width: 18px;
-    height: 18px;
-    color: #94a3b8; /* Màu xám xanh nhạt của icon */
-    margin-right: 12px;
-    flex-shrink: 0;
+.search-dropdown{
+position:absolute;
+top:48px;
+left:0;
+width:100%;
+background:#ffffff;
+border-radius:12px;
+overflow:hidden;
+z-index:100;
+display:none;
+box-shadow:0 10px 30px rgba(0,0,0,0.4);
 }
 
-.nav-search input {
-    border: none;
-    background: transparent;
-    outline: none;
-    width: 100%;
-    font-size: 15px;
-    color: #334155;
-    font-weight: 400;
+.search-item{
+display:flex;
+justify-content:space-between;
+padding:10px 14px;
+cursor:pointer;
+color:rgb(0, 0, 0);
+font-size:14px;
 }
 
-/* Chỉnh màu chữ mờ (placeholder) */
-.nav-search input::placeholder {
-    color: #94a3b8;
-    opacity: 1;
-}
-/* DROPDOWN */
-.search-dropdown {
-    position: absolute;
-    top: 110%;
-    width: 100%;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    display: none;
+.search-item:hover,
+.search-item.active{
+background:#aaa6a6;
 }
 
-/* RIGHT NAV */
-.nav-right {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+.search-city{
+font-weight:500;
 }
 
-.nav-links a {
-    text-decoration: none;
-    color: #555;
-    font-size: 14px;
-    transition: 0.2s;
-    position: relative;
+.search-country{
+opacity:0.6;
+font-size:12px;
+margin-left:6px;
+}
+/* left search icon */
+
+.search-icon{
+position:absolute;
+left:10px;
+font-size:14px;
+color:#6b7280;
 }
 
-/* Hover */
-.nav-links a:hover {
-    color: #007bff;
+
+/* NAV LINKS */
+
+.nav-links{
+display:flex;
+gap:22px;
 }
 
-/* ACTIVE */
-.nav-links a.active {
-    color: #007bff;
-    font-weight: 500;
+.nav-links a{
+text-decoration:none;
+color:#374151;
+font-weight:500;
+padding-bottom:4px;
+position: relative;
+z-index: 10;
 }
 
-/* underline animation */
+/* HOVER underline */
+
+.nav-links a:hover{
+border-bottom:2px solid #3b82f6;
+}
+
 .nav-links a::after {
     content: "";
     position: absolute;
@@ -139,45 +175,75 @@
     width: 100%;
 }
 
-/* Divider */
-.divider {
-    width: 1px;
-    height: 24px;
-    background: #ddd;
-    margin: 0 15px;
+.nav-btn {
+    text-decoration: none;
+    padding: 10px 15px;
+    display: inline-block;
 }
 
-/* Avatar */
 .user-avatar img {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     cursor: pointer;
-    border: 2px solid #eee;
-    transition: 0.2s;
+    object-fit: cover;
+    border: 2px solid #ccc;
+    transition: 0.3s;
 }
 
 .user-avatar img:hover {
-    border-color: #007bff;
+    border-color: #4285F4;
+}
+
+
+/* DIVIDER */
+
+.divider{
+width:1px;
+height:24px;
+background:#e5e7eb;
+}
+
+
+/* GOOGLE BUTTON */
+
+.google-btn{
+background:#3b82f6;
+color:white;
+
+border:none;
+
+padding:10px 16px;
+
+border-radius:8px;
+
+cursor:pointer;
+font-weight:500;
+
+transition:0.2s;
+}
+
+/* hover */
+
+.google-btn:hover{
+background:#2563eb;
 }
 
 .map-sidebar {
     position: absolute;
-    top: 80px;
+    top: 50px;
     left: 20px;
 
-    width: 260px;
-    padding: 18px;
+    width: 200px;
+    padding: 20px 20px;
 
     border-radius: 16px;
 
-    /* glass effect */
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(12px);
 
     box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 
-    font-family: "Segoe UI", sans-serif;
     z-index: 999;
 }
 
@@ -270,15 +336,15 @@
 /* AQI LEVEL */
 .aqi-level {
     position: fixed;
-    bottom: 120px;
-    right: 25px;
-    width: 260px;
+    bottom: 160px;
+    right: 20px;
+    width: 240px;
     background: rgba(255, 255, 255, 0.95);
     padding: 15px;
     border-radius: 15px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
     z-index: 9999;
-    font-family: "Segoe UI", Arial, sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 .level-header {
@@ -340,17 +406,11 @@
 
 /* MAP PAGE LAYOUT */
 .map-page {
-    display: flex;
-    height: calc(100vh - 60px); /* trừ navbar */
+    position: relative;
+    flex: 1;
+    overflow: hidden;
 }
 
-/* SIDEBAR */
-.map-sidebar {
-    width: 220px;
-    background: #f8f9fb;
-    padding: 15px;
-    border-right: 1px solid #eee;
-}
 
 .map-sidebar h3 {
     margin-bottom: 15px;
@@ -382,19 +442,12 @@
 }
 
 /* MAP FULL */
-#map {
-    flex: 1;
-    height: 100%;
-}
 
 /* WRAPPER → tạo khoảng 2 bên */
 .map-wrapper {
-    position: relative;
-
-    width: 80%;
-    height: calc(100vh - 80px);
-
-    margin: 0 auto; /* CĂN GIỮA */
+    width: 70%;
+    margin: 0 auto;
+    height: calc(100% - 0px);
 }
 
 /* MAP */
@@ -402,61 +455,62 @@
     width: 100%;
     height: 100%;
     border-radius: 12px;
-    overflow: hidden;
+    position: relative;
 }
 
 /* POPUP CARD */
 .map-popup {
     position: absolute;
-    top: 120px;
-    left: 50%;
-    transform: translateX(-50%);
 
-    width: 260px;
-    padding: 16px;
+    width: 200px;
+    padding: 10px;
 
     background: #fff;
-    border-radius: 14px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
 
     z-index: 999;
+    display: none;
 }
 
 /* HEADER */
 .popup-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .popup-header h4 {
     margin: 0;
-    font-size: 16px;
+    font-size: 13px;
 }
 
 .popup-header p {
-    font-size: 12px;
+    margin: 2px 0 0;
+    font-size: 10px;
     color: #888;
 }
 
 .close {
     cursor: pointer;
     color: #aaa;
+    font-size: 13px;
 }
 
 /* BODY */
 .popup-body {
     display: flex;
     justify-content: space-between;
-    margin: 15px 0;
+    margin: 8px 0;
 }
 
-/* Background Color */
-body {
-    background-color: #3b535d; 
+.popup-body span {
+    font-size: 10px;
+}
+
+.popup-body h1 {
+    font-size: 22px;
     margin: 0;
-    padding: 0;
-    
 }
 
 /* AQI */
@@ -466,17 +520,17 @@ body {
 }
 
 .aqi span {
-    font-size: 12px;
+    font-size: 10px;
     color: #888;
 }
 
-/* TEMP */
 .temp h2 {
     margin: 0;
+    font-size: 16px;
 }
 
 .temp span {
-    font-size: 12px;
+    font-size: 10px;
     color: #888;
 }
 
@@ -484,12 +538,13 @@ body {
 .detail-btn {
     display: block;
     text-align: center;
-    padding: 10px;
+    padding: 6px;
 
     background: #eef1f5;
-    border-radius: 8px;
+    border-radius: 6px;
     text-decoration: none;
     color: #333;
+    font-size: 11px;
     font-weight: 500;
 
     transition: 0.2s;
@@ -515,10 +570,9 @@ body {
 
 /* MARKER */
 .custom-marker {
-    position: absolute;
-    bottom: 120px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 60%;
+    left: 55%;
+    transform: translate(-50%, -50%);
 }
 
 /* DOT */
@@ -558,9 +612,12 @@ body {
 .footer {
     background: #ffffff;
     border-top: 1px solid #e0e6ed;
-    padding: 12px 40px;
+    padding: 6px 20px;
     font-size: 13px;
     color: #627b80;
+    height: 40px;
+    flex-shrink: 0;
+    padding-bottom: 0 auto;
 }
 
 .footer-inner {
@@ -608,40 +665,55 @@ body {
     letter-spacing: 0.5px;
 }
 
-.footer-center a:hover {
-    color: #111827;
+.foot/* Footer */
+.footer {
+  background: #fff;
+  border-top: 1px solid #f1f5f9;
+  padding: 40px 0;
 }
 
-/* RIGHT */
-.footer-right {
-    display: flex;
-    gap: 10px;
+/* Container (giữ giống layout toàn site) */
+.footer-container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 40px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 14px;
+  color: #94a3b8;
 }
 
-/* nút tròn nền xám nhạt */
-.icon-btn {
-    width: 34px;
-    height: 34px;
-    background: #f1f5f9;   /* xám nhạt */
-    border-radius: 50%;
+/* Logo */
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    cursor: pointer;
-    transition: 0.2s;
+  font-weight: bold;
+  color: #0f172a;
 }
 
-/* icon xám đậm hơn */
-.icon-btn svg {
-    width: 16px;
-    height: 16px;
-    stroke: #475569;   /* xám đậm */
-    stroke-width: 1.8;
+/* Links */
+.footer-links {
+  display: flex;
+  gap: 32px;
+  font-weight: 500;
 }
 
-/* hover nhẹ giống UI */
-.icon-btn:hover {
-    background: #e2e8f0;
+.footer-links a {
+  text-decoration: none;
+  color: #64748b;
+  transition: 0.2s;
+}
+
+.footer-links a:hover {
+  color: #0f172a;
+}
+
+/* Copyright */
+.footer-copy {
+  color: #94a3b8;
 }
