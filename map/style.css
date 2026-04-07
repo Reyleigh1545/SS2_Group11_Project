@@ -1,0 +1,647 @@
+/* Reset nhẹ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* NAVBAR */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 10px 20px;
+    background: #ffffff;
+    border-bottom: 1px solid #eee;
+
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* LEFT: Logo */
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo {
+    width: 28px;
+    height: 28px;
+    object-fit: cover;
+}
+
+.brand {
+    font-weight: 600;
+    font-size: 18px;
+}
+
+/* SEARCH */
+.nav-search {
+    display: flex;
+    align-items: center;
+    /* Màu nền xanh nhạt đặc trưng của UI SkyCast */
+    background-color: #f0f4f8; 
+    border-radius: 12px;
+    padding: 10px 18px;
+    width: 320px;
+    transition: all 0.3s ease;
+    border: 1px solid transparent; /* Tránh bị nhảy khung khi focus */
+}
+
+/* Hiệu ứng khi click vào thanh search */
+.nav-search:focus-within {
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.search-icon {
+    width: 18px;
+    height: 18px;
+    color: #94a3b8; /* Màu xám xanh nhạt của icon */
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.nav-search input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    font-size: 15px;
+    color: #334155;
+    font-weight: 400;
+}
+
+/* Chỉnh màu chữ mờ (placeholder) */
+.nav-search input::placeholder {
+    color: #94a3b8;
+    opacity: 1;
+}
+/* DROPDOWN */
+.search-dropdown {
+    position: absolute;
+    top: 110%;
+    width: 100%;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    display: none;
+}
+
+/* RIGHT NAV */
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #555;
+    font-size: 14px;
+    transition: 0.2s;
+    position: relative;
+}
+
+/* Hover */
+.nav-links a:hover {
+    color: #007bff;
+}
+
+/* ACTIVE */
+.nav-links a.active {
+    color: #007bff;
+    font-weight: 500;
+}
+
+/* underline animation */
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: #007bff;
+    transition: 0.3s;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.nav-links a.active::after {
+    width: 100%;
+}
+
+/* Divider */
+.divider {
+    width: 1px;
+    height: 24px;
+    background: #ddd;
+    margin: 0 15px;
+}
+
+/* Avatar */
+.user-avatar img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #eee;
+    transition: 0.2s;
+}
+
+.user-avatar img:hover {
+    border-color: #007bff;
+}
+
+.map-sidebar {
+    position: absolute;
+    top: 80px;
+    left: 20px;
+
+    width: 260px;
+    padding: 18px;
+
+    border-radius: 16px;
+
+    /* glass effect */
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+
+    font-family: "Segoe UI", sans-serif;
+    z-index: 999;
+}
+
+/* TITLE */
+.map-sidebar h3 {
+    font-size: 16px;
+    margin-bottom: 2px;
+}
+
+.subtitle {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 15px;
+}
+
+/* LAYERS */
+.layers {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.layer-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 10px 12px;
+    border-radius: 10px;
+
+    cursor: pointer;
+    color: #333;
+
+    transition: 0.2s;
+}
+
+.layer-item:hover {
+    background: rgba(0,0,0,0.05);
+}
+
+/* ACTIVE */
+.layer-item.active {
+    background: #4da6ff;
+    color: white;
+    font-weight: 500;
+}
+
+/* ICON */
+.layer-item .icon {
+    font-size: 16px;
+}
+
+/* DIVIDER */
+.map-sidebar hr {
+    margin: 15px 0;
+    border: none;
+    border-top: 1px solid #eee;
+}
+
+/* SAVED */
+.saved-title {
+    font-size: 11px;
+    color: #999;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+/* ITEM */
+.saved-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+
+    font-size: 13px;
+}
+
+/* AQI COLORS */
+.aqi {
+    font-weight: 600;
+}
+
+.aqi.good {
+    color: #3498db;
+}
+
+.aqi.bad {
+    color: #ff5a3c;
+}
+
+/* AQI LEVEL */
+.aqi-level {
+    position: fixed;
+    bottom: 120px;
+    right: 25px;
+    width: 260px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    z-index: 9999;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.level-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.level-header .title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.info-circle {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #bdc3c7;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Thanh màu bo góc toàn bộ */
+.color-bar {
+    display: flex;
+    height: 12px;
+    border-radius: 6px;
+    overflow: hidden; /* Cực kỳ quan trọng để bo tròn 2 đầu */
+    margin-bottom: 8px;
+}
+
+.segment { flex: 1; }
+.g  { background: #2ecc71; } /* Green */
+.m  { background: #f1c40f; } /* Yellow */
+.u1 { background: #e67e22; } /* Orange */
+.u2 { background: #e74c3c; } /* Red */
+.vu { background: #9b59b6; } /* Purple */
+.h  { background: #8e44ad; } /* Dark Purple/Brown */
+
+/* Chữ dính sát nhau như trong ảnh */
+.level-text {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    font-weight: 800;
+    color: #7f8c8d;
+    letter-spacing: -0.2px; /* Chữ hơi khít lại */
+}
+
+.level-text span {
+    transform: scaleX(0.95); /* Làm chữ hơi gầy đi cho giống ảnh */
+}
+
+/* MAP PAGE LAYOUT */
+.map-page {
+    display: flex;
+    height: calc(100vh - 60px); /* trừ navbar */
+}
+
+/* SIDEBAR */
+.map-sidebar {
+    width: 220px;
+    background: #f8f9fb;
+    padding: 15px;
+    border-right: 1px solid #eee;
+}
+
+.map-sidebar h3 {
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+/* BUTTON */
+.layer-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+
+    border: none;
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.layer-btn:hover {
+    background: #e6f0ff;
+}
+
+.layer-btn.active {
+    background: #4da6ff;
+    color: white;
+}
+
+/* MAP FULL */
+#map {
+    flex: 1;
+    height: 100%;
+}
+
+/* WRAPPER → tạo khoảng 2 bên */
+.map-wrapper {
+    position: relative;
+
+    width: 80%;
+    height: calc(100vh - 80px);
+
+    margin: 0 auto; /* CĂN GIỮA */
+}
+
+/* MAP */
+#map {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* POPUP CARD */
+.map-popup {
+    position: absolute;
+    top: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 260px;
+    padding: 16px;
+
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+
+    z-index: 999;
+}
+
+/* HEADER */
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.popup-header h4 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.popup-header p {
+    font-size: 12px;
+    color: #888;
+}
+
+.close {
+    cursor: pointer;
+    color: #aaa;
+}
+
+/* BODY */
+.popup-body {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0;
+}
+
+/* Background Color */
+body {
+    background-color: #3b535d; 
+    margin: 0;
+    padding: 0;
+    
+}
+
+/* AQI */
+.aqi h1 {
+    color: #3498db;
+    margin: 0;
+}
+
+.aqi span {
+    font-size: 12px;
+    color: #888;
+}
+
+/* TEMP */
+.temp h2 {
+    margin: 0;
+}
+
+.temp span {
+    font-size: 12px;
+    color: #888;
+}
+
+/* BUTTON */
+.detail-btn {
+    display: block;
+    text-align: center;
+    padding: 10px;
+
+    background: #eef1f5;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+
+    transition: 0.2s;
+}
+
+.detail-btn:hover {
+    background: #dce3ea;
+}
+
+/* ARROW */
+.popup-arrow {
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 20px;
+    height: 20px;
+    background: white;
+
+    transform: translateX(-50%) rotate(45deg);
+}
+
+/* MARKER */
+.custom-marker {
+    position: absolute;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* DOT */
+.dot {
+    width: 20px;
+    height: 20px;
+    background: #3498db;
+    border-radius: 50%;
+    position: relative;
+    z-index: 2;
+}
+
+/* PULSE */
+.pulse {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: rgba(52,152,219,0.3);
+    border-radius: 50%;
+    top: -10px;
+    left: -10px;
+
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.8);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.6);
+        opacity: 0;
+    }
+}
+
+.footer {
+    background: #ffffff;
+    border-top: 1px solid #e0e6ed;
+    padding: 12px 40px;
+    font-size: 13px;
+    color: #627b80;
+}
+
+.footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* LEFT */
+.footer-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.footer-text {
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    color: #878c95;
+}
+
+/* icon cloud */
+.cloud-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cloud-icon svg {
+    width: 18px;
+    height: 18px;
+    stroke: #9ca3af;   /* xám nhạt giống ảnh */
+}
+
+/* CENTER */
+.footer-center {
+    display: flex;
+    gap: 28px;
+}
+
+.footer-center a {
+    text-decoration: none;
+    color: #6b7280;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.footer-center a:hover {
+    color: #111827;
+}
+
+/* RIGHT */
+.footer-right {
+    display: flex;
+    gap: 10px;
+}
+
+/* nút tròn nền xám nhạt */
+.icon-btn {
+    width: 34px;
+    height: 34px;
+    background: #f1f5f9;   /* xám nhạt */
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+/* icon xám đậm hơn */
+.icon-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: #475569;   /* xám đậm */
+    stroke-width: 1.8;
+}
+
+/* hover nhẹ giống UI */
+.icon-btn:hover {
+    background: #e2e8f0;
+}

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SkyCast Maps</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Leaflet -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+</head>
+
+<body>
+
+<!-- NAVBAR (giữ nguyên như dashboard) -->
+<nav class="navbar">
+
+    <div class="nav-left">
+        <img src="logo.jpg" class="logo">
+        <span class="brand">SkyCast</span>
+    </div>
+
+    <div class="nav-search">
+    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+    <input type="text" placeholder="Search city or zip...">
+</div>
+
+    <div class="nav-right">
+        <div class="nav-links">
+            <a href="../Dashboard/dashboard.html">Dashboard</a>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="active">Maps</a>
+        </div>
+        <div class="nav-links">
+            <a href="../Polutant/pollutants.html">Pollutants</a>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="user-avatar">
+        <img src="default-avatar.png">
+    </div>
+
+</nav>
+
+<!-- MAP SECTION -->
+<div class="map-page">
+
+    <!-- Sidebar (optional giống UI xịn hơn) -->
+    <div class="map-sidebar">
+
+    <h3>Map Layers</h3>
+    <p class="subtitle">Toggle visualization data</p>
+
+    <div class="layers">
+
+        <div class="layer-item">
+            <span class="icon">🌡</span>
+            <span>Temperature</span>
+        </div>
+
+        <div class="layer-item">
+            <span class="icon">☁️</span>
+            <span>Precipitation</span>
+        </div>
+
+        <div class="layer-item">
+            <span class="icon">💨</span>
+            <span>Wind Speed</span>
+        </div>
+
+        <div class="layer-item active">
+            <span class="icon">🫁</span>
+            <span>Air Quality Index (AQI)</span>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <div class="saved">
+        <p class="saved-title">SAVED LOCATIONS</p>
+
+        <div class="saved-item">
+            <span>San Francisco, CA</span>
+            <span class="aqi good">24 AQI</span>
+        </div>
+
+        <div class="saved-item">
+            <span>Beijing, China</span>
+            <span class="aqi bad">142 AQI</span>
+        </div>
+
+    </div>
+
+</div>
+
+    <!-- Map -->
+    <div class="map-wrapper">
+
+    <!-- MAP CENTER -->
+    <div id="map"></div>
+
+    <!-- POPUP INFO -->
+    <div class="map-popup">
+
+        <div class="popup-header">
+            <div>
+                <h4>New York, NY</h4>
+                <p>Today, 2:45 PM</p>
+            </div>
+            <span class="close">✕</span>
+        </div>
+
+        <div class="popup-body">
+
+            <div class="aqi">
+                <h1>42</h1>
+                <span>AQI - GOOD</span>
+            </div>
+
+            <div class="temp">
+                <h2>72°F</h2>
+                <span>CLEAR SKIES</span>
+            </div>
+
+        </div>
+
+        <a href="../Dashboard/dashboard.html" class="detail-btn">
+            View Detailed Forecast
+        </a>
+
+        <!-- Mũi tên -->
+        <div class="popup-arrow"></div>
+
+    </div>
+
+    <!-- MARKER FAKE -->
+    <div class="custom-marker">
+        <div class="pulse"></div>
+        <div class="dot"></div>
+    </div>
+
+</div>
+
+</div>
+
+<!-- Aqi level -->
+
+<div class="aqi-level">
+    <div class="level-header">
+        <span class="title">AQI Levels</span>
+        <div class="info-circle">i</div>
+    </div>
+    <div class="color-bar">
+        <div class="segment g"></div>
+        <div class="segment m"></div>
+        <div class="segment u1"></div>
+        <div class="segment u2"></div>
+        <div class="segment vu"></div>
+        <div class="segment h"></div>
+    </div>
+    <div class="level-text">
+        <span>GOOD</span>
+        <span>MODERATE</span>
+        <span>UNHEALTHY</span>
+        <span>HAZARDOUS</span>
+    </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-inner">
+
+   <div class="footer-left">
+  <div class="cloud-icon">
+    <svg viewBox="0 0 24 24" fill="#9ca3af">
+      <path d="M17.5 19a4.5 4.5 0 0 0 0-9 6 6 0 0 0-11.6 1.5A4 4 0 0 0 6 19h11.5z"/>
+    </svg>
+  </div>
+  <span class="footer-text">© 2024 SkyCast Weather</span>
+</div>
+
+    <div class="footer-center">
+      <a href="#">ABOUT US</a>
+      <a href="#">DATA SOURCES</a>
+      <a href="#">PRIVACY POLICY</a>
+      <a href="#">API DOCUMENTATION</a>
+    </div>
+
+    <div class="footer-right">
+
+  <!-- Share icon -->
+  <div class="icon-btn">
+  <svg viewBox="0 0 24 24" fill="none" stroke="#475569">
+
+    <!-- 3 chấm được fill -->
+    <circle cx="18" cy="5" r="2" fill="#475569"></circle>
+    <circle cx="6" cy="12" r="2" fill="#475569"></circle>
+    <circle cx="18" cy="19" r="2" fill="#475569"></circle>
+
+    <!-- đường nối -->
+    <path d="M8 12l8-7M8 12l8 7"></path>
+  </svg>
+</div>
+
+  <!-- Globe icon -->
+  <div class="icon-btn">
+    <svg viewBox="0 0 24 24" stroke="currentColor" fill="none">
+      <circle cx="12" cy="12" r="10"></circle>
+      <path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"></path>
+    </svg>
+  </div>
+
+</div>
+
+  </div>
+</footer>
+
+<!-- JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+    // Init map
+    const map = L.map('map').setView([21.0285, 105.8542], 6); // Hà Nội
+
+    // Base map
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+
+    // Marker demo
+    L.marker([21.0285, 105.8542])
+        .addTo(map)
+        .bindPopup("Hanoi")
+        .openPopup();
+</script>
+
+</body>
+</html>
