@@ -148,6 +148,25 @@ z-index: 10;
 border-bottom:2px solid #3b82f6;
 }
 
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: #007bff;
+    transition: 0.3s;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.nav-links a.active::after {
+    width: 100%;
+}
+
 .nav-btn {
     text-decoration: none;
     padding: 10px 15px;
