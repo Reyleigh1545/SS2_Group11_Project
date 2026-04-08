@@ -250,3 +250,35 @@ body {
   display: flex;
   gap: 1rem;
 }
+
+.password-extra {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 2px;   /* 👈 giảm sát input */
+  padding: 0 2px;   /* 👈 canh đẹp */
+}
+
+/* lỗi nhỏ + sát input */
+#errorMsg {
+  color: red;
+  font-size: 12px;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* nút luôn hiện + nhỏ gọn */
+#forgotBtn {
+  font-size: 12px;
+  background: none;
+  border: none;
+  color: #3b82f6;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+#forgotBtn:hover {
+  text-decoration: underline;
+}

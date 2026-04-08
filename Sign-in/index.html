@@ -73,9 +73,27 @@
 
             <div class="email-login">
               <label>Email Address</label>
-              <input placeholder="name@example.com" type="email" />
+              <input id="email" placeholder="name@example.com" type="email" />
+              <div class="input-group">
+            <label>PASSWORD</label>
+            <div class="input-wrapper">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <input type="password" id="password" placeholder="••••••••" />
+              <div class="password-extra">
+                <p id="errorMsg"></p>
+                <button id="forgotBtn">Forgot password?</button>
+              </div>
+            </div>
+            
+          </div>
               <button class="btn-email" onclick="loginWithEmail()">Continue with Email</button>
             </div>
+
+            <div class="signup-prompt">
+            Don't have an account? <a href="../Register/index.html">Create an account</a>
+          </div>
           </div>
 
         
@@ -100,7 +118,7 @@
     <script type="module">
   // ===== IMPORT =====
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } 
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, signInWithEmailAndPassword, sendPasswordResetEmail } 
   from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
 
   // ===== CONFIG =====
@@ -118,7 +136,7 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
-
+  let loginFailCount = 0;
 
   // ===== LOGIN GOOGLE =====
   window.loginWithGoogle = function () {
@@ -141,24 +159,69 @@
   };
 
 
-  // ===== LOGIN EMAIL (fake) =====
+  // ===== LOGIN EMAIL =====
   window.loginWithEmail = function () {
-    const emailInput = document.querySelector('input[type="email"]');
-    const email = emailInput.value;
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
 
-    if (!email) {
-      alert("Nhập email đi bro");
-      return;
-    }
+  const errorMsg = document.getElementById("errorMsg");
+  const forgotBtn = document.getElementById("forgotBtn");
 
-    localStorage.setItem("user", JSON.stringify({
-      name: email.split("@")[0],
-      email: email
-    }));
+  errorMsg.innerText = "";
 
-    window.location.href = "dashboard.html";
-  };
+  if (!email || !password) {
+    errorMsg.innerText = "Please enter your email and password correctly!";
+    return;
+  }
 
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // reset lỗi
+      loginFailCount = 0;
+
+      window.location.href = "../Dashboard/frontend/dashboard.html";
+    })
+    .catch((error) => {
+      loginFailCount++;
+
+      // hiển thị lỗi thân thiện
+      if (
+        error.code === "auth/user-not-found" ||
+        error.code === "auth/wrong-password"
+      ) {
+        errorMsg.innerText = "Invalid email or password";
+      } else if (error.code === "auth/invalid-email") {
+        errorMsg.innerText = "Invalid email format";
+      } else {
+        errorMsg.innerText = "Something went wrong. Please try again";
+      }
+
+      // nếu sai >= 3 lần → hiện quên mật khẩu
+      if (loginFailCount >= 3) {
+        forgotBtn.style.display = "block";
+      }
+    });
+}; 
+
+document.getElementById("forgotBtn").addEventListener("click", () => {
+  const email = document.getElementById("email").value.trim();
+  const errorMsg = document.getElementById("errorMsg");
+
+  if (!email) {
+    errorMsg.innerText = "Nhập email trước để reset mật khẩu";
+    return;
+  }
+
+  sendPasswordResetEmail(auth, email)
+    .then(() => {
+      errorMsg.style.color = "green";
+      errorMsg.innerText = "Đã gửi email đặt lại mật khẩu!";
+    })
+    .catch((error) => {
+      errorMsg.style.color = "red";
+      errorMsg.innerText = error.message;
+    });
+});
 
   // ===== CHECK LOGIN =====
   window.checkLogin = function () {
@@ -177,6 +240,14 @@
       window.location.href = "login.html";
     });
   };
+
+  document.getElementById("email").addEventListener("input", () => {
+    loginFailCount = 0;
+  });
+
+  document.getElementById("password").addEventListener("input", () => {
+    loginFailCount = 0;
+  });
 
 </script>
 
