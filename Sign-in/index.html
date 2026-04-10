@@ -83,7 +83,7 @@
               <input type="password" id="password" placeholder="••••••••" />
               <div class="password-extra">
                 <p id="errorMsg"></p>
-                <button id="forgotBtn">Forgot password?</button>
+                <button id="forgotBtn" onclick="forgotPassword()">Forgot password?</button>
               </div>
             </div>
             
@@ -193,7 +193,7 @@
       } else if (error.code === "auth/invalid-email") {
         errorMsg.innerText = "Invalid email format";
       } else {
-        errorMsg.innerText = "Something went wrong. Please try again";
+        errorMsg.innerText = "Invalid password";
       }
 
       // nếu sai >= 3 lần → hiện quên mật khẩu
@@ -203,25 +203,33 @@
     });
 }; 
 
-document.getElementById("forgotBtn").addEventListener("click", () => {
+window.forgotPassword = function () {
   const email = document.getElementById("email").value.trim();
   const errorMsg = document.getElementById("errorMsg");
 
+  errorMsg.style.color = "red";
+  errorMsg.innerText = "";
+
   if (!email) {
-    errorMsg.innerText = "Nhập email trước để reset mật khẩu";
+    errorMsg.innerText = "Please enter your email first!";
     return;
   }
 
   sendPasswordResetEmail(auth, email)
     .then(() => {
       errorMsg.style.color = "green";
-      errorMsg.innerText = "Đã gửi email đặt lại mật khẩu!";
+      errorMsg.innerText = "Password reset email has been sent!";
     })
     .catch((error) => {
-      errorMsg.style.color = "red";
-      errorMsg.innerText = error.message;
+      if (error.code === "auth/user-not-found") {
+        errorMsg.innerText = "Email does not exist";
+      } else if (error.code === "auth/invalid-email") {
+        errorMsg.innerText = "Invalid email format";
+      } else {
+        errorMsg.innerText = "Error: " + error.message;
+      }
     });
-});
+};
 
   // ===== CHECK LOGIN =====
   window.checkLogin = function () {

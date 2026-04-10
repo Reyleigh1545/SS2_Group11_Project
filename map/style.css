@@ -1,16 +1,11 @@
-body{
-    font-family: Arial, sans-serif;
-    background:#cac9c9;
-}
-
 body {
-    background-color: #3b535d; 
+    font-family: Arial, sans-serif;
+    background-color: #3b535d;
     margin: 0;
     padding: 0;
     height: 100vh;
     display: flex;
     flex-direction: column;
-    
 }
 
 .navbar{
@@ -235,6 +230,7 @@ background:#2563eb;
     left: 20px;
 
     width: 200px;
+    height: 400px;
     padding: 20px 20px;
 
     border-radius: 16px;
@@ -244,7 +240,7 @@ background:#2563eb;
 
     box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 
-    z-index: 999;
+    z-index: 888;
 }
 
 /* TITLE */
@@ -321,12 +317,42 @@ background:#2563eb;
 }
 
 /* AQI COLORS */
-.aqi {
-    font-weight: 600;
+/* AQI BACKGROUND - SOFT UI */
+
+/* GOOD */
+.aqi.good {
+    background: rgba(0, 180, 0, 0.08);
+    border: 1px solid rgba(0, 180, 0, 0.2);
 }
 
-.aqi.good {
-    color: #3498db;
+/* MODERATE (fix chói) */
+.aqi.moderate {
+    background: rgba(255, 200, 0, 0.08); /* dịu hơn vàng gắt */
+    border: 1px solid rgba(255, 200, 0, 0.25);
+}
+
+/* UNHEALTHY SENSITIVE */
+.aqi.unhealthy1 {
+    background: rgba(255, 140, 0, 0.08);
+    border: 1px solid rgba(255, 140, 0, 0.25);
+}
+
+/* UNHEALTHY */
+.aqi.unhealthy2 {
+    background: rgba(255, 0, 0, 0.08);
+    border: 1px solid rgba(255, 0, 0, 0.25);
+}
+
+/* VERY UNHEALTHY */
+.aqi.veryunhealthy {
+    background: rgba(140, 60, 150, 0.08);
+    border: 1px solid rgba(140, 60, 150, 0.25);
+}
+
+/* HAZARDOUS */
+.aqi.hazardous {
+    background: rgba(100, 0, 30, 0.1);
+    border: 1px solid rgba(100, 0, 30, 0.3);
 }
 
 .aqi.bad {
@@ -358,6 +384,12 @@ background:#2563eb;
     font-size: 14px;
     font-weight: 700;
     color: #2c3e50;
+}
+
+.info-row {
+    display: flex;
+    gap: 12px;
+    align-items: stretch;
 }
 
 .info-circle {
@@ -448,6 +480,7 @@ background:#2563eb;
     width: 70%;
     margin: 0 auto;
     height: calc(100% - 0px);
+    position: relative;
 }
 
 /* MAP */
@@ -462,8 +495,8 @@ background:#2563eb;
 .map-popup {
     position: absolute;
 
-    width: 200px;
-    padding: 10px;
+    width: 240px;
+    padding: 14px;
 
     background: #fff;
     border-radius: 10px;
@@ -499,8 +532,6 @@ background:#2563eb;
 
 /* BODY */
 .popup-body {
-    display: flex;
-    justify-content: space-between;
     margin: 8px 0;
 }
 
@@ -514,24 +545,38 @@ background:#2563eb;
 }
 
 /* AQI */
-.aqi h1 {
-    color: #3498db;
-    margin: 0;
+
+
+
+/* giảm độ gắt của text */
+.aqi.moderate span {
+    color: #bfa100;
 }
 
-.aqi span {
-    font-size: 10px;
-    color: #888;
+/* TEMP BOX giống AQI */
+.aqi, .temp {
+    padding: 10px;
+    border-radius: 12px;
+    flex: 1;
+    min-width: 100px;
+    max-width: 140px;
+    text-align: center;
+    box-sizing: border-box;
 }
 
-.temp h2 {
-    margin: 0;
-    font-size: 16px;
+.aqi h1, .temp h1 {
+    font-size: 26px;
+    white-space: nowrap; /* không xuống dòng */
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.temp span {
-    font-size: 10px;
-    color: #888;
+.aqi span, .temp span {
+    font-size: 11px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* BUTTON */
@@ -570,6 +615,7 @@ background:#2563eb;
 
 /* MARKER */
 .custom-marker {
+    position: absolute;
     top: 60%;
     left: 55%;
     transform: translate(-50%, -50%);
@@ -665,13 +711,7 @@ background:#2563eb;
     letter-spacing: 0.5px;
 }
 
-.foot/* Footer */
-.footer {
-  background: #fff;
-  border-top: 1px solid #f1f5f9;
-  padding: 40px 0;
-}
-
+/* Footer */
 /* Container (giữ giống layout toàn site) */
 .footer-container {
   max-width: 1600px;
@@ -717,3 +757,62 @@ background:#2563eb;
 .footer-copy {
   color: #94a3b8;
 }
+
+/* AQI COLORS */
+.aqi.good h1 { color: #00e400; }
+.aqi.moderate h1 { color: #e6e66a; }
+.aqi.unhealthy1 h1 { color: #ff7e00; }
+.aqi.unhealthy2 h1 { color: #ff0000; }
+.aqi.veryunhealthy h1 { color: #8f3f97; }
+.aqi.hazardous h1 { color: #7e0023; }
+
+/* text cũng đổi màu nhẹ */
+.aqi.good span { color: #00e400; }
+.aqi.moderate span { color: #cccc00; }
+.aqi.unhealthy1 span { color: #ff7e00; }
+.aqi.unhealthy2 span { color: #ff0000; }
+.aqi.veryunhealthy span { color: #8f3f97; }
+.aqi.hazardous span { color: #7e0023; }
+
+.popup-actions {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.save-btn {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.save-btn:hover {
+    background: #2563eb;
+}
+
+.aqi-badge {
+  display: flex;              /* 👈 quan trọng */
+  align-items: center;        /* 👈 căn giữa dọc */
+  justify-content: center;    /* 👈 căn giữa ngang */
+
+  flex: 0 0 40px;
+  width: 60px;                /* 👈 cố định để nó đẹp */
+  height: 40px;
+
+  border-radius: 25%;         /* 👈 làm thành hình tròn (xịn hơn) */
+
+  font-weight: bold;
+  font-size: 14px;
+
+  color: white;
+}
+
+.aqi-badge.good { background: #00e400; color: black; }
+.aqi-badge.moderate { background: #ffff00; color: black; }
+.aqi-badge.unhealthy1 { background: #ff7e00; }
+.aqi-badge.unhealthy2 { background: #ff0000; }
+.aqi-badge.veryunhealthy { background: #8f3f97; }
+.aqi-badge.hazardous { background: #7e0023; }
