@@ -74,6 +74,28 @@ document.addEventListener("DOMContentLoaded", () => {
   let savedLocations = JSON.parse(localStorage.getItem("savedLocations") || "[]");
   const savedLayer = L.layerGroup().addTo(map);
 
+  const detailBtn = popupEl.querySelector(".detail-btn");
+
+detailBtn.onclick = () => {
+  if (!currentLatLng) return;
+
+  const data = {
+    name: titleEl.innerText,
+    lat: currentLatLng.lat,
+    lng: currentLatLng.lng,
+    aqi: aqiValue.innerText,
+    temp: tempValue.innerText,
+    weather: tempDesc.innerText,
+    time: timeEl.innerText
+  };
+
+  // lưu dữ liệu
+  localStorage.setItem("selectedLocation", JSON.stringify(data));
+
+  // chuyển trang
+  window.location.href = "../Dashboard/frontend/dashboard.html";
+};
+
   function renderSavedLocations() {
     const container = document.querySelector(".saved-list");
     container.innerHTML = "";
@@ -133,8 +155,6 @@ document.addEventListener("DOMContentLoaded", () => {
     popupEl.style.left = point.x - rect.width / 2 + "px";
     popupEl.style.top = point.y - rect.height - 20 + "px";
 
-
-    map.flyTo(e.latlng, 8, { animate: true, duration: 1 });
     // tránh bị che
     setTimeout(() => {
       if (point.y < 200) {

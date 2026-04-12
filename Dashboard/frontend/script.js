@@ -23,6 +23,27 @@ buttons.forEach(button => {
 
 });
 
+function loadByCoords(lat, lon) {
+
+  showLoading();
+
+  // 👉 gọi API theo tọa độ
+  fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`)
+    .then(res => res.json())
+    .then(data => {
+      updateWeather(data);
+      initMap(lat, lon);
+      getHourlyForecast(lat, lon);
+      getDailyForecast(lat, lon);
+      getAQI(lat, lon);
+      updateStar();
+    })
+    .catch(() => {
+      alert("Error loading location");
+    });
+
+}
+
 // Search city
 searchInput.addEventListener("keypress", function(e){
 
@@ -967,7 +988,13 @@ onAuthStateChanged(auth, (user) => {
 
 
 
-detectLocation();
-loadCity("Hanoi");
+const saved = JSON.parse(localStorage.getItem("selectedLocation"));
+
+if (saved) {
+  loadByCoords(saved.lat, saved.lng);
+} else {
+  detectLocation();
+  loadCity("Hanoi");
+}
 loadFavorites();
 renderFavorites();
