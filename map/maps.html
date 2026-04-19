@@ -16,190 +16,170 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
   </head>
-  
+
   <body>
-
-<nav class="navbar">
-
-    <!-- Logo -->
-    <div class="nav-left">
-        <img src="logo.jpg" class="logo">
+    <nav class="navbar">
+      <!-- Logo -->
+      <div class="nav-left">
+        <img src="logo.jpg" class="logo" />
         <span class="brand">SkyCast</span>
-    </div>
+      </div>
 
-    <!-- Search -->
-    <div class="nav-search">
-
+      <!-- Search -->
+      <div class="nav-search">
         <span class="search-icon">🔍</span>
 
-        <input
-        type="text"
-        placeholder="Search for a city... e.g., Tokyo,">
+        <input type="text" placeholder="Search for a city... e.g., Tokyo," />
 
         <div class="search-dropdown"></div>
+      </div>
 
-    </div>
-
-    <!-- Navigation -->
-    <div class ="nav-right">
+      <!-- Navigation -->
+      <div class="nav-right">
         <div class="nav-links">
-            <a id="dashboard" href="../Dashboard/frontend/dashboard.html" >Dashboard</a>
-            </div>
-        <div class="nav-links">
-            <a id="maps" href="maps.html" class="active">Maps</a>
+          <a id="dashboard" href="../Dashboard/frontend/dashboard.html"
+            >Dashboard</a
+          >
         </div>
         <div class="nav-links">
-            <a id="pollutants" href="../Polutant/pollutants.html">Pollutants</a>
-        </div> 
-    </div>
-       
+          <a id="pollutants" href="../Polutant/pollutants.html">Pollutants</a>
+        </div>
+        <div class="nav-links">
+          <a id="maps" href="../map/maps.html" class="active">Maps</a>
+        </div>
 
-    <!-- Divider -->
-    <div class="divider"></div>
+        <div class="nav-links">
+          <a id="travel" href="../Travel/Travel.html">Travel</a>
+        </div>
+      </div>
 
-    <!-- Sign in -->
-    <div class="user-avatar">
+      <!-- Divider -->
+      <div class="divider"></div>
+
+      <!-- Sign in -->
+      <div class="user-avatar">
         <img id="avatar" src="default-avatar.png" />
-    </div>
+      </div>
+    </nav>
 
-</nav>
+    <!-- MAP SECTION -->
+    <div class="map-page">
+      <!-- Sidebar (optional giống UI xịn hơn) -->
+      <div class="map-sidebar">
+        <h3>Map Layers</h3>
+        <p class="subtitle">Toggle visualization data</p>
 
-<!-- MAP SECTION -->
-<div class="map-page">
-
-    <!-- Sidebar (optional giống UI xịn hơn) -->
-    <div class="map-sidebar">
-
-    <h3>Map Layers</h3>
-    <p class="subtitle">Toggle visualization data</p>
-
-    <div class="layers">
-
-        <div class="layer-item">
+        <div class="layers">
+          <div class="layer-item">
             <span class="icon">🌡</span>
             <span>Temperature</span>
-        </div>
+          </div>
 
-        <div class="layer-item">
+          <div class="layer-item">
             <span class="icon">☁️</span>
             <span>Precipitation</span>
-        </div>
+          </div>
 
-        <div class="layer-item">
+          <div class="layer-item">
             <span class="icon">💨</span>
             <span>Wind Speed</span>
-        </div>
+          </div>
 
-        <div class="layer-item active">
+          <div class="layer-item active">
             <span class="icon">🫁</span>
             <span>Air Quality Index (AQI)</span>
+          </div>
         </div>
 
-    </div>
+        <hr />
 
-    <hr>
+        <div class="saved">
+          <p class="saved-list">SAVED LOCATIONS</p>
 
-    <div class="saved">
-        <p class="saved-list">SAVED LOCATIONS</p>
+          <div class="saved-item"></div>
 
-        <div class="saved-item">
-            
+          <div class="saved-item"></div>
         </div>
+      </div>
 
-        <div class="saved-item">
-            
-        </div>
-
-    </div>
-
-</div>
-
-    <!-- Map -->
-    <div class="map-wrapper">
-
-    <!-- MAP CENTER -->
-    <div id="map">
-            <div class="map-popup">
-
-        <div class="popup-header">
-            <div>
+      <!-- Map -->
+      <div class="map-wrapper">
+        <!-- MAP CENTER -->
+        <div id="map">
+          <div class="map-popup">
+            <div class="popup-header">
+              <div>
                 <h4>New York, NY</h4>
                 <p>Today, 2:45 PM</p>
-            </div>
-            <span class="close">✕</span>
-        </div>
-
-        <div class="popup-body">
-    <div class="info-row">
-        <div class="aqi">
-            <h1>42</h1>
-            <span>AQI - GOOD</span>
-        </div>
-
-        <div class="temp">
-            <h1>30°C</h1>
-            <span>LOADING....</span>
-        </div>
-    </div>
-</div>
-
-        <a href="../Dashboard/frontend/dashboard.html" class="detail-btn">
-            View Detailed Forecast
-        </a>
-        <div class="popup-actions">
-                <button class="save-btn">Save Location</button>
+              </div>
+              <span class="close">✕</span>
             </div>
 
-        <!-- Mũi tên -->
-        <div class="popup-arrow"></div>
+            <div class="popup-body">
+              <div class="info-row">
+                <div class="aqi">
+                  <h1>42</h1>
+                  <span>AQI - GOOD</span>
+                </div>
 
+                <div class="temp">
+                  <h1>30°C</h1>
+                  <span>LOADING....</span>
+                </div>
+              </div>
+            </div>
+
+            <a href="../Dashboard/frontend/dashboard.html" class="detail-btn">
+              View Detailed Forecast
+            </a>
+            <div class="popup-actions">
+              <button class="save-btn">Save Location</button>
+            </div>
+
+            <!-- Mũi tên -->
+            <div class="popup-arrow"></div>
+          </div>
+        </div>
+
+        <!-- POPUP INFO -->
+
+        <!-- MARKER FAKE -->
+        <div class="custom-marker">
+          <div class="pulse"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
     </div>
-    </div>
 
-    <!-- POPUP INFO -->
+    <!-- Aqi level -->
 
-
-    <!-- MARKER FAKE -->
-    <div class="custom-marker">
-        <div class="pulse"></div>
-        <div class="dot"></div>
-    </div>
-
-</div>
-
-</div>
-
-<!-- Aqi level -->
-
-<div class="aqi-level">
-    <div class="level-header">
+    <div class="aqi-level">
+      <div class="level-header">
         <span class="title">AQI Levels</span>
         <div class="info-circle">i</div>
-    </div>
-    <div class="color-bar">
+      </div>
+      <div class="color-bar">
         <div class="segment g"></div>
         <div class="segment m"></div>
         <div class="segment u1"></div>
         <div class="segment u2"></div>
         <div class="segment vu"></div>
         <div class="segment h"></div>
-    </div>
-    <div class="level-text">
+      </div>
+      <div class="level-text">
         <span>GOOD</span>
         <span>MODERATE</span>
         <span>UNHEALTHY</span>
         <span>HAZARDOUS</span>
+      </div>
     </div>
-</div>
 
-<footer class="footer">
-  <div class="footer-container">
-
-    <!-- Logo -->
-    <div class="footer-logo">
-      <span class="material-symbols-outlined">cloud</span>
+    <footer class="footer">
+      <div class="footer-container">
+        <!-- Logo -->
+        <div class="footer-logo">
+          <span class="material-symbols-outlined">cloud</span>
           SkyCast
         </div>
 
@@ -213,14 +193,12 @@
 
         <!-- Copyright -->
         <p class="footer-copy">© 2026 SkyCast Data Services.</p>
-
       </div>
     </footer>
 
-<!-- JS -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-<script type="module" src="script.js" ></script>
-
-</body>
+    <script type="module" src="script.js"></script>
+  </body>
 </html>

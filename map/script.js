@@ -5,7 +5,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/fireba
 import {
   getAuth,
   onAuthStateChanged,
-  signOut
+  signOut,
 } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -15,7 +15,7 @@ const firebaseConfig = {
   storageBucket: "skycast-5b2c7.firebasestorage.app",
   messagingSenderId: "226194876823",
   appId: "1:226194876823:web:ce019b2611283d9b727cd2",
-  measurementId: "G-XE2XP41DMM"
+  measurementId: "G-XE2XP41DMM",
 };
 
 const app = initializeApp(firebaseConfig);
@@ -33,7 +33,7 @@ onAuthStateChanged(auth, (user) => {
       avatar.onclick = () => {
         if (confirm("Logout?")) {
           signOut(auth).then(() => {
-            window.location.href = "../../Sign-in/index.html";
+            window.location.href = "../Sign-in/index.html";
           });
         }
       };
@@ -43,15 +43,16 @@ onAuthStateChanged(auth, (user) => {
 
 // ================= MAP =================
 document.addEventListener("DOMContentLoaded", () => {
+  const map = L.map("map", { zoomControl: false }).setView(
+    [21.0285, 105.8542],
+    6,
+  );
 
-  const map = L.map('map', { zoomControl: false })
-    .setView([21.0285, 105.8542], 6);
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap'
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "&copy; OpenStreetMap",
   }).addTo(map);
 
-  L.control.zoom({ position: 'bottomright' }).addTo(map);
+  L.control.zoom({ position: "bottomright" }).addTo(map);
 
   // ================= POPUP =================
   const popupEl = document.querySelector(".map-popup");
@@ -71,41 +72,41 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentLatLng = null;
 
   // ================= SAVE SYSTEM =================
-  let savedLocations = JSON.parse(localStorage.getItem("savedLocations") || "[]");
+  let savedLocations = JSON.parse(
+    localStorage.getItem("savedLocations") || "[]",
+  );
   const savedLayer = L.layerGroup().addTo(map);
 
   const detailBtn = popupEl.querySelector(".detail-btn");
 
-detailBtn.onclick = () => {
-  if (!currentLatLng) return;
+  detailBtn.onclick = () => {
+    if (!currentLatLng) return;
 
-  const data = {
-    name: titleEl.innerText,
-    lat: currentLatLng.lat,
-    lng: currentLatLng.lng,
-    aqi: aqiValue.innerText,
-    temp: tempValue.innerText,
-    weather: tempDesc.innerText,
-    time: timeEl.innerText
+    const data = {
+      name: titleEl.innerText,
+      lat: currentLatLng.lat,
+      lng: currentLatLng.lng,
+      aqi: aqiValue.innerText,
+      temp: tempValue.innerText,
+      weather: tempDesc.innerText,
+      time: timeEl.innerText,
+    };
+
+    // lưu dữ liệu
+    localStorage.setItem("selectedLocation", JSON.stringify(data));
+
+    // chuyển trang
+    window.location.href = "../Dashboard/frontend/dashboard.html";
   };
-
-  // lưu dữ liệu
-  localStorage.setItem("selectedLocation", JSON.stringify(data));
-
-  // chuyển trang
-  window.location.href = "../Dashboard/frontend/dashboard.html";
-};
 
   function renderSavedLocations() {
     const container = document.querySelector(".saved-list");
     container.innerHTML = "";
     savedLayer.clearLayers();
 
-    savedLocations.forEach(loc => {
+    savedLocations.forEach((loc) => {
       // marker
-      L.marker([loc.lat, loc.lng])
-        .bindPopup(loc.name)
-        .addTo(savedLayer);
+      L.marker([loc.lat, loc.lng]).bindPopup(loc.name).addTo(savedLayer);
 
       // list
       const div = document.createElement("div");
@@ -127,7 +128,7 @@ detailBtn.onclick = () => {
   function saveLocation(location) {
     // remove trùng theo lat/lng
     savedLocations = savedLocations.filter(
-      loc => loc.lat !== location.lat || loc.lng !== location.lng
+      (loc) => loc.lat !== location.lat || loc.lng !== location.lng,
     );
 
     // thêm mới nhất
@@ -168,7 +169,7 @@ detailBtn.onclick = () => {
     try {
       // ===== ADDRESS =====
       const res = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`,
       );
       const data = await res.json();
 
@@ -177,7 +178,7 @@ detailBtn.onclick = () => {
 
       // ===== AQI =====
       const aqiRes = await fetch(
-        `https://api.waqi.info/feed/geo:${lat};${lon}/?token=${WAQI_TOKEN}`
+        `https://api.waqi.info/feed/geo:${lat};${lon}/?token=${WAQI_TOKEN}`,
       );
       const aqiData = await aqiRes.json();
 
@@ -214,7 +215,7 @@ detailBtn.onclick = () => {
 
       // ===== WEATHER =====
       const weatherRes = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`,
       );
       const weatherData = await weatherRes.json();
 
@@ -223,7 +224,6 @@ detailBtn.onclick = () => {
 
       tempValue.innerText = `${tempC}°C`;
       tempDesc.innerText = getWeatherDescription(weatherCode);
-
     } catch (err) {
       titleEl.innerText = "Lỗi khi tải dữ liệu";
     }
@@ -237,7 +237,7 @@ detailBtn.onclick = () => {
       name: titleEl.innerText,
       lat: currentLatLng.lat,
       lng: currentLatLng.lng,
-      aqi: aqiValue.innerText
+      aqi: aqiValue.innerText,
     });
   };
 
@@ -245,7 +245,6 @@ detailBtn.onclick = () => {
   closeBtn.onclick = () => {
     popupEl.style.display = "none";
   };
-
 });
 
 // ================= WEATHER =================

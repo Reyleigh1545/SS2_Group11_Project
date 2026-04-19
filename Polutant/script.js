@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   console.log("Buttons found:", buttons.length);
 
-  buttons.forEach(btn => {
+  buttons.forEach((btn) => {
     btn.addEventListener("click", () => {
       const city = btn.dataset.city;
       console.log("Clicked:", city);
@@ -23,23 +23,17 @@ document.addEventListener("DOMContentLoaded", () => {
   loadCityAQI("Hanoi");
 });
 
-searchInput.addEventListener("keydown", function(e){
+searchInput.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    const city = searchInput.value.trim();
 
-    if(e.key === "Enter"){
-
-        const city = searchInput.value.trim();
-
-        if(city !== ""){
-
-            loadCityAQI(city);
-            addRecent(city);
-            hideDropdown();
-            searchInput.blur();
-
-        }
-
+    if (city !== "") {
+      loadCityAQI(city);
+      addRecent(city);
+      hideDropdown();
+      searchInput.blur();
     }
-
+  }
 });
 
 const dropdown = document.querySelector(".search-dropdown");
@@ -49,82 +43,70 @@ let selectedIndex = -1;
 
 searchInput.addEventListener("focus", showRecent);
 
-function showRecent(){
+function showRecent() {
+  const recents = JSON.parse(localStorage.getItem("recentCities")) || [];
 
-    const recents =
-    JSON.parse(localStorage.getItem("recentCities")) || [];
+  dropdown.innerHTML = "";
 
-    dropdown.innerHTML = "";
+  recents
+    .slice()
+    .reverse()
+    .forEach((city) => {
+      const div = document.createElement("div");
 
-    recents.slice().reverse().forEach(city => {
+      div.className = "search-item";
 
-    const div = document.createElement("div");
-
-    div.className = "search-item";
-
-    div.innerHTML = `
+      div.innerHTML = `
     <span>${city}</span>
     <span class="favorite-btn">⭐</span>
     `;
 
-    div.onclick = (e) => {
+      div.onclick = (e) => {
+        e.stopPropagation();
 
-    e.stopPropagation();
+        searchInput.value = city;
 
-    searchInput.value = city;
+        loadCityAQI(city);
+        hideDropdown();
+        searchInput.blur();
+      };
 
-    loadCityAQI(city);
-    hideDropdown();
-    searchInput.blur();
-
-    };
-
-    dropdown.appendChild(div);
-
+      dropdown.appendChild(div);
     });
 
-    dropdown.style.display="block";
-
+  dropdown.style.display = "block";
 }
 
-function addRecent(city){
+function addRecent(city) {
+  let recents = JSON.parse(localStorage.getItem("recentCities")) || [];
 
-    let recents =
-    JSON.parse(localStorage.getItem("recentCities")) || [];
+  recents = recents.filter((c) => c !== city);
 
-    recents = recents.filter(c => c !== city);
+  recents.push(city);
 
-    recents.push(city);
-
-    if(recents.length > 8){
+  if (recents.length > 8) {
     recents.shift();
-    }
+  }
 
-    localStorage.setItem("recentCities",
-    JSON.stringify(recents));
-
+  localStorage.setItem("recentCities", JSON.stringify(recents));
 }
 
-function renderSuggestions(keyword){
+function renderSuggestions(keyword) {
+  dropdown.innerHTML = "";
 
-    dropdown.innerHTML = "";
-
-    suggestions.forEach((city,index)=>{
-
+  suggestions.forEach((city, index) => {
     const div = document.createElement("div");
 
-    div.className="search-item";
+    div.className = "search-item";
 
-    const name =
-    `${city.name}, ${city.country}`;
+    const name = `${city.name}, ${city.country}`;
 
-    const highlight =
-    city.name.replace(
-    new RegExp(keyword,"i"),
-    match=>`<b>${match}</b>`
+    const highlight = city.name.replace(
+      new RegExp(keyword, "i"),
+      (match) => `<b>${match}</b>`,
     );
 
-    div.innerHTML=`
+    div.innerHTML = `
     <div>
     <span class="search-city">${highlight}</span>
     <span class="search-country">${city.country}</span>
@@ -133,59 +115,47 @@ function renderSuggestions(keyword){
     `;
 
     div.onclick = (e) => {
-    
       e.stopPropagation();
-      
-    searchInput.value=name;
 
-    loadCityAQI(city.name);
-    addRecent(city.name);
+      searchInput.value = name;
 
-    hideDropdown();
-    searchInput.blur();
+      loadCityAQI(city.name);
+      addRecent(city.name);
 
+      hideDropdown();
+      searchInput.blur();
     };
 
     dropdown.appendChild(div);
+  });
 
-    });
-
-    dropdown.style.display="block";
-
+  dropdown.style.display = "block";
 }
 
-async function getCitySuggestions(keyword){
-
-  const url =
-  `https://api.openweathermap.org/geo/1.0/direct?q=${keyword}&limit=6&appid=${API_KEY}`;
+async function getCitySuggestions(keyword) {
+  const url = `https://api.openweathermap.org/geo/1.0/direct?q=${keyword}&limit=6&appid=${API_KEY}`;
 
   const res = await fetch(url);
 
   suggestions = await res.json();
 
   renderSuggestions(keyword);
-
 }
 
-searchInput.addEventListener("input", async ()=>{
+searchInput.addEventListener("input", async () => {
+  const keyword = searchInput.value.trim();
 
-    const keyword = searchInput.value.trim();
-
-    if(keyword.length < 2){
-
+  if (keyword.length < 2) {
     dropdown.style.display = "none";
     return;
+  }
 
-    }
+  const url = `https://api.openweathermap.org/geo/1.0/direct?q=${keyword}&limit=6&appid=${API_KEY}`;
 
-    const url =
-    `https://api.openweathermap.org/geo/1.0/direct?q=${keyword}&limit=6&appid=${API_KEY}`;
+  const res = await fetch(url);
+  suggestions = await res.json();
 
-    const res = await fetch(url);
-    suggestions = await res.json();
-
-    renderSuggestions(keyword); 
-
+  renderSuggestions(keyword);
 });
 
 // ================= API =================
@@ -196,7 +166,7 @@ async function loadCityAQI(city) {
 
     // 1. Geo
     const geoRes = await fetch(
-      `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${API_KEY}`
+      `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${API_KEY}`,
     );
     const geoData = await geoRes.json();
 
@@ -209,13 +179,13 @@ async function loadCityAQI(city) {
 
     // 2. Weather
     const weatherRes = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`,
     );
     const weatherData = await weatherRes.json();
 
     // 3. AQI
     const aqiRes = await fetch(
-      `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`
+      `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`,
     );
     const aqiData = await aqiRes.json();
 
@@ -226,20 +196,15 @@ async function loadCityAQI(city) {
     const score = calculateAQI(pm25);
 
     focusCityByCoords(lat, lon, score);
-    
   } catch (err) {
     console.error(err);
     alert("Error loading data");
   }
-
-  
 }
-
 
 // ================= UI =================
 
 function updateAirUI(city, weather, aqiData) {
-
   const pm25 = aqiData.list[0].components.pm2_5;
   const score = calculateAQI(pm25);
   const status = getAQILevel(score);
@@ -248,17 +213,16 @@ function updateAirUI(city, weather, aqiData) {
   document.querySelector(".aqi-value").innerText = score;
 
   // 🔹 City name
-  document.querySelector(".air-info h2").innerText =
-    city + " Air Quality";
+  document.querySelector(".air-info h2").innerText = city + " Air Quality";
 
   // 🔹 Status badge
   const badge = document.querySelector(".status-badge");
   badge.innerText = status;
   badge.className = "status-badge";
 
-  if(score <= 50) badge.classList.add("green");
-  else if(score <= 100) badge.classList.add("yellow");
-  else if(score <= 150) badge.classList.add("orange");
+  if (score <= 50) badge.classList.add("green");
+  else if (score <= 100) badge.classList.add("yellow");
+  else if (score <= 150) badge.classList.add("orange");
   else badge.classList.add("red");
 
   // 🔹 Description
@@ -268,7 +232,7 @@ function updateAirUI(city, weather, aqiData) {
   // 🔹 Weather stats
   const stats = document.querySelectorAll(".stat-box h4");
 
-  if(stats.length >= 3){
+  if (stats.length >= 3) {
     stats[0].innerText = weather.main.humidity + "%";
     stats[1].innerText = weather.wind.speed + " km/h";
     stats[2].innerText = Math.round(weather.main.temp) + "°C";
@@ -279,24 +243,23 @@ function updateAirUI(city, weather, aqiData) {
   updatePollutants(aqiData.list[0].components);
 }
 
-
 // ================= AQI =================
 
-function calculateAQI(pm25){
-  if(pm25 <= 12) return Math.round((pm25/12)*50);
-  if(pm25 <= 35.4)
-    return Math.round(((pm25-12.1)/(35.4-12.1))*50 + 51);
-  if(pm25 <= 55.4)
-    return Math.round(((pm25-35.5)/(55.4-35.5))*50 + 101);
-  if(pm25 <= 150.4)
-    return Math.round(((pm25-55.5)/(150.4-55.5))*50 + 151);
+function calculateAQI(pm25) {
+  if (pm25 <= 12) return Math.round((pm25 / 12) * 50);
+  if (pm25 <= 35.4)
+    return Math.round(((pm25 - 12.1) / (35.4 - 12.1)) * 50 + 51);
+  if (pm25 <= 55.4)
+    return Math.round(((pm25 - 35.5) / (55.4 - 35.5)) * 50 + 101);
+  if (pm25 <= 150.4)
+    return Math.round(((pm25 - 55.5) / (150.4 - 55.5)) * 50 + 151);
   return 200;
 }
 
-function getAQILevel(aqi){
-  if(aqi <= 50) return "Good";
-  if(aqi <= 100) return "Moderate";
-  if(aqi <= 150) return "Unhealthy";
+function getAQILevel(aqi) {
+  if (aqi <= 50) return "Good";
+  if (aqi <= 100) return "Moderate";
+  if (aqi <= 150) return "Unhealthy";
   return "Very Unhealthy";
 }
 
@@ -308,20 +271,43 @@ function getAdvice(level) {
       ["air", "Open windows", "Fresh air is safe."],
     ],
     Moderate: [
-      ["directions_walk", "Normal activities OK", "Sensitive people should be careful."],
+      [
+        "directions_walk",
+        "Normal activities OK",
+        "Sensitive people should be careful.",
+      ],
       ["fitness_center", "Light exercise", "Avoid heavy workouts."],
     ],
     Unhealthy: [
-      ["masks", "Wear a mask outdoors", "N95 or higher protection recommended."],
-      ["air_purifier_gen", "Run an air purifier", "Keep indoor air clean of particulates."],
-      ["event_busy", "Avoid outdoor exercise", "Limit prolonged physical exertion."],
+      [
+        "masks",
+        "Wear a mask outdoors",
+        "N95 or higher protection recommended.",
+      ],
+      [
+        "air_purifier_gen",
+        "Run an air purifier",
+        "Keep indoor air clean of particulates.",
+      ],
+      [
+        "event_busy",
+        "Avoid outdoor exercise",
+        "Limit prolonged physical exertion.",
+      ],
       ["window", "Close windows", "Prevent polluted air from entering homes."],
-      
     ],
     "Very Unhealthy": [
       ["block", "Avoid going outside", "Health risk is high."],
-      ["air_purifier_gen", "Run an air purifier", "Keep indoor air clean of particulates."],
-      ["event_busy", "Avoid outdoor exercise", "Limit prolonged physical exertion."],
+      [
+        "air_purifier_gen",
+        "Run an air purifier",
+        "Keep indoor air clean of particulates.",
+      ],
+      [
+        "event_busy",
+        "Avoid outdoor exercise",
+        "Limit prolonged physical exertion.",
+      ],
       ["window", "Close windows", "Prevent polluted air from entering homes."],
     ],
   };
@@ -359,36 +345,43 @@ function getColorClass(level) {
 }
 
 function getPollutantLevel(type, value) {
-
   // PM2.5 (chuẩn AQI)
   if (type === "pm2_5") {
     if (value <= 12) return { level: "Good", percent: 20, color: "green" };
-    if (value <= 35.4) return { level: "Moderate", percent: 40, color: "yellow" };
-    if (value <= 55.4) return { level: "Unhealthy", percent: 70, color: "orange" };
+    if (value <= 35.4)
+      return { level: "Moderate", percent: 40, color: "yellow" };
+    if (value <= 55.4)
+      return { level: "Unhealthy", percent: 70, color: "orange" };
     return { level: "Very Unhealthy", percent: 100, color: "red" };
   }
 
   // CO (µg/m³)
   if (type === "co") {
     if (value <= 5000) return { level: "Good", percent: 20, color: "green" };
-    if (value <= 10000) return { level: "Moderate", percent: 40, color: "yellow" };
-    if (value <= 17000) return { level: "Unhealthy", percent: 70, color: "orange" };
+    if (value <= 10000)
+      return { level: "Moderate", percent: 40, color: "yellow" };
+    if (value <= 17000)
+      return { level: "Unhealthy", percent: 70, color: "orange" };
     return { level: "Very Unhealthy", percent: 100, color: "red" };
   }
 
   // NO2
   if (type === "no2") {
     if (value <= 40) return { level: "Good", percent: 20, color: "green" };
-    if (value <= 100) return { level: "Moderate", percent: 40, color: "yellow" };
-    if (value <= 200) return { level: "Unhealthy", percent: 70, color: "orange" };
+    if (value <= 100)
+      return { level: "Moderate", percent: 40, color: "yellow" };
+    if (value <= 200)
+      return { level: "Unhealthy", percent: 70, color: "orange" };
     return { level: "Very Unhealthy", percent: 100, color: "red" };
   }
 
   // O3
   if (type === "o3") {
     if (value <= 100) return { level: "Good", percent: 20, color: "green" };
-    if (value <= 160) return { level: "Moderate", percent: 40, color: "yellow" };
-    if (value <= 240) return { level: "Unhealthy", percent: 70, color: "orange" };
+    if (value <= 160)
+      return { level: "Moderate", percent: 40, color: "yellow" };
+    if (value <= 240)
+      return { level: "Unhealthy", percent: 70, color: "orange" };
     return { level: "Very Unhealthy", percent: 100, color: "red" };
   }
 
@@ -399,7 +392,7 @@ function getPollutantLevel(type, value) {
 function updatePollutants(components) {
   const cards = document.querySelectorAll(".pollutant-card");
 
-  cards.forEach(card => {
+  cards.forEach((card) => {
     const type = card.dataset.type;
     const value = components[type];
 
@@ -426,7 +419,7 @@ function updatePollutants(components) {
 async function loadAQIForecast(lat, lon) {
   try {
     const res = await fetch(
-      `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&hourly=pm2_5&timezone=auto`
+      `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&hourly=pm2_5&timezone=auto`,
     );
 
     const data = await res.json();
@@ -437,7 +430,6 @@ async function loadAQIForecast(lat, lon) {
     }
 
     updateForecastUI(data.hourly);
-
   } catch (err) {
     console.error("AQI forecast error:", err);
   }
@@ -466,7 +458,7 @@ function updateForecastUI(hourly) {
   const dates = Object.keys(days).slice(0, 7);
 
   dates.forEach((date, index) => {
-    const values = days[date].filter(v => v != null);
+    const values = days[date].filter((v) => v != null);
 
     if (!values.length) return;
 
@@ -525,7 +517,6 @@ function hideDropdown() {
   dropdown.style.display = "none";
 }
 
-
 export const WAQI_TOKEN = "d227b74071f97b68607dff55e9a633fb7973f9a1";
 
 // ================= FIREBASE AUTH =================
@@ -533,17 +524,17 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/fireba
 import {
   getAuth,
   onAuthStateChanged,
-  signOut
+  signOut,
 } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDwsrMQn_mbMIL_ZoNpiJcWu7SccSVSfk0",
-    authDomain: "skycast-5b2c7.firebaseapp.com",
-    projectId: "skycast-5b2c7",
-    storageBucket: "skycast-5b2c7.firebasestorage.app",
-    messagingSenderId: "226194876823",
-    appId: "1:226194876823:web:ce019b2611283d9b727cd2",
-    measurementId: "G-XE2XP41DMM"
+  authDomain: "skycast-5b2c7.firebaseapp.com",
+  projectId: "skycast-5b2c7",
+  storageBucket: "skycast-5b2c7.firebasestorage.app",
+  messagingSenderId: "226194876823",
+  appId: "1:226194876823:web:ce019b2611283d9b727cd2",
+  measurementId: "G-XE2XP41DMM",
 };
 
 const app = initializeApp(firebaseConfig);
@@ -561,7 +552,7 @@ onAuthStateChanged(auth, (user) => {
       avatar.onclick = () => {
         if (confirm("Logout?")) {
           signOut(auth).then(() => {
-            window.location.href = "../../Sign-in/index.html";
+            window.location.href = "../Sign-in/index.html";
           });
         }
       };
