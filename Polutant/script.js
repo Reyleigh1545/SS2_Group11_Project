@@ -245,7 +245,7 @@ function updateAirUI(city, weather, aqiData) {
 
 // ================= AQI =================
 
-export function calculateAQI(pm25) {
+function calculateAQI(pm25) {
   if (pm25 <= 12) return Math.round((pm25 / 12) * 50);
   if (pm25 <= 35.4)
     return Math.round(((pm25 - 12.1) / (35.4 - 12.1)) * 50 + 51);

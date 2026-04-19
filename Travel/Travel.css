@@ -14,13 +14,21 @@ body {
 }
 
 /* NAVBAR */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 18px 60px;
-  background: #fff;
-  border-bottom: 1px solid #eee;
+.navbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    height: 60px;
+    flex-shrink: 0;
+
+    padding:12px 30px;
+    background:white;
+    border-bottom:1px solid #e5e7eb;
+
+    position:sticky;
+    top:0;
+    z-index:50;
 }
 
 .logo {
@@ -49,24 +57,29 @@ body {
   position: relative;
 }
 
-.menu .active {
-  color: #1a73e8;
-  font-weight: 500;
-  position: relative;
-  text-decoration: none;
-  background: transparent;
-  border: none;
+.nav-links a.active{
+    color:#3b82f6; /* xanh dương */
+    font-weight:600;
+    border-bottom:2px solid #3b82f6; /* gạch dưới cho đẹp */
 }
 
-.menu .active::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -10px;
-  width: 100%;
-  height: 2px;
-  background-color: #1a73e8;
-  border-radius: 2px;
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: #007bff;
+    transition: 0.3s;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.nav-links a.active::after {
+    width: 100%;
 }
 
 .user {
@@ -97,6 +110,15 @@ body {
     "opsz" 24;
 }
 
+.user-avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    object-fit: cover;
+    border: 2px solid #ccc;
+    transition: 0.3s;
+}
 /* BANNER */
 
 .banner-desc {
@@ -161,6 +183,15 @@ body {
   object-fit: cover;
 
   z-index: 1;
+}
+
+.recommended-banner {
+  z-index: 2;
+
+}
+
+.recently-viewed-banner {
+  z-index: 2;
 }
 
 /* SEARCH */
