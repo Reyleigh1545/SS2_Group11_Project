@@ -764,6 +764,20 @@ function initMap(lat, lon) {
   }
 }
 
+function getCityFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("city");
+}
+
+const city = getCityFromURL();
+
+if (city) {
+  console.log("City from URL:", city);
+
+  // gọi API weather ở đây
+  loadCity(city);
+}
+
 // ================= FIREBASE AUTH =================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
 import {
@@ -805,13 +819,14 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
+const cityFromURL = getCityFromURL();
 const saved = JSON.parse(localStorage.getItem("selectedLocation"));
 
-if (saved) {
+if (cityFromURL) {
+  loadCity(cityFromURL);
+} else if (saved) {
   loadByCoords(saved.lat, saved.lng);
 } else {
   detectLocation();
   loadCity("Hanoi");
 }
-loadFavorites();
-renderFavorites();
