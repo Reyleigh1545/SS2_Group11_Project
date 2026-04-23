@@ -782,3 +782,65 @@ async function getSeasonalForecast(city) {
 function getEventLink(city) {
   return `https://www.google.com/search?q=${encodeURIComponent(city + " events this month")}`;
 }
+
+async function addRecent(city) {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  const ref = doc(db, "users", user.uid);
+
+  const snap = await getDoc(ref);
+
+  let recents = [];
+
+  if (snap.exists()) {
+    recents = snap.data().recentCities || [];
+  }
+
+  // remove duplicate
+  recents = recents.filter((c) => c !== city);
+
+  recents.push(city);
+
+  if (recents.length > 8) {
+    recents.shift();
+  }
+
+  await setDoc(ref, { recentCities: recents }, { merge: true });
+}
+
+async function showRecent() {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  const ref = doc(db, "users", user.uid);
+  const snap = await getDoc(ref);
+
+  const recents = snap.exists() ? snap.data().recentCities || [] : [];
+
+  dropdown.innerHTML = "";
+
+  recents
+    .slice()
+    .reverse()
+    .forEach((city) => {
+      const div = document.createElement("div");
+
+      div.className = "search-item";
+
+      div.innerHTML = `
+        <span>${city}</span>
+        <span class="favorite-btn">⭐</span>
+      `;
+
+      div.onclick = () => {
+        searchInput.value = city;
+        loadCity(city);
+        dropdown.style.display = "none";
+      };
+
+      dropdown.appendChild(div);
+    });
+
+  dropdown.style.display = "block";
+}

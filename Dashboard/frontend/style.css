@@ -768,3 +768,339 @@ border-radius:10px;
 .footer-copy {
   color: #94a3b8;
 }
+
+:root {
+  --modal-primary: #006591;
+  --modal-primary-container: #0ea5e9;
+  --modal-tertiary: #8a5100;
+  --modal-tertiary-container: #de8712;
+  --modal-on-surface-variant: #3e4850;
+  --modal-glass-bg: rgba(255, 255, 255, 0.95); /* Tăng độ đục để dễ đọc */
+  --modal-glass-border: rgba(200, 200, 200, 0.4);
+  --modal-card-inner-bg: rgba(240, 245, 250, 0.6);
+}
+
+#detail-modal {
+  position: fixed;
+  inset: 0;
+  display: none; /* Ẩn mặc định */
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(12px);
+  background-color: rgba(0, 0, 0, 0.5); /* Nền mờ tối để tôn modal lên */
+  padding: 20px;
+  z-index: 9999; /* Đảm bảo nằm trên cùng */
+  overflow-y: auto; /* Cho phép cuộn nếu màn hình nhỏ */
+}
+
+#detail-modal.active {
+  display: flex;
+}
+
+#detail-modal .weather-card {
+  background: var(--modal-glass-bg);
+  border: 1px solid var(--modal-glass-border);
+  border-radius: 2rem;
+  width: 100%;
+  max-width: 850px;
+  margin: auto;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  color: #191c1e; /* Chữ màu đen/xám */
+  font-family: "Inter", Arial, sans-serif;
+  padding: 0; /* Reset padding bị dính từ dashboard cũ */
+}
+
+#detail-modal .card-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 0;
+}
+
+#detail-modal .location-info h2 {
+  font-size: 1.2rem;
+  margin: 0;
+  color: #191c1e;
+}
+
+#detail-modal .location-info p {
+  font-size: 0.7rem;
+  color: var(--modal-on-surface-variant);
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+#detail-modal .close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #555;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#detail-modal .card-content {
+  padding: 2rem;
+}
+
+/* Hero section */
+#detail-modal .hero-data {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 2rem;
+}
+#detail-modal .main-temp {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+#detail-modal .temp-value {
+  font-size: 5.5rem;
+  font-weight: 800;
+  color: var(--modal-primary);
+  line-height: 1;
+}
+#detail-modal .sun-icon {
+  color: var(--modal-tertiary-container);
+  font-variation-settings: "FILL" 1;
+}
+#detail-modal .status strong {
+  color: #191c1e;
+}
+#detail-modal .high-low {
+  color: #191c1e;
+  margin: 4px 0;
+}
+#detail-modal .aqi-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  background: rgba(222, 135, 18, 0.1);
+  color: var(--modal-tertiary);
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+#detail-modal .extra-stats {
+  display: flex;
+  gap: 10px;
+}
+#detail-modal .stat-pill {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--modal-glass-border);
+  padding: 1rem 1.8rem;
+  border-radius: 50px;
+  text-align: center;
+  display: inline-block;
+}
+#detail-modal .stat-pill .label {
+  display: block;
+  font-size: 0.6rem;
+  font-weight: 800;
+  color: var(--modal-on-surface-variant);
+}
+#detail-modal .stat-pill .value {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--modal-primary);
+}
+
+/* Charts */
+#detail-modal .section-title {
+  font-size: 0.7rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 1rem;
+  color: #191c1e;
+}
+#detail-modal .chart-container {
+  background: var(--modal-card-inner-bg);
+  border-radius: 1rem;
+  padding: 20px 30px;
+  margin-bottom: 2rem;
+}
+
+#detail-modal .line-chart {
+  width: 100%;
+  height: 100px;
+  overflow: visible;
+}
+#detail-modal .chart-path {
+  fill: none; /* Khắc phục lỗi cục đen xì */
+  stroke: var(--modal-primary-container);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+#detail-modal .chart-point {
+  fill: var(--modal-primary-container);
+  stroke: white;
+  stroke-width: 2;
+}
+#detail-modal .chart-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 0.65rem;
+  color: #666;
+  font-weight: 600;
+}
+
+#detail-modal .bar-chart-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 180px;
+  gap: 8px;
+}
+#detail-modal .bar-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+}
+#detail-modal .bar {
+  width: 100%;
+  background: var(--modal-primary-container);
+  border-radius: 20px 20px 0 0;
+}
+#detail-modal .bar-item span {
+  font-size: 0.6rem;
+  font-weight: 800;
+  margin-top: 8px;
+  color: #191c1e;
+}
+
+/* Grid Details */
+#detail-modal .details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+#detail-modal .grid-card {
+  background: var(--modal-card-inner-bg);
+  padding: 1.5rem;
+  border-radius: 1.5rem;
+}
+
+#detail-modal .rain-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+#detail-modal .rain-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #191c1e;
+}
+#detail-modal .rain-row span:first-child {
+  width: 35px;
+}
+#detail-modal .progress-bg {
+  flex: 1;
+  height: 10px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+#detail-modal .progress-bar {
+  height: 100%;
+  background: var(--modal-primary-container);
+  border-radius: 10px;
+}
+
+/* Sun & Daylight Layout */
+#detail-modal .sun-box-inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 140px;
+}
+#detail-modal .sun-arc-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+#detail-modal .sun-svg {
+  width: 100%;
+  height: auto;
+}
+#detail-modal .arc-path {
+  fill: none; /* Khắc phục lỗi cục đen xì */
+  stroke: rgba(0, 0, 0, 0.2);
+  stroke-width: 2;
+  stroke-dasharray: 4, 4;
+}
+#detail-modal .sun-dot {
+  fill: var(--modal-tertiary-container);
+}
+#detail-modal .sun-times-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+}
+#detail-modal .time-item small {
+  display: block;
+  font-size: 0.55rem;
+  font-weight: 800;
+  color: var(--modal-on-surface-variant);
+  margin-bottom: 2px;
+}
+#detail-modal .time-item p {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #191c1e;
+}
+
+/* Summary Footer */
+#detail-modal .summary {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 1.5rem;
+}
+#detail-modal .summary p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--modal-on-surface-variant);
+  font-weight: 500;
+}
+
+#modal-times {
+  position: relative;
+  width: 100%;          /* 🔥 FULL WIDTH */
+  margin-top: 10px;
+  height: 20px;
+  display: block;
+}
+
+#modal-times div {
+  position: absolute;
+  bottom: 0;
+  transform: translateX(-50%);
+  
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+
+  white-space: nowrap;
+}
+
+#modal-times div {
+  opacity: 0.8;
+  transition: 0.2s;
+}
+
+#modal-times div:hover {
+  opacity: 1;
+  color: #000;
+}

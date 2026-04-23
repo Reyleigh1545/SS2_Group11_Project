@@ -414,5 +414,182 @@
     </footer>
 
     <script type="module" src="script.js"></script>
+    <div class="modal-overlay" id="detail-modal">
+      <div class="weather-card">
+        <header class="card-header">
+          <div class="location-info">
+            <h2 id="modal-date">Monday, May 24</h2>
+            <p id="modal-city">LOS ANGELES, CALIFORNIA</p>
+          </div>
+          <button class="close-btn" id="modal-close-btn">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </header>
+
+        <div class="card-content">
+          <section class="hero-data">
+            <div class="main-temp">
+              <span class="temp-value" id="modal-main-temp">72°</span>
+              <div class="condition-box">
+                <div class="status">
+                  <span
+                    class="material-symbols-outlined sun-icon"
+                    id="modal-status-icon"
+                    >wb_sunny</span
+                  >
+                  <strong id="modal-status-text">Mostly Sunny</strong>
+                </div>
+                <p class="high-low" id="modal-high-low">H: 78° L: 62°</p>
+                <span class="aqi-badge" id="modal-aqi">AQI 42 • Good</span>
+              </div>
+            </div>
+            <div class="extra-stats">
+              <div class="stat-pill">
+                <span class="label">HUMIDITY</span>
+                <span class="value" id="modal-humidity">48%</span>
+              </div>
+              <div class="stat-pill">
+                <span class="label">WIND</span>
+                <span class="value" id="modal-wind">12 <small>mph</small></span>
+              </div>
+            </div>
+          </section>
+
+          <section class="chart-section">
+            <h3 class="section-title">
+              <span class="material-symbols-outlined">timeline</span>
+              TEMPERATURE TREND
+            </h3>
+            <div class="chart-container">
+              <svg class="line-chart" viewBox="0 0 800 120">
+                <path
+                  id="modal-chart-path"
+                  d="M 0 80 Q 50 60 100 70 T 200 40 T 300 10 T 400 30 T 500 60 T 600 90 T 700 85"
+                  class="chart-path"
+                ></path>
+                <circle
+                  id="chart-dot"
+                  cx="300"
+                  cy="10"
+                  r="6"
+                  class="chart-point"
+                ></circle>
+              </svg>
+              <div id="modal-times">
+                <span>6 AM</span><span>9 AM</span><span>12 PM</span
+                ><span>3 PM</span><span>6 PM</span><span>9 PM</span
+                ><span>12 AM</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="chart-section">
+            <h3 class="section-title">
+              <span class="material-symbols-outlined">water_drop</span> HOURLY
+              PRECIPITATION
+            </h3>
+            <div class="chart-container bar-chart-flex" id="modal-bar-chart">
+              <div class="bar-item">
+                <div class="bar" style="height: 10%"></div>
+                <span>6 AM</span>
+              </div>
+              <div class="bar-item">
+                <div class="bar" style="height: 25%"></div>
+                <span>8 AM</span>
+              </div>
+              <div class="bar-item">
+                <div class="bar" style="height: 45%"></div>
+                <span>10 AM</span>
+              </div>
+              <div class="bar-item">
+                <div class="bar" style="height: 75%"></div>
+                <span>12 PM</span>
+              </div>
+              <div class="bar-item">
+                <div class="bar" style="height: 90%"></div>
+                <span>2 PM</span>
+              </div>
+              <div class="bar-item">
+                <div class="bar" style="height: 65%"></div>
+                <span>4 PM</span>
+              </div>
+              <div class="bar-item">
+                <div class="bar" style="height: 35%"></div>
+                <span>6 PM</span>
+              </div>
+              <div class="bar-item">
+                <div class="bar" style="height: 15%"></div>
+                <span>8 PM</span>
+              </div>
+              <div class="bar-item">
+                <div class="bar" style="height: 8%"></div>
+                <span>10 PM</span>
+              </div>
+            </div>
+          </section>
+
+          <div class="details-grid">
+            <section class="grid-card">
+              <h3 class="section-title">
+                <span class="material-symbols-outlined">umbrella</span> RAIN
+                PROBABILITY
+              </h3>
+              <div class="rain-list" id="modal-rain-list">
+                <div class="rain-row">
+                  <span>1 PM</span>
+                  <div class="progress-bg">
+                    <div class="progress-bar" style="width: 15%"></div>
+                  </div>
+                  <span>15%</span>
+                </div>
+              </div>
+            </section>
+
+            <section class="grid-card">
+              <h3 class="section-title">
+                <span class="material-symbols-outlined">wb_twilight</span> SUN &
+                DAYLIGHT
+              </h3>
+              <div class="sun-box-inner">
+                <div class="sun-arc-wrapper">
+                  <svg viewBox="0 0 200 80" class="sun-svg">
+                    <path
+                      d="M 20 70 A 80 80 0 0 1 180 70"
+                      class="arc-path"
+                    ></path>
+                    <circle
+                      id="modal-sun-dot"
+                      cx="150"
+                      cy="35"
+                      r="6"
+                      class="sun-dot"
+                    ></circle>
+                  </svg>
+                </div>
+                <div class="sun-times-row">
+                  <div class="time-item">
+                    <small>SUNRISE</small>
+                    <p id="modal-sunrise">6:15 AM</p>
+                  </div>
+                  <div class="time-item">
+                    <small>SUNSET</small>
+                    <p id="modal-sunset">6:45 PM</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <footer class="summary">
+            <p id="modal-summary">
+              A breezy and warm afternoon is expected. Cloud cover will increase
+              towards 3 PM with an 80% chance of isolated thundershowers.
+              Evening will remain humid but clear. Perfect conditions for
+              evening activities after the brief rain.
+            </p>
+          </footer>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

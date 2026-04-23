@@ -3,6 +3,9 @@ const API_KEY = "1077f982976faf1888f09834b8fa9213";
 const buttons = document.querySelectorAll(".city-btn");
 const searchInput = document.querySelector(".nav-search input");
 const favoriteContainer = document.querySelector(".sidebar-card");
+let forecastData = [];
+let forecastByDay = {};
+let dailyData = null;
 
 let currentCity = "";
 let currentTemp = "";
@@ -94,6 +97,10 @@ function showRecent() {
 
 function loadCity(city) {
   showLoading();
+
+  forecastData = [];
+  forecastByDay = {};
+
   getWeather(city);
 }
 
@@ -299,11 +306,18 @@ async function getDailyForecast(lat, lon) {
   updateDaily(data);
 }
 
+let currentForecastCity = "";
+
 async function getHourlyForecast(lat, lon) {
   const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`;
 
   const res = await fetch(url);
   const data = await res.json();
+
+  currentForecastCity = currentCity;
+
+  forecastData = data.list;
+  forecastByDay = groupByDay(forecastData); 
 
   updateHourly(data);
 }
@@ -353,11 +367,15 @@ function updateDaily(data) {
   const globalMin = Math.min(...minTemps);
 
   const range = globalMax - globalMin || 1;
+  dailyData = data;
 
   items.forEach((item, i) => {
     if (!maxTemps[i]) return;
 
     const date = new Date(data.daily.time[i]);
+
+    item.dataset.index = i;
+    item.dataset.date = data.daily.time[i];
 
     const day = date.toLocaleDateString("en-US", { weekday: "short" });
 
@@ -778,6 +796,250 @@ if (city) {
   loadCity(city);
 }
 
+const modal = document.getElementById("detail-modal");
+const forecastItems = document.querySelectorAll(".forecast-item");
+
+forecastItems.forEach(item => {
+  item.addEventListener("click", () => {
+    const date = item.dataset.date; // đã có sẵn YYYY-MM-DD
+
+    console.log("CLICK DATE:", date);
+    console.log("forecastByDay:", forecastByDay);
+
+    const dayData = forecastByDay[date]; // 🔥 LẤY TRỰC TIẾP
+
+    if (!dayData || dayData.length === 0) {
+      console.log("❌ No data for this day:", date);
+      return;
+    }
+
+    fillModal(dayData, date);
+    modal.style.display = "flex";
+  });
+});
+
+const closeBtn = document.getElementById("modal-close-btn");
+
+closeBtn.addEventListener("click", () => {
+  modal.style.display = "none";
+});
+
+modal.addEventListener("click", (e) => {
+  if (e.target === modal) {
+    modal.style.display = "none";
+  }
+});
+
+function groupByDay(list) {
+  const days = {};
+
+  list.forEach(item => {
+    const date = item.dt_txt.split(" ")[0];
+
+    if (!days[date]) days[date] = [];
+    days[date].push(item);
+  });
+
+  return days;
+}
+
+
+function fillModal(dayData, date) {
+
+  const width = 800;
+  const height = 300;
+
+  // 🔥 lấy thời gian thật
+  const times = dayData.map(item =>
+    item.dt_txt.split(" ")[1].slice(0, 5)
+  );
+
+  chartTimes = times;
+
+  // 🔥 lấy nhiệt độ
+  const temps = dayData.map(item => item.main.temp);
+
+  if (!dayData || !Array.isArray(dayData)) {
+    console.log("No hourly data for this day");
+    return;
+  }
+
+  const max = Math.max(...temps);
+  const min = Math.min(...temps);
+
+  const first = dayData[0];
+
+  // DATE
+  document.getElementById("modal-date").innerText = date;
+
+  document.getElementById("modal-city").innerText = currentCity;
+  // TEMP
+  document.getElementById("modal-main-temp").innerText =
+    Math.round(first.main.temp) + "°";
+
+  // STATUS
+  document.getElementById("modal-status-text").innerText =
+    first.weather[0].main;
+
+  // HIGH LOW
+  document.getElementById("modal-high-low").innerText =
+    `H: ${Math.round(max)}° L: ${Math.round(min)}°`;
+
+  // HUMIDITY
+  document.getElementById("modal-humidity").innerText =
+    first.main.humidity + "%";
+
+  // WIND
+  document.getElementById("modal-wind").innerHTML =
+    first.wind.speed + " <small>m/s</small>";
+
+  // CHART
+  const path = generatePath(temps);
+  document.getElementById("modal-chart-path").setAttribute("d", path);
+
+  // ===== TIME LABELS (🔥 THÊM ĐOẠN NÀY) =====
+const timeContainer = document.getElementById("modal-times");
+
+if (timeContainer) {
+  timeContainer.innerHTML = "";
+
+  times.forEach((t, i) => {
+  const div = document.createElement("div");
+
+  div.innerText = t;
+
+  let percent = i / (times.length - 1);
+
+  // 🔥 fix 2 đầu
+  if (i === 0) {
+    div.style.left = "0%";
+    div.style.transform = "translateX(0)";
+  } else if (i === times.length - 1) {
+    div.style.left = "100%";
+    div.style.transform = "translateX(-100%)";
+  } else {
+    div.style.left = `${percent * 100}%`;
+    div.style.transform = "translateX(-50%)";
+  }
+
+  timeContainer.appendChild(div);
+});
+}
+
+  // RAIN BAR
+  const barContainer = document.getElementById("modal-bar-chart");
+  barContainer.innerHTML = "";
+
+  dayData.forEach(d => {
+    const rain = Math.round(d.pop * 100);
+
+    barContainer.innerHTML += `
+      <div class="bar-item">
+        <div class="bar" style="height:${rain}%"></div>
+        <span>${d.dt_txt.split(" ")[1].slice(0,5)}</span>
+      </div>
+    `;
+  });
+  
+  if (chartPoints.length > 0) {
+  const first = chartPoints[0];
+
+  dot.setAttribute("cx", first.x);
+  dot.setAttribute("cy", first.y);
+}
+
+console.log(dayData);
+
+}
+
+const svg = document.querySelector(".line-chart");
+const path = document.getElementById("modal-chart-path");
+const dot = document.getElementById("chart-dot");
+
+let chartPoints = [];
+let chartTimes = [];
+
+function generatePath(temps) {
+  const width = 800;
+  const height = 120;
+
+  const max = Math.max(...temps);
+  const min = Math.min(...temps);
+
+  const step = width / (temps.length - 1);
+
+  chartPoints = temps.map((t, i) => {
+    const x = i * step;
+    const y = height - ((t - min) / (max - min || 1)) * height;
+    return { x, y, temp: t };
+  });
+
+  return chartPoints
+    .map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`)
+    .join(" ");
+}
+
+function openModal(index) {
+  const day = dailyData.daily;
+
+  const date = day.time[index];
+  const max = day.temperature_2m_max[index];
+  const min = day.temperature_2m_min[index];
+  const code = day.weathercode[index];
+
+  const condition = getWeatherCondition(code);
+
+  // 👉 render vào modal
+  document.querySelector(".modal-date").innerText = date;
+  document.querySelector(".modal-temp").innerText =
+    `${Math.round(min)}°C - ${Math.round(max)}°C`;
+  document.querySelector(".modal-condition").innerText = condition;
+
+  modal.style.display = "flex";
+}
+
+function fillModalDaily(index) {
+  const day = dailyData.daily;
+
+  document.getElementById("modal-date").innerText = day.time[index];
+
+  document.getElementById("modal-main-temp").innerText =
+    Math.round(day.temperature_2m_max[index]) + "°";
+
+  document.getElementById("modal-status-text").innerText =
+    getWeatherCondition(day.weathercode[index]);
+
+  document.getElementById("modal-high-low").innerText =
+    `H: ${Math.round(day.temperature_2m_max[index])}° 
+     L: ${Math.round(day.temperature_2m_min[index])}°`;
+}
+
+svg.addEventListener("click", (e) => {
+  if (!chartPoints.length) return;
+
+  const rect = svg.getBoundingClientRect();
+  const scaleX = 800 / rect.width;
+  const x = (e.clientX - rect.left) * scaleX;
+
+  const step = 800 / (chartPoints.length - 1);
+  const index = Math.round(x / step);
+
+  const point = chartPoints[index];
+  const temp = chartPoints[index].temp;
+  const time = chartTimes[index]; // 🔥 dùng time thật
+
+  // move dot
+  dot.setAttribute("cx", point.x);
+  dot.setAttribute("cy", point.y);
+
+  // 👉 update UI (mày thiếu cái này nên click không đổi)
+  document.getElementById("modal-main-temp").innerText =
+    Math.round(temp) + "°";
+
+  document.getElementById("modal-date").innerText =
+    `${time} - ${currentCity}`;
+});
+
 // ================= FIREBASE AUTH =================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
 import {
@@ -830,3 +1092,5 @@ if (cityFromURL) {
   detectLocation();
   loadCity("Hanoi");
 }
+
+console.log(Object.keys(forecastByDay));
