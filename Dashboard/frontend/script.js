@@ -1,5 +1,6 @@
 const API_KEY = "1077f982976faf1888f09834b8fa9213";
 
+let currentDayData = [];
 const buttons = document.querySelectorAll(".city-btn");
 const searchInput = document.querySelector(".nav-search input");
 const favoriteContainer = document.querySelector(".sidebar-card");
@@ -298,7 +299,7 @@ function updateDateTime(data) {
 
 // Forecast
 async function getDailyForecast(lat, lon) {
-  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=auto`;
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,weathercode,sunrise,sunset&timezone=auto`;
 
   const res = await fetch(url);
   const data = await res.json();
@@ -318,6 +319,9 @@ async function getHourlyForecast(lat, lon) {
 
   forecastData = data.list;
   forecastByDay = groupByDay(forecastData); 
+
+  const today = forecastData[0].dt_txt.split(" ")[0];
+  currentDayData = forecastByDay[today];
 
   updateHourly(data);
 }
@@ -366,6 +370,9 @@ function updateDaily(data) {
   const globalMax = Math.max(...maxTemps);
   const globalMin = Math.min(...minTemps);
 
+  const sunrises = data.daily.sunrise;
+  const sunsets = data.daily.sunset;
+
   const range = globalMax - globalMin || 1;
   dailyData = data;
 
@@ -376,6 +383,8 @@ function updateDaily(data) {
 
     item.dataset.index = i;
     item.dataset.date = data.daily.time[i];
+    item.dataset.sunrise = sunrises[i];
+    item.dataset.sunset = sunsets[i];
 
     const day = date.toLocaleDateString("en-US", { weekday: "short" });
 
@@ -454,6 +463,8 @@ function updateAQI(data) {
   const message = getAQIMessage(aqi, mainPollutant);
 
   document.querySelector(".aqi-message").innerText = message;
+
+  window.currentAQI = score;
 }
 
 // Favorites
@@ -725,6 +736,9 @@ function setWeatherBackground(condition) {
 
 function updateSunMoon(data) {
   const timezone = data.timezone;
+  window.sunrise = data.sys.sunrise;
+  window.sunset = data.sys.sunset;
+  window.timezone = data.timezone;
 
   function convertTime(unix) {
     const date = new Date(unix * 1000);
@@ -846,6 +860,8 @@ function groupByDay(list) {
 
 function fillModal(dayData, date) {
 
+  currentDayData = dayData;
+
   const width = 800;
   const height = 300;
 
@@ -868,18 +884,25 @@ function fillModal(dayData, date) {
   const min = Math.min(...temps);
 
   const first = dayData[0];
+  const humidity = first.main.humidity;
+  const wind = first.wind.speed;
+  const clouds = first.clouds.all;
 
   // DATE
   document.getElementById("modal-date").innerText = date;
 
   document.getElementById("modal-city").innerText = currentCity;
+
+  document.getElementById("modal-aqi").innerText =
+  window.currentAQI || "--";
+
   // TEMP
   document.getElementById("modal-main-temp").innerText =
     Math.round(first.main.temp) + "°";
 
   // STATUS
   document.getElementById("modal-status-text").innerText =
-    first.weather[0].main;
+    clouds + "%";
 
   // HIGH LOW
   document.getElementById("modal-high-low").innerText =
@@ -887,11 +910,11 @@ function fillModal(dayData, date) {
 
   // HUMIDITY
   document.getElementById("modal-humidity").innerText =
-    first.main.humidity + "%";
+    humidity + "%";
 
   // WIND
   document.getElementById("modal-wind").innerHTML =
-    first.wind.speed + " <small>m/s</small>";
+    wind + " <small>m/s</small>";
 
   // CHART
   const path = generatePath(temps);
@@ -928,18 +951,22 @@ if (timeContainer) {
 
   // RAIN BAR
   const barContainer = document.getElementById("modal-bar-chart");
-  barContainer.innerHTML = "";
+barContainer.innerHTML = "";
 
-  dayData.forEach(d => {
-    const rain = Math.round(d.pop * 100);
+const maxRain = Math.max(...dayData.map(d => d.pop));
 
-    barContainer.innerHTML += `
-      <div class="bar-item">
-        <div class="bar" style="height:${rain}%"></div>
-        <span>${d.dt_txt.split(" ")[1].slice(0,5)}</span>
-      </div>
-    `;
-  });
+dayData.forEach(d => {
+  const rain = d.pop;
+
+  const percent = maxRain ? (rain / maxRain) * 100 : 0;
+
+  barContainer.innerHTML += `
+    <div class="bar-item">
+      <div class="bar" style="height:${percent}%"></div>
+      <span>${d.dt_txt.split(" ")[1].slice(0,5)}</span>
+    </div>
+  `;
+});
   
   if (chartPoints.length > 0) {
   const first = chartPoints[0];
@@ -947,9 +974,27 @@ if (timeContainer) {
   dot.setAttribute("cx", first.x);
   dot.setAttribute("cy", first.y);
 }
+ const sunrise = new Date(
+  document.querySelector(`[data-date="${date}"]`).dataset.sunrise
+);
 
-console.log(dayData);
+const sunset = new Date(
+  document.querySelector(`[data-date="${date}"]`).dataset.sunset
+);
 
+document.getElementById("modal-sunrise").innerText =
+  "☀ " + sunrise.toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+document.getElementById("modal-sunset").innerText =
+  "🌇 " + sunset.toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  updateRainProbability(dayData);
 }
 
 const svg = document.querySelector(".line-chart");
@@ -1025,20 +1070,78 @@ svg.addEventListener("click", (e) => {
   const index = Math.round(x / step);
 
   const point = chartPoints[index];
-  const temp = chartPoints[index].temp;
-  const time = chartTimes[index]; // 🔥 dùng time thật
+  const temp = point.temp;
+  const time = chartTimes[index];
+
+  // 🔥 LẤY DATA THẬT
+  const data = currentDayData[index];
 
   // move dot
   dot.setAttribute("cx", point.x);
   dot.setAttribute("cy", point.y);
 
-  // 👉 update UI (mày thiếu cái này nên click không đổi)
+  // TEMP
   document.getElementById("modal-main-temp").innerText =
     Math.round(temp) + "°";
 
+  // TIME
   document.getElementById("modal-date").innerText =
     `${time} - ${currentCity}`;
+
+  // 🔥 CLOUDS
+  document.getElementById("modal-status-text").innerText =
+    data.clouds.all + "% Clouds";
+
+  // 🔥 HUMIDITY
+  document.getElementById("modal-humidity").innerText =
+    data.main.humidity + "%";
+
+  // 🔥 WIND
+  document.getElementById("modal-wind").innerHTML =
+    data.wind.speed + " <small>m/s</small>";
+
 });
+
+function updateRainProbability(dayData) {
+  const container = document.getElementById("rain-container");
+
+  container.innerHTML = "";
+
+  dayData.forEach(d => {
+    const time = d.dt_txt.split(" ")[1].slice(0,5);
+
+    // 🔥 convert sang %
+    const percent = Math.round((d.pop || 0) * 100);
+
+    const row = document.createElement("div");
+    row.className = "rain-row";
+
+    row.innerHTML = `
+      <span class="rain-time">${time}</span>
+
+      <div class="rain-bar">
+        <div class="rain-fill" style="width:${percent}%"></div>
+      </div>
+
+      <span class="rain-percent">${percent}%</span>
+    `;
+
+    container.appendChild(row);
+  });
+}
+
+function convertTimeWithTZ(unix, timezone) {
+  const date = new Date(unix * 1000);
+
+  const utc = date.getTime() + date.getTimezoneOffset() * 60000;
+
+  const cityTime = new Date(utc + timezone * 1000);
+
+  return cityTime.toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
 
 // ================= FIREBASE AUTH =================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
