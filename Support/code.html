@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SkyCast | Support & Community</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="ethereal-bg">
+    <header class="main-header">
+      <div class="container header-content">
+        <div class="logo-area">
+          <img src="logo.jpg" alt="SkyCast Logo" class="app-logo" />
+          <span class="logo-text">SkyCast</span>
+        </div>
+        <nav class="main-nav">
+          <a href="#">Dashboard</a>
+          <a href="#">Maps</a>
+          <a href="#">Pollutants</a>
+          <a href="#">Health Mode</a>
+          <a href="#">Travel</a>
+        </nav>
+        <div class="header-actions">
+          <button class="icon-btn">
+            <span class="material-symbols-outlined">help</span>
+          </button>
+          <button class="icon-btn">
+            <span class="material-symbols-outlined">settings</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container main-content">
+      <section class="hero">
+        <h1>Support & Community</h1>
+        <p>
+          Join our mission to democratize environmental clarity. Report bugs,
+          share your local observations, or fuel our growth with a donation.
+        </p>
+      </section>
+
+      <div class="bento-grid">
+        <section class="card card-gray report-section">
+          <div class="card-header">
+            <div class="icon-circle blue-bg">
+              <span class="material-symbols-outlined">bug_report</span>
+            </div>
+            <div>
+              <h2>Report an Issue</h2>
+              <span class="subtitle">HELP US IMPROVE THE LENS</span>
+            </div>
+          </div>
+          <form class="bento-form">
+            <div class="form-group">
+              <label>Type of Issue</label>
+              <select class="custom-input">
+                <option>Bug</option>
+                <option>Typo</option>
+                <option>Feature Request</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <textarea
+                class="custom-input"
+                placeholder="Tell us what happened..."
+                rows="4"
+              ></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Report</button>
+          </form>
+        </section>
+
+        <section class="card card-blue donation-section">
+          <div class="donation-content">
+            <div class="card-header">
+              <div class="icon-circle glass-bg">
+                <span
+                  class="material-symbols-outlined"
+                  style="font-variation-settings: &quot;FILL&quot; 1"
+                  >favorite</span
+                >
+              </div>
+              <h2>Support SkyCast</h2>
+            </div>
+            <p>
+              We are an independent project. Your contributions keep the air
+              quality sensors running and the data free for everyone.
+            </p>
+
+            <div class="donation-presets">
+              <button class="preset-btn">$5</button>
+              <button class="preset-btn">$10</button>
+              <button class="preset-btn">$25</button>
+            </div>
+            <input
+              type="text"
+              class="custom-input glass-input"
+              placeholder="Custom Amount"
+            />
+          </div>
+          <button class="btn btn-dark-blue">DONATE NOW</button>
+        </section>
+
+        <section class="card card-gray contribute-section">
+          <div class="contribute-inner">
+            <div class="contribute-info">
+              <div class="card-header">
+                <div class="icon-circle orange-bg">
+                  <span class="material-symbols-outlined">sensors</span>
+                </div>
+                <h2>Contribute Local Data</h2>
+              </div>
+              <p>
+                Are you a weather enthusiast with a home station? Share your
+                real-time observations to help us calibrate our predictive
+                models for your neighborhood.
+              </p>
+              <div class="map-placeholder">
+                <img
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmWWvvtYdMCeloMit1g053JiQWOynSPNLXIgJQwFdm679xHJwNgnl0D-berjG8XIDGoLzyae4b2RnipjjF7c713ZgR0Nu1n_ySWU2NhtCJLX16df-TRBvI3msyAWny8JAybCLfNWKVbU9CAxXQxYXAvbxc5Ixt0oeVt330vMJ7TjuUcoiA5kqLCbTCXLtyDi2chQEJrBSZCpeqY-FpPWhj_jwarWBbXb_tg9EQRoSFkIKZD1Ahw8yUWHDf9jHvHSaL1GmbzCpgvzsx"
+                  alt="Global Map"
+                />
+              </div>
+            </div>
+
+            <div class="contribute-form-container">
+              <form class="bento-form">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>LOCATION</label>
+                    <input
+                      type="text"
+                      class="custom-input border-bottom"
+                      placeholder="e.g. Brooklyn, NY"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label>CURRENT CONDITIONS</label>
+                    <input
+                      type="text"
+                      class="custom-input border-bottom"
+                      placeholder="e.g. Clear Sky, 72°F"
+                    />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>DETAILED OBSERVATIONS (OPTIONAL)</label>
+                  <textarea
+                    class="custom-input border-bottom"
+                    placeholder="Humidity, visibility, or local anomalies..."
+                    rows="3"
+                  ></textarea>
+                </div>
+                <button type="submit" class="btn btn-orange">
+                  Send Observation
+                </button>
+              </form>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="main-footer">
+      <div class="container footer-content">
+        <div class="footer-brand">
+          <span class="footer-logo">SkyCast</span>
+          <p>© 2024 SKYCAST. DESIGNED FOR THE ETHEREAL LENS.</p>
+        </div>
+        <div class="footer-links">
+          <a href="#">BUG REPORT</a>
+          <a href="#">DATA CONTRIBUTIONS</a>
+          <a href="#">DONATIONS</a>
+          <a href="#">PRIVACY POLICY</a>
+          <a href="#">CONTACT SUPPORT</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
