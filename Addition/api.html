@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>
+    SkyCast | API Reference
+  </title>
+
+  <!-- Fonts -->
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- CSS -->
+
+  <link rel="stylesheet" href="style.css" />
+
+</head>
+
+<body class="ethereal-bg">
+
+  <!-- =========================
+       HEADER
+  ========================== -->
+
+  <header class="main-header">
+
+    <div class="container header-content">
+
+      <div class="logo-area">
+
+        <img
+          src="logo.jpg"
+          alt="SkyCast Logo"
+          class="app-logo"
+        />
+
+        <span class="logo-text">
+          SkyCast
+        </span>
+
+      </div>
+
+    </div>
+
+  </header>
+
+  <!-- =========================
+       MAIN
+  ========================== -->
+
+  <main class="container main-content">
+
+    <section class="privacy-grid">
+
+      <!-- =========================
+           LEFT COLUMN
+      ========================== -->
+
+      <div>
+
+        <!-- HERO -->
+
+        <section class="hero privacy-hero">
+
+          <div class="hero-glow"></div>
+
+          <h1>
+            API
+            <br />
+            Reference
+          </h1>
+
+          <p>
+            SkyCast integrates multiple external
+            APIs and environmental services to
+            deliver accurate forecasts, air quality
+            insights, global mapping, and dynamic
+            imagery across the platform.
+          </p>
+
+          <!-- META -->
+
+          <div class="policy-meta">
+
+            <div class="meta-card">
+
+              <div class="meta-icon">
+
+                <span class="material-symbols-outlined">
+                  cloud
+                </span>
+
+              </div>
+
+              <div>
+
+                <small>
+                  WEATHER SOURCES
+                </small>
+
+                <strong>
+                  OpenWeather & Open-Meteo
+                </strong>
+
+              </div>
+
+            </div>
+
+            <div class="meta-card">
+
+              <div class="meta-icon">
+
+                <span class="material-symbols-outlined">
+                  public
+                </span>
+
+              </div>
+
+              <div>
+
+                <small>
+                  MAP & AQI
+                </small>
+
+                <strong>
+                  AQICN Global API
+                </strong>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- =========================
+             API CONTENT
+        ========================== -->
+
+        <div class="policy-content">
+
+          <!-- SECTION -->
+
+          <section
+            class="policy-card"
+            id="overview"
+          >
+
+            <h2>
+              Overview
+            </h2>
+
+            <p>
+              SkyCast combines real-time weather,
+              environmental monitoring, geolocation,
+              and visual media APIs to provide an
+              immersive forecasting experience.
+            </p>
+
+          </section>
+
+          <!-- SECTION -->
+
+          <section
+            class="policy-card"
+            id="openweather"
+          >
+
+            <h2>
+              OpenWeather API
+            </h2>
+
+            <p>
+              OpenWeather powers real-time weather
+              conditions, forecast data, humidity,
+              wind speed, and atmospheric metrics
+              throughout the application.
+            </p>
+
+            <div class="api-code">
+
+              <span>
+                Base Endpoint
+              </span>
+
+              <code>
+                https://api.openweathermap.org/data/2.5/
+              </code>
+
+            </div>
+
+            <ul>
+
+              <li>
+                Current weather data
+              </li>
+
+              <li>
+                Forecast predictions
+              </li>
+
+              <li>
+                Wind and humidity metrics
+              </li>
+
+              <li>
+                Temperature and condition icons
+              </li>
+
+            </ul>
+
+          </section>
+
+          <!-- SECTION -->
+
+          <section
+            class="policy-card"
+            id="openmeteo"
+          >
+
+            <h2>
+              Open-Meteo API
+            </h2>
+
+            <p>
+              Open-Meteo provides advanced
+              meteorological forecasting and
+              climate-related datasets for detailed
+              environmental analysis.
+            </p>
+
+            <div class="api-code">
+
+              <span>
+                Base Endpoint
+              </span>
+
+              <code>
+                https://api.open-meteo.com/v1/
+              </code>
+
+            </div>
+
+            <ul>
+
+              <li>
+                Hourly weather forecasts
+              </li>
+
+              <li>
+                Daily temperature trends
+              </li>
+
+              <li>
+                Climate modeling data
+              </li>
+
+              <li>
+                Forecast optimization support
+              </li>
+
+            </ul>
+
+          </section>
+
+          <!-- SECTION -->
+
+          <section
+            class="policy-card"
+            id="aqicn"
+          >
+
+            <h2>
+              AQICN API
+            </h2>
+
+            <p>
+              The AQICN API powers global air
+              quality monitoring, pollution maps,
+              and AQI visualization across the
+              interactive world map.
+            </p>
+
+            <div class="api-code">
+
+              <span>
+                Base Endpoint
+              </span>
+
+              <code>
+                https://aqicn.org/here/
+              </code>
+
+            </div>
+
+            <ul>
+
+              <li>
+                Global AQI monitoring
+              </li>
+
+              <li>
+                Pollution heatmaps
+              </li>
+
+              <li>
+                Station-based air quality data
+              </li>
+
+              <li>
+                Environmental health indicators
+              </li>
+
+            </ul>
+
+          </section>
+
+          <!-- SECTION -->
+
+          <section
+            class="policy-card"
+            id="images"
+          >
+
+            <h2>
+              Image & Visual Assets
+            </h2>
+
+            <p>
+              SkyCast uses external image hosting
+              and visual services to display
+              environmental imagery, weather
+              backgrounds, and UI visuals.
+            </p>
+
+            <div class="api-code">
+
+              <span>
+                Hosting Platform
+              </span>
+
+              <code>
+                Heroku Hosted Assets
+              </code>
+
+            </div>
+
+          </section>
+
+          <!-- SECTION -->
+
+          <section
+            class="policy-card"
+            id="security"
+          >
+
+            <h2>
+              API Security
+            </h2>
+
+            <p>
+              API keys and sensitive credentials
+              are protected through server-side
+              configuration and environment
+              variables whenever possible.
+            </p>
+
+          </section>
+
+          <!-- SECTION -->
+
+          <section
+            class="policy-card"
+            id="limits"
+          >
+
+            <h2>
+              Usage & Limitations
+            </h2>
+
+            <p>
+              External APIs may enforce rate
+              limits, request quotas, or temporary
+              restrictions depending on provider
+              availability and network conditions.
+            </p>
+
+          </section>
+
+        </div>
+
+      </div>
+
+      <!-- =========================
+           SIDEBAR
+      ========================== -->
+
+      <aside class="policy-sidebar">
+
+        <h3>
+          API Contents
+        </h3>
+
+        <a href="#overview">
+          Overview
+        </a>
+
+        <a href="#openweather">
+          OpenWeather API
+        </a>
+
+        <a href="#openmeteo">
+          Open-Meteo API
+        </a>
+
+        <a href="#aqicn">
+          AQICN API
+        </a>
+
+        <a href="#images">
+          Image Assets
+        </a>
+
+        <a href="#security">
+          API Security
+        </a>
+
+        <a href="#limits">
+          Usage & Limitations
+        </a>
+
+      </aside>
+
+    </section>
+
+  </main>
+
+  <!-- =========================
+       FOOTER
+  ========================== -->
+
+  <footer class="main-footer">
+
+    <div class="container footer-content">
+
+      <div class="footer-brand">
+
+        <span class="footer-logo">
+          SkyCast
+        </span>
+
+        <p>
+          © 2026 SKYCAST.
+          DESIGNED FOR THE ETHEREAL LENS.
+        </p>
+
+      </div>
+
+      <div class="footer-links">
+
+        <a href="privacy.html">
+          Privacy Policy
+        </a>
+
+        <a href="terms.html">
+          Terms of Service
+        </a>
+
+        <a href="api.html">
+          API Reference
+        </a>
+
+        <a href="../Support/code.html">
+          Support
+        </a>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+</body>
+
+</html>

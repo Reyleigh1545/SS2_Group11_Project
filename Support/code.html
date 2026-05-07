@@ -21,23 +21,19 @@
           <img src="logo.jpg" alt="SkyCast Logo" class="app-logo" />
           <span class="logo-text">SkyCast</span>
         </div>
-        <nav class="main-nav">
-          <a href="#">Dashboard</a>
-          <a href="#">Maps</a>
-          <a href="#">Pollutants</a>
-          <a href="#">Health Mode</a>
-          <a href="#">Travel</a>
-        </nav>
+        
+        
+
+</nav>
         <div class="header-actions">
           <button class="icon-btn">
             <span class="material-symbols-outlined">help</span>
           </button>
-          <button class="icon-btn">
-            <span class="material-symbols-outlined">settings</span>
-          </button>
+          
         </div>
       </div>
     </header>
+
 
     <main class="container main-content">
       <section class="hero">
@@ -109,6 +105,19 @@
             />
           </div>
           <button class="btn btn-dark-blue">DONATE NOW</button>
+          <div class="donate-modal hidden">
+            <div class="donate-box">
+
+              <h2>Scan QR to Donate</h2>
+
+              <img id="qrImage" src="" alt="QR Code">
+
+              <p id="donateAmount"></p>
+
+              <button id="closeDonate">Close</button>
+
+            </div>
+          </div>
         </section>
 
         <section class="card card-gray contribute-section">
@@ -175,16 +184,61 @@
       <div class="container footer-content">
         <div class="footer-brand">
           <span class="footer-logo">SkyCast</span>
-          <p>© 2024 SKYCAST. DESIGNED FOR THE ETHEREAL LENS.</p>
+          <p>© 2026 SKYCAST. DESIGNED FOR THE ETHEREAL LENS.</p>
         </div>
         <div class="footer-links">
-          <a href="#">BUG REPORT</a>
-          <a href="#">DATA CONTRIBUTIONS</a>
-          <a href="#">DONATIONS</a>
-          <a href="#">PRIVACY POLICY</a>
-          <a href="#">CONTACT SUPPORT</a>
+          <a href=../Addition/privacy.html>Privacy Policy</a>
+          <a href=../Addition/terms.html>Terms of Service</a>
+          <a href="../Addition/api.html">API Reference</a>
+          <a href="code.html">Support</a>
         </div>
       </div>
     </footer>
+    <div class="help-modal hidden">
+
+  <div class="help-box">
+
+    <div class="help-header">
+      <h2>Help Center</h2>
+
+      <button id="closeHelp">
+    <span class="material-symbols-outlined">
+      close
+    </span>
+  </button>
+    </div>
+
+    <div class="help-content">
+
+      <div class="help-item">
+        <h3>How Donations Work</h3>
+        <p>
+          Donations help maintain air quality
+          sensors and API infrastructure.
+        </p>
+      </div>
+
+      <div class="help-item">
+        <h3>Report Issues</h3>
+        <p>
+          Use the report form to send bug reports
+          directly to the development team.
+        </p>
+      </div>
+
+      <div class="help-item">
+        <h3>Data Contributions</h3>
+        <p>
+          Community weather observations improve
+          local forecasting accuracy.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
   </body>
+  <script src="script.js" ></script>
 </html>
