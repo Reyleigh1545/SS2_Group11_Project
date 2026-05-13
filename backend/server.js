@@ -3,12 +3,14 @@ const cors = require("cors");
 const nodemailer = require("nodemailer");
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 
+// ================= OTP STORE =================
 let otpStore = {};
 
-// config mail
+// ================= MAIL CONFIG =================
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -17,6 +19,44 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+// ================= REPORT API =================
+app.post("/api/report", async (req, res) => {
+  try {
+    const { type, description } = req.body;
+
+    console.log("NEW REPORT");
+    console.log(type);
+    console.log(description);
+
+    await transporter.sendMail({
+      from: "kingrey1545@gmail.com",
+      to: "kingrey1545@gmail.com",
+      subject: `SkyCast Report - ${type}`,
+      text: description
+    });
+
+    res.json({ success: true });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      success: false,
+      error: err.message
+    });
+  }
+});
+
+// ================= OBSERVATION API =================
+app.post("/api/observation", (req, res) => {
+  const observation = req.body;
+
+  console.log("NEW OBSERVATION");
+  console.log(observation);
+
+  res.json({ success: true });
+});
+
+// ================= SEND OTP =================
 app.post("/send-otp", async (req, res) => {
   try {
     const { email } = req.body;
@@ -32,7 +72,6 @@ app.post("/send-otp", async (req, res) => {
       expire: Date.now() + 5 * 60 * 1000
     };
 
-    // gửi mail
     await transporter.sendMail({
       from: '"SkyCast" <kingrey1545@gmail.com>',
       to: email,
@@ -54,15 +93,14 @@ app.post("/send-otp", async (req, res) => {
     res.status(500).json({ success: false });
   }
 });
-// verify OTP
+
+// ================= VERIFY OTP =================
 app.post("/verify-otp", (req, res) => {
   const { email, otp } = req.body;
   const data = otpStore[email];
 
   if (!data) return res.json({ success: false });
-
   if (Date.now() > data.expire) return res.json({ success: false });
-
   if (data.otp !== otp) return res.json({ success: false });
 
   delete otpStore[email];
@@ -70,5 +108,7 @@ app.post("/verify-otp", (req, res) => {
   res.json({ success: true });
 });
 
-app.listen(3000, () => console.log("Server running on port 3000"));
-console.log("Send OTP API called");
+// ================= START SERVER =================
+app.listen(3000, () => {
+  console.log("Server running on port 3000");
+});
